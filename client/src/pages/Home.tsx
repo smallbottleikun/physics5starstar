@@ -8,14 +8,15 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { topics, categories } from "../physics-content";
+import FormulaSheet from "../components/FormulaSheet";
 
-const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663270507857/cjmJTL5QBoCEQwdsHw8PpA/hero-bg-hirUNhwm7AF9DZhG8mR8zt.webp";
+const HERO_BG = "/manus-storage/hero-bg-user_b03cf975.png";
 
 const TOPIC_IMAGES: Record<string, string> = {
-  Optics: "https://d2xsxph8kpxj0f.cloudfront.net/310519663270507857/cjmJTL5QBoCEQwdsHw8PpA/optics-card-dvva7LeJKgQ2hYXd5G3JjN.webp",
-  Mechanics: "https://d2xsxph8kpxj0f.cloudfront.net/310519663270507857/cjmJTL5QBoCEQwdsHw8PpA/mechanics-card-4wSCajJCmTqVtSyUUaNwDk.webp",
-  Heat: "https://d2xsxph8kpxj0f.cloudfront.net/310519663270507857/cjmJTL5QBoCEQwdsHw8PpA/heat-card-JCLBiLDC5gH7BfJ2qXR2zA.webp",
-  Waves: "https://d2xsxph8kpxj0f.cloudfront.net/310519663270507857/cjmJTL5QBoCEQwdsHw8PpA/waves-card-h2FjX9svi3JgqHnHaYZ5fP.webp",
+  Optics: "/manus-storage/optics-card-user_11e7935b.png",
+  Mechanics: "/manus-storage/mechanics-card-user_6b1652a1.png",
+  Heat: "/manus-storage/heat-card-user_3765ed0f.png",
+  Waves: "/manus-storage/waves-card-user_da054b96.png",
 };
 
 const COLOR_MAP: Record<string, { border: string; text: string; bg: string; badge: string; dot: string }> = {
@@ -236,8 +237,11 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* ── Formula Sheet Section ── */}
+      <FormulaSheet />
+
       {/* ── Footer ── */}
-      <footer className="mt-16 py-8" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <footer className="mt-8 py-8" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="container mx-auto px-6 text-center">
           <p className="text-xs" style={{ color: "rgba(230,237,243,0.25)", fontFamily: "Noto Sans TC, sans-serif" }}>
             DSE Physics Revision · 物理考前溫習 · Good luck in your exam! 考試加油！

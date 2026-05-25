@@ -186,6 +186,38 @@ export default function TopicPage() {
                       {showZh && (
                         <p className="zh-note mt-1">{formula.descriptionZh}</p>
                       )}
+                      {/* Symbol reference table */}
+                      {formula.symbols && formula.symbols.length > 0 && (
+                        <div className="mt-4">
+                          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "rgba(230,237,243,0.3)", letterSpacing: "0.08em" }}>
+                            Symbol Reference &nbsp;·&nbsp; <span style={{ fontFamily: "Noto Sans TC, sans-serif", textTransform: "none" }}>符號說明</span>
+                          </p>
+                          <div className="space-y-1.5">
+                            {formula.symbols.map((sym, si) => (
+                              <div key={si} className="flex items-start gap-3 p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.03)" }}>
+                                <div
+                                  className="shrink-0 min-w-[2.2rem] text-center px-2 py-0.5 rounded-md text-xs font-bold"
+                                  style={{ fontFamily: "JetBrains Mono, monospace", background: `${c.dot}18`, border: `1px solid ${c.dot}30`, color: c.dot }}
+                                >
+                                  {sym.symbol}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs" style={{ color: "rgba(230,237,243,0.8)" }}>{sym.meaning}</p>
+                                  {showZh && (
+                                    <p className="text-xs mt-0.5" style={{ color: "rgba(230,237,243,0.4)", fontFamily: "Noto Sans TC, sans-serif" }}>{sym.meaningZh}</p>
+                                  )}
+                                </div>
+                                <div
+                                  className="shrink-0 text-xs px-1.5 py-0.5 rounded"
+                                  style={{ fontFamily: "JetBrains Mono, monospace", background: "rgba(255,255,255,0.05)", color: "rgba(230,237,243,0.4)", border: "1px solid rgba(255,255,255,0.07)", whiteSpace: "nowrap" }}
+                                >
+                                  {sym.unit}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </motion.div>
                   )}
                 </AnimatePresence>

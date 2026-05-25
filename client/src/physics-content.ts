@@ -5,6 +5,14 @@ export interface Formula {
   latex: string;
   description: string;
   descriptionZh: string;
+  symbols?: SymbolDef[];
+}
+
+export interface SymbolDef {
+  symbol: string;
+  meaning: string;
+  meaningZh: string;
+  unit: string;
 }
 
 export interface KeyPoint {
@@ -27,6 +35,277 @@ export interface Topic {
   formulas: Formula[];
   examTips: KeyPoint[];
 }
+
+// ─── ALL FORMULAS REFERENCE (for the bottom formula sheet) ────────────────────
+export interface FormulaSheetEntry {
+  latex: string;
+  name: string;
+  nameZh: string;
+  topic: string;
+  topicZh: string;
+  color: string;
+  symbols: SymbolDef[];
+}
+
+export const formulaSheet: FormulaSheetEntry[] = [
+  // ── Optics ──
+  {
+    latex: "\\angle i = \\angle r",
+    name: "Law of Reflection",
+    nameZh: "反射定律",
+    topic: "Reflection",
+    topicZh: "反射",
+    color: "cyan",
+    symbols: [
+      { symbol: "i", meaning: "Angle of incidence", meaningZh: "入射角", unit: "degrees (°)" },
+      { symbol: "r", meaning: "Angle of reflection", meaningZh: "反射角", unit: "degrees (°)" },
+    ],
+  },
+  {
+    latex: "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2",
+    name: "Snell's Law",
+    nameZh: "斯涅爾定律",
+    topic: "Refraction",
+    topicZh: "折射",
+    color: "cyan",
+    symbols: [
+      { symbol: "n₁", meaning: "Refractive index of medium 1", meaningZh: "介質1的折射率", unit: "dimensionless 無單位" },
+      { symbol: "n₂", meaning: "Refractive index of medium 2", meaningZh: "介質2的折射率", unit: "dimensionless 無單位" },
+      { symbol: "θ₁", meaning: "Angle of incidence (in medium 1)", meaningZh: "入射角（在介質1中）", unit: "degrees (°)" },
+      { symbol: "θ₂", meaning: "Angle of refraction (in medium 2)", meaningZh: "折射角（在介質2中）", unit: "degrees (°)" },
+    ],
+  },
+  {
+    latex: "n = \\frac{c}{v}",
+    name: "Refractive Index",
+    nameZh: "折射率",
+    topic: "Refraction",
+    topicZh: "折射",
+    color: "cyan",
+    symbols: [
+      { symbol: "n", meaning: "Refractive index of the medium", meaningZh: "介質的折射率", unit: "dimensionless 無單位" },
+      { symbol: "c", meaning: "Speed of light in vacuum (3 × 10⁸ m/s)", meaningZh: "光在真空中的速度（3 × 10⁸ m/s）", unit: "m/s" },
+      { symbol: "v", meaning: "Speed of light in the medium", meaningZh: "光在介質中的速度", unit: "m/s" },
+    ],
+  },
+  {
+    latex: "\\sin C = \\frac{n_2}{n_1}",
+    name: "Critical Angle",
+    nameZh: "臨界角",
+    topic: "Total Internal Reflection",
+    topicZh: "全內反射",
+    color: "cyan",
+    symbols: [
+      { symbol: "C", meaning: "Critical angle", meaningZh: "臨界角", unit: "degrees (°)" },
+      { symbol: "n₁", meaning: "Refractive index of denser medium (light travels from here)", meaningZh: "較密介質的折射率（光從此介質出發）", unit: "dimensionless 無單位" },
+      { symbol: "n₂", meaning: "Refractive index of less dense medium", meaningZh: "較疏介質的折射率", unit: "dimensionless 無單位" },
+    ],
+  },
+  // ── Mechanics ──
+  {
+    latex: "F = ma",
+    name: "Newton's Second Law",
+    nameZh: "牛頓第二定律",
+    topic: "Newton's Laws",
+    topicZh: "牛頓定律",
+    color: "orange",
+    symbols: [
+      { symbol: "F", meaning: "Net (resultant) force acting on the object", meaningZh: "作用在物體上的合力（淨力）", unit: "Newton (N)" },
+      { symbol: "m", meaning: "Mass of the object", meaningZh: "物體的質量", unit: "kilogram (kg)" },
+      { symbol: "a", meaning: "Acceleration of the object", meaningZh: "物體的加速度", unit: "m/s²" },
+    ],
+  },
+  {
+    latex: "W = mg",
+    name: "Weight",
+    nameZh: "重力",
+    topic: "Newton's Laws",
+    topicZh: "牛頓定律",
+    color: "orange",
+    symbols: [
+      { symbol: "W", meaning: "Weight (gravitational force)", meaningZh: "重力（引力）", unit: "Newton (N)" },
+      { symbol: "m", meaning: "Mass of the object", meaningZh: "物體的質量", unit: "kilogram (kg)" },
+      { symbol: "g", meaning: "Gravitational field strength (≈ 10 N/kg on Earth)", meaningZh: "重力場強度（地球上 ≈ 10 N/kg）", unit: "N/kg or m/s²" },
+    ],
+  },
+  {
+    latex: "R = \\sqrt{F_x^2 + F_y^2}",
+    name: "Magnitude of Resultant Force",
+    nameZh: "合力大小",
+    topic: "Resultant Force",
+    topicZh: "合力",
+    color: "orange",
+    symbols: [
+      { symbol: "R", meaning: "Magnitude of resultant force", meaningZh: "合力的大小", unit: "Newton (N)" },
+      { symbol: "Fₓ", meaning: "Horizontal component of force", meaningZh: "力的水平分量", unit: "Newton (N)" },
+      { symbol: "Fᵧ", meaning: "Vertical component of force", meaningZh: "力的垂直分量", unit: "Newton (N)" },
+    ],
+  },
+  {
+    latex: "F_x = F\\cos\\theta, \\quad F_y = F\\sin\\theta",
+    name: "Resolution of Forces",
+    nameZh: "力的分解",
+    topic: "Resultant Force",
+    topicZh: "合力與分力",
+    color: "orange",
+    symbols: [
+      { symbol: "F", meaning: "Original force", meaningZh: "原來的力", unit: "Newton (N)" },
+      { symbol: "Fₓ", meaning: "Horizontal component", meaningZh: "水平分量", unit: "Newton (N)" },
+      { symbol: "Fᵧ", meaning: "Vertical component", meaningZh: "垂直分量", unit: "Newton (N)" },
+      { symbol: "θ", meaning: "Angle between force F and horizontal", meaningZh: "力 F 與水平方向的夾角", unit: "degrees (°)" },
+    ],
+  },
+  {
+    latex: "W = Fs\\cos\\theta",
+    name: "Work Done",
+    nameZh: "做功",
+    topic: "Work Done",
+    topicZh: "做功",
+    color: "orange",
+    symbols: [
+      { symbol: "W", meaning: "Work done", meaningZh: "做的功", unit: "Joule (J)" },
+      { symbol: "F", meaning: "Applied force", meaningZh: "施加的力", unit: "Newton (N)" },
+      { symbol: "s", meaning: "Displacement in the direction of motion", meaningZh: "沿運動方向的位移", unit: "metre (m)" },
+      { symbol: "θ", meaning: "Angle between force and displacement", meaningZh: "力與位移之間的夾角", unit: "degrees (°)" },
+    ],
+  },
+  {
+    latex: "KE = \\frac{1}{2}mv^2",
+    name: "Kinetic Energy",
+    nameZh: "動能",
+    topic: "Work Done",
+    topicZh: "做功與能量",
+    color: "orange",
+    symbols: [
+      { symbol: "KE", meaning: "Kinetic energy", meaningZh: "動能", unit: "Joule (J)" },
+      { symbol: "m", meaning: "Mass of the object", meaningZh: "物體的質量", unit: "kilogram (kg)" },
+      { symbol: "v", meaning: "Speed of the object", meaningZh: "物體的速度", unit: "m/s" },
+    ],
+  },
+  {
+    latex: "GPE = mgh",
+    name: "Gravitational Potential Energy",
+    nameZh: "重力勢能",
+    topic: "Work Done",
+    topicZh: "做功與能量",
+    color: "orange",
+    symbols: [
+      { symbol: "GPE", meaning: "Gravitational potential energy", meaningZh: "重力勢能", unit: "Joule (J)" },
+      { symbol: "m", meaning: "Mass of the object", meaningZh: "物體的質量", unit: "kilogram (kg)" },
+      { symbol: "g", meaning: "Gravitational field strength (≈ 10 N/kg)", meaningZh: "重力場強度（≈ 10 N/kg）", unit: "N/kg" },
+      { symbol: "h", meaning: "Height above the reference level", meaningZh: "距參考水平的高度", unit: "metre (m)" },
+    ],
+  },
+  {
+    latex: "P = \\frac{W}{t} = Fv",
+    name: "Power",
+    nameZh: "功率",
+    topic: "Work Done",
+    topicZh: "做功與能量",
+    color: "orange",
+    symbols: [
+      { symbol: "P", meaning: "Power", meaningZh: "功率", unit: "Watt (W) = J/s" },
+      { symbol: "W", meaning: "Work done (energy transferred)", meaningZh: "做的功（轉移的能量）", unit: "Joule (J)" },
+      { symbol: "t", meaning: "Time taken", meaningZh: "所用時間", unit: "second (s)" },
+      { symbol: "F", meaning: "Force applied", meaningZh: "施加的力", unit: "Newton (N)" },
+      { symbol: "v", meaning: "Velocity of the object", meaningZh: "物體的速度", unit: "m/s" },
+    ],
+  },
+  {
+    latex: "\\eta = \\frac{W_{useful}}{W_{input}} \\times 100\\%",
+    name: "Efficiency",
+    nameZh: "效率",
+    topic: "Work Done",
+    topicZh: "做功與能量",
+    color: "orange",
+    symbols: [
+      { symbol: "η (eta)", meaning: "Efficiency", meaningZh: "效率", unit: "% (percentage)" },
+      { symbol: "W_useful", meaning: "Useful energy/work output", meaningZh: "有用能量/功輸出", unit: "Joule (J)" },
+      { symbol: "W_input", meaning: "Total energy/work input", meaningZh: "總能量/功輸入", unit: "Joule (J)" },
+    ],
+  },
+  // ── Heat ──
+  {
+    latex: "Q = mc\\Delta T",
+    name: "Heat Energy (Specific Heat Capacity)",
+    nameZh: "熱能（比熱容）",
+    topic: "Heat",
+    topicZh: "熱學",
+    color: "red",
+    symbols: [
+      { symbol: "Q", meaning: "Heat energy transferred", meaningZh: "傳遞的熱能", unit: "Joule (J)" },
+      { symbol: "m", meaning: "Mass of the substance", meaningZh: "物質的質量", unit: "kilogram (kg)" },
+      { symbol: "c", meaning: "Specific heat capacity of the substance", meaningZh: "物質的比熱容", unit: "J/(kg·°C)" },
+      { symbol: "ΔT", meaning: "Change in temperature (T_final − T_initial)", meaningZh: "溫度變化（末溫 − 初溫）", unit: "°C or K" },
+    ],
+  },
+  {
+    latex: "Q = mL",
+    name: "Latent Heat",
+    nameZh: "潛熱",
+    topic: "Heat",
+    topicZh: "熱學",
+    color: "red",
+    symbols: [
+      { symbol: "Q", meaning: "Heat energy absorbed or released during change of state", meaningZh: "相變時吸收或釋放的熱能", unit: "Joule (J)" },
+      { symbol: "m", meaning: "Mass of the substance changing state", meaningZh: "發生相變的物質質量", unit: "kilogram (kg)" },
+      { symbol: "L", meaning: "Specific latent heat (fusion or vaporisation)", meaningZh: "比潛熱（熔化或汽化）", unit: "J/kg" },
+    ],
+  },
+  {
+    latex: "T(K) = T(°C) + 273",
+    name: "Temperature Conversion",
+    nameZh: "溫度換算",
+    topic: "Heat",
+    topicZh: "熱學",
+    color: "red",
+    symbols: [
+      { symbol: "T(K)", meaning: "Temperature in Kelvin", meaningZh: "開爾文溫度", unit: "Kelvin (K)" },
+      { symbol: "T(°C)", meaning: "Temperature in Celsius", meaningZh: "攝氏溫度", unit: "Celsius (°C)" },
+      { symbol: "273", meaning: "Offset constant (absolute zero = −273°C)", meaningZh: "偏移常數（絕對零度 = −273°C）", unit: "K" },
+    ],
+  },
+  // ── Waves ──
+  {
+    latex: "v = f\\lambda",
+    name: "Wave Equation",
+    nameZh: "波動方程",
+    topic: "Waves",
+    topicZh: "波動",
+    color: "purple",
+    symbols: [
+      { symbol: "v", meaning: "Wave speed", meaningZh: "波速", unit: "m/s" },
+      { symbol: "f", meaning: "Frequency of the wave", meaningZh: "波的頻率", unit: "Hertz (Hz)" },
+      { symbol: "λ (lambda)", meaning: "Wavelength", meaningZh: "波長", unit: "metre (m)" },
+    ],
+  },
+  {
+    latex: "T = \\frac{1}{f}",
+    name: "Period–Frequency Relationship",
+    nameZh: "週期與頻率的關係",
+    topic: "Waves",
+    topicZh: "波動",
+    color: "purple",
+    symbols: [
+      { symbol: "T", meaning: "Period (time for one complete oscillation)", meaningZh: "週期（完成一次完整振動的時間）", unit: "second (s)" },
+      { symbol: "f", meaning: "Frequency", meaningZh: "頻率", unit: "Hertz (Hz)" },
+    ],
+  },
+  {
+    latex: "\\Delta y = \\frac{\\lambda D}{d}",
+    name: "Double Slit Fringe Spacing",
+    nameZh: "雙縫條紋間距",
+    topic: "Double Slit",
+    topicZh: "雙縫實驗",
+    color: "purple",
+    symbols: [
+      { symbol: "Δy", meaning: "Fringe spacing (distance between adjacent bright or dark fringes)", meaningZh: "條紋間距（相鄰亮紋或暗紋之間的距離）", unit: "metre (m)" },
+      { symbol: "λ (lambda)", meaning: "Wavelength of light used", meaningZh: "所用光的波長", unit: "metre (m)" },
+      { symbol: "D", meaning: "Distance from slits to the screen", meaningZh: "縫到屏幕的距離", unit: "metre (m)" },
+      { symbol: "d", meaning: "Slit separation (distance between the two slits)", meaningZh: "縫間距（兩縫之間的距離）", unit: "metre (m)" },
+    ],
+  },
+];
 
 export const topics: Topic[] = [
   // ─── OPTICS ───────────────────────────────────────────────────────────────
@@ -70,6 +349,10 @@ export const topics: Topic[] = [
         latex: "\\angle i = \\angle r",
         description: "Law of Reflection: angle of incidence equals angle of reflection",
         descriptionZh: "反射定律：入射角等於反射角",
+        symbols: [
+          { symbol: "i", meaning: "Angle of incidence (measured from the normal)", meaningZh: "入射角（從法線量起）", unit: "degrees (°)" },
+          { symbol: "r", meaning: "Angle of reflection (measured from the normal)", meaningZh: "反射角（從法線量起）", unit: "degrees (°)" },
+        ],
       },
     ],
     examTips: [
@@ -123,16 +406,32 @@ export const topics: Topic[] = [
         latex: "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2",
         description: "Snell's Law",
         descriptionZh: "斯涅爾定律",
+        symbols: [
+          { symbol: "n₁", meaning: "Refractive index of medium 1 (where light comes from)", meaningZh: "介質1的折射率（光從此介質出發）", unit: "dimensionless 無單位" },
+          { symbol: "n₂", meaning: "Refractive index of medium 2 (where light enters)", meaningZh: "介質2的折射率（光進入此介質）", unit: "dimensionless 無單位" },
+          { symbol: "θ₁", meaning: "Angle of incidence in medium 1", meaningZh: "介質1中的入射角", unit: "degrees (°)" },
+          { symbol: "θ₂", meaning: "Angle of refraction in medium 2", meaningZh: "介質2中的折射角", unit: "degrees (°)" },
+        ],
       },
       {
         latex: "n = \\frac{c}{v}",
         description: "Refractive index: c = speed of light in vacuum, v = speed in medium",
         descriptionZh: "折射率：c = 光在真空中速度，v = 光在介質中速度",
+        symbols: [
+          { symbol: "n", meaning: "Refractive index of the medium", meaningZh: "介質的折射率", unit: "dimensionless 無單位" },
+          { symbol: "c", meaning: "Speed of light in vacuum (3 × 10⁸ m/s)", meaningZh: "光在真空中的速度（3 × 10⁸ m/s）", unit: "m/s" },
+          { symbol: "v", meaning: "Speed of light in the medium", meaningZh: "光在介質中的速度", unit: "m/s" },
+        ],
       },
       {
         latex: "n = \\frac{\\sin i}{\\sin r}",
         description: "Refractive index from angles (light going from air into medium)",
         descriptionZh: "由角度求折射率（光從空氣進入介質）",
+        symbols: [
+          { symbol: "n", meaning: "Refractive index of the medium", meaningZh: "介質的折射率", unit: "dimensionless 無單位" },
+          { symbol: "i", meaning: "Angle of incidence (in air)", meaningZh: "入射角（在空氣中）", unit: "degrees (°)" },
+          { symbol: "r", meaning: "Angle of refraction (in medium)", meaningZh: "折射角（在介質中）", unit: "degrees (°)" },
+        ],
       },
     ],
     examTips: [
@@ -186,11 +485,20 @@ export const topics: Topic[] = [
         latex: "\\sin C = \\frac{n_2}{n_1} \\quad (n_1 > n_2)",
         description: "Critical angle formula (light going from medium 1 to medium 2)",
         descriptionZh: "臨界角公式（光從介質1進入介質2）",
+        symbols: [
+          { symbol: "C", meaning: "Critical angle", meaningZh: "臨界角", unit: "degrees (°)" },
+          { symbol: "n₁", meaning: "Refractive index of denser medium (light travels from here)", meaningZh: "較密介質的折射率（光從此介質出發）", unit: "dimensionless 無單位" },
+          { symbol: "n₂", meaning: "Refractive index of less dense medium", meaningZh: "較疏介質的折射率", unit: "dimensionless 無單位" },
+        ],
       },
       {
         latex: "\\sin C = \\frac{1}{n} \\quad (\\text{from glass to air})",
-        description: "Critical angle for glass-air interface",
-        descriptionZh: "玻璃-空氣界面的臨界角",
+        description: "Critical angle for glass-air interface (n_air = 1)",
+        descriptionZh: "玻璃-空氣界面的臨界角（空氣折射率 = 1）",
+        symbols: [
+          { symbol: "C", meaning: "Critical angle for glass-air interface", meaningZh: "玻璃-空氣界面的臨界角", unit: "degrees (°)" },
+          { symbol: "n", meaning: "Refractive index of glass", meaningZh: "玻璃的折射率", unit: "dimensionless 無單位" },
+        ],
       },
     ],
     examTips: [
@@ -248,23 +556,41 @@ export const topics: Topic[] = [
     formulas: [
       {
         latex: "\\sum F = 0 \\Rightarrow a = 0",
-        description: "Newton's 1st Law: zero net force means zero acceleration",
-        descriptionZh: "牛頓第一定律：合力為零則加速度為零",
+        description: "Newton's 1st Law: zero net force means zero acceleration (object at rest or constant velocity)",
+        descriptionZh: "牛頓第一定律：合力為零則加速度為零（物體靜止或勻速）",
+        symbols: [
+          { symbol: "ΣF", meaning: "Sum of all forces (net force)", meaningZh: "所有力的總和（合力）", unit: "Newton (N)" },
+          { symbol: "a", meaning: "Acceleration", meaningZh: "加速度", unit: "m/s²" },
+        ],
       },
       {
         latex: "F = ma",
         description: "Newton's 2nd Law: F = net force (N), m = mass (kg), a = acceleration (m/s²)",
         descriptionZh: "牛頓第二定律：F = 合力（牛頓），m = 質量（千克），a = 加速度（米/秒²）",
+        symbols: [
+          { symbol: "F", meaning: "Net (resultant) force", meaningZh: "合力（淨力）", unit: "Newton (N)" },
+          { symbol: "m", meaning: "Mass of the object", meaningZh: "物體的質量", unit: "kilogram (kg)" },
+          { symbol: "a", meaning: "Acceleration produced", meaningZh: "產生的加速度", unit: "m/s²" },
+        ],
       },
       {
         latex: "F_{AB} = -F_{BA}",
         description: "Newton's 3rd Law: action and reaction are equal and opposite",
         descriptionZh: "牛頓第三定律：作用力與反作用力大小相等、方向相反",
+        symbols: [
+          { symbol: "F_AB", meaning: "Force exerted by object A on object B", meaningZh: "物體A對物體B施加的力", unit: "Newton (N)" },
+          { symbol: "F_BA", meaning: "Force exerted by object B on object A (reaction)", meaningZh: "物體B對物體A施加的力（反作用力）", unit: "Newton (N)" },
+        ],
       },
       {
         latex: "W = mg",
         description: "Weight: m = mass (kg), g = gravitational field strength (≈10 N/kg on Earth)",
         descriptionZh: "重力：m = 質量（千克），g = 重力場強度（地球上 ≈10 N/kg）",
+        symbols: [
+          { symbol: "W", meaning: "Weight (gravitational force)", meaningZh: "重力", unit: "Newton (N)" },
+          { symbol: "m", meaning: "Mass", meaningZh: "質量", unit: "kilogram (kg)" },
+          { symbol: "g", meaning: "Gravitational field strength (≈ 10 N/kg on Earth)", meaningZh: "重力場強度（地球上 ≈ 10 N/kg）", unit: "N/kg" },
+        ],
       },
     ],
     examTips: [
@@ -324,18 +650,34 @@ export const topics: Topic[] = [
     formulas: [
       {
         latex: "R = \\sqrt{F_x^2 + F_y^2}",
-        description: "Magnitude of resultant force",
-        descriptionZh: "合力大小",
+        description: "Magnitude of resultant force from perpendicular components",
+        descriptionZh: "由垂直分量求合力大小",
+        symbols: [
+          { symbol: "R", meaning: "Magnitude of resultant force", meaningZh: "合力的大小", unit: "Newton (N)" },
+          { symbol: "Fₓ", meaning: "Horizontal component of all forces", meaningZh: "所有力的水平分量之和", unit: "Newton (N)" },
+          { symbol: "Fᵧ", meaning: "Vertical component of all forces", meaningZh: "所有力的垂直分量之和", unit: "Newton (N)" },
+        ],
       },
       {
         latex: "\\theta = \\tan^{-1}\\left(\\frac{F_y}{F_x}\\right)",
-        description: "Direction of resultant force",
-        descriptionZh: "合力方向",
+        description: "Direction of resultant force (angle from horizontal)",
+        descriptionZh: "合力方向（與水平方向的夾角）",
+        symbols: [
+          { symbol: "θ", meaning: "Angle of resultant force from horizontal", meaningZh: "合力與水平方向的夾角", unit: "degrees (°)" },
+          { symbol: "Fᵧ", meaning: "Vertical component", meaningZh: "垂直分量", unit: "Newton (N)" },
+          { symbol: "Fₓ", meaning: "Horizontal component", meaningZh: "水平分量", unit: "Newton (N)" },
+        ],
       },
       {
         latex: "F_x = F\\cos\\theta, \\quad F_y = F\\sin\\theta",
-        description: "Resolving a force into horizontal and vertical components",
-        descriptionZh: "將力分解為水平和垂直分量",
+        description: "Resolving a force F at angle θ into horizontal and vertical components",
+        descriptionZh: "將角度為 θ 的力 F 分解為水平和垂直分量",
+        symbols: [
+          { symbol: "F", meaning: "Original force to be resolved", meaningZh: "需要分解的原力", unit: "Newton (N)" },
+          { symbol: "Fₓ", meaning: "Horizontal component (parallel to x-axis)", meaningZh: "水平分量（平行於x軸）", unit: "Newton (N)" },
+          { symbol: "Fᵧ", meaning: "Vertical component (parallel to y-axis)", meaningZh: "垂直分量（平行於y軸）", unit: "Newton (N)" },
+          { symbol: "θ", meaning: "Angle between force F and the horizontal", meaningZh: "力 F 與水平方向的夾角", unit: "degrees (°)" },
+        ],
       },
     ],
     examTips: [
@@ -397,31 +739,66 @@ export const topics: Topic[] = [
         latex: "W = Fs\\cos\\theta",
         description: "Work done: F = force (N), s = displacement (m), θ = angle between F and s",
         descriptionZh: "做功：F = 力（牛頓），s = 位移（米），θ = 力與位移夾角",
+        symbols: [
+          { symbol: "W", meaning: "Work done", meaningZh: "做的功", unit: "Joule (J)" },
+          { symbol: "F", meaning: "Applied force", meaningZh: "施加的力", unit: "Newton (N)" },
+          { symbol: "s", meaning: "Displacement (distance moved in direction of motion)", meaningZh: "位移（沿運動方向移動的距離）", unit: "metre (m)" },
+          { symbol: "θ", meaning: "Angle between the force F and the displacement s", meaningZh: "力 F 與位移 s 之間的夾角", unit: "degrees (°)" },
+        ],
       },
       {
         latex: "KE = \\frac{1}{2}mv^2",
-        description: "Kinetic energy",
-        descriptionZh: "動能",
+        description: "Kinetic energy of a moving object",
+        descriptionZh: "運動物體的動能",
+        symbols: [
+          { symbol: "KE", meaning: "Kinetic energy", meaningZh: "動能", unit: "Joule (J)" },
+          { symbol: "m", meaning: "Mass of the object", meaningZh: "物體的質量", unit: "kilogram (kg)" },
+          { symbol: "v", meaning: "Speed of the object", meaningZh: "物體的速度", unit: "m/s" },
+        ],
       },
       {
         latex: "GPE = mgh",
         description: "Gravitational potential energy",
         descriptionZh: "重力勢能",
+        symbols: [
+          { symbol: "GPE", meaning: "Gravitational potential energy", meaningZh: "重力勢能", unit: "Joule (J)" },
+          { symbol: "m", meaning: "Mass", meaningZh: "質量", unit: "kilogram (kg)" },
+          { symbol: "g", meaning: "Gravitational field strength (≈ 10 N/kg on Earth)", meaningZh: "重力場強度（地球上 ≈ 10 N/kg）", unit: "N/kg" },
+          { symbol: "h", meaning: "Height above the chosen reference level", meaningZh: "距所選參考水平的高度", unit: "metre (m)" },
+        ],
       },
       {
         latex: "W_{net} = \\Delta KE = KE_f - KE_i",
-        description: "Work-energy theorem",
-        descriptionZh: "功能定理",
+        description: "Work-energy theorem: net work equals change in kinetic energy",
+        descriptionZh: "功能定理：合功等於動能的變化",
+        symbols: [
+          { symbol: "W_net", meaning: "Net work done on the object", meaningZh: "對物體做的合功", unit: "Joule (J)" },
+          { symbol: "ΔKE", meaning: "Change in kinetic energy", meaningZh: "動能的變化", unit: "Joule (J)" },
+          { symbol: "KE_f", meaning: "Final kinetic energy", meaningZh: "末動能", unit: "Joule (J)" },
+          { symbol: "KE_i", meaning: "Initial kinetic energy", meaningZh: "初動能", unit: "Joule (J)" },
+        ],
       },
       {
         latex: "P = \\frac{W}{t} = Fv",
-        description: "Power: W = work done (J), t = time (s), v = velocity (m/s)",
-        descriptionZh: "功率：W = 做功（焦耳），t = 時間（秒），v = 速度（米/秒）",
+        description: "Power: rate of doing work",
+        descriptionZh: "功率：做功的速率",
+        symbols: [
+          { symbol: "P", meaning: "Power", meaningZh: "功率", unit: "Watt (W) = J/s" },
+          { symbol: "W", meaning: "Work done (energy transferred)", meaningZh: "做的功（轉移的能量）", unit: "Joule (J)" },
+          { symbol: "t", meaning: "Time taken", meaningZh: "所用時間", unit: "second (s)" },
+          { symbol: "F", meaning: "Force applied", meaningZh: "施加的力", unit: "Newton (N)" },
+          { symbol: "v", meaning: "Velocity of the object", meaningZh: "物體的速度", unit: "m/s" },
+        ],
       },
       {
         latex: "\\eta = \\frac{W_{useful}}{W_{input}} \\times 100\\%",
-        description: "Efficiency",
-        descriptionZh: "效率",
+        description: "Efficiency (always ≤ 100% due to energy losses)",
+        descriptionZh: "效率（因能量損耗，永遠 ≤ 100%）",
+        symbols: [
+          { symbol: "η (eta)", meaning: "Efficiency", meaningZh: "效率", unit: "% (percentage)" },
+          { symbol: "W_useful", meaning: "Useful energy/work output", meaningZh: "有用能量/功輸出", unit: "Joule (J)" },
+          { symbol: "W_input", meaning: "Total energy/work input", meaningZh: "總能量/功輸入", unit: "Joule (J)" },
+        ],
       },
     ],
     examTips: [
@@ -487,18 +864,34 @@ export const topics: Topic[] = [
     formulas: [
       {
         latex: "Q = mc\\Delta T",
-        description: "Heat energy: m = mass (kg), c = specific heat capacity (J/kg°C), ΔT = temperature change (°C)",
-        descriptionZh: "熱能：m = 質量（千克），c = 比熱容（焦耳/千克°C），ΔT = 溫度變化（°C）",
+        description: "Heat energy transferred during temperature change",
+        descriptionZh: "溫度變化過程中傳遞的熱能",
+        symbols: [
+          { symbol: "Q", meaning: "Heat energy transferred", meaningZh: "傳遞的熱能", unit: "Joule (J)" },
+          { symbol: "m", meaning: "Mass of the substance", meaningZh: "物質的質量", unit: "kilogram (kg)" },
+          { symbol: "c", meaning: "Specific heat capacity of the substance", meaningZh: "物質的比熱容", unit: "J/(kg·°C)" },
+          { symbol: "ΔT", meaning: "Change in temperature (T_final − T_initial)", meaningZh: "溫度變化（末溫 − 初溫）", unit: "°C or K" },
+        ],
       },
       {
         latex: "Q = mL",
-        description: "Latent heat: m = mass (kg), L = specific latent heat (J/kg)",
-        descriptionZh: "潛熱：m = 質量（千克），L = 比潛熱（焦耳/千克）",
+        description: "Heat energy during change of state (temperature stays constant)",
+        descriptionZh: "相變過程中的熱能（溫度保持不變）",
+        symbols: [
+          { symbol: "Q", meaning: "Heat energy absorbed or released", meaningZh: "吸收或釋放的熱能", unit: "Joule (J)" },
+          { symbol: "m", meaning: "Mass of substance changing state", meaningZh: "發生相變的物質質量", unit: "kilogram (kg)" },
+          { symbol: "L", meaning: "Specific latent heat (of fusion or vaporisation)", meaningZh: "比潛熱（熔化潛熱或汽化潛熱）", unit: "J/kg" },
+        ],
       },
       {
         latex: "T(K) = T(°C) + 273",
-        description: "Kelvin to Celsius conversion",
-        descriptionZh: "開爾文與攝氏度換算",
+        description: "Converting Celsius to Kelvin",
+        descriptionZh: "攝氏度換算為開爾文",
+        symbols: [
+          { symbol: "T(K)", meaning: "Temperature in Kelvin (absolute temperature)", meaningZh: "開爾文溫度（絕對溫度）", unit: "Kelvin (K)" },
+          { symbol: "T(°C)", meaning: "Temperature in Celsius", meaningZh: "攝氏溫度", unit: "Celsius (°C)" },
+          { symbol: "273", meaning: "Conversion constant (0°C = 273 K)", meaningZh: "換算常數（0°C = 273 K）", unit: "K" },
+        ],
       },
     ],
     examTips: [
@@ -564,18 +957,31 @@ export const topics: Topic[] = [
     formulas: [
       {
         latex: "v = f\\lambda",
-        description: "Wave equation: v = wave speed (m/s), f = frequency (Hz), λ = wavelength (m)",
-        descriptionZh: "波動方程：v = 波速（米/秒），f = 頻率（赫茲），λ = 波長（米）",
+        description: "Wave equation: relates wave speed, frequency, and wavelength",
+        descriptionZh: "波動方程：聯繫波速、頻率和波長",
+        symbols: [
+          { symbol: "v", meaning: "Wave speed (depends on the medium)", meaningZh: "波速（取決於介質）", unit: "m/s" },
+          { symbol: "f", meaning: "Frequency of the wave", meaningZh: "波的頻率", unit: "Hertz (Hz) = s⁻¹" },
+          { symbol: "λ (lambda)", meaning: "Wavelength (distance between two consecutive crests)", meaningZh: "波長（兩個相鄰波峰之間的距離）", unit: "metre (m)" },
+        ],
       },
       {
         latex: "T = \\frac{1}{f}",
-        description: "Period and frequency relationship",
-        descriptionZh: "週期與頻率的關係",
+        description: "Period is the reciprocal of frequency",
+        descriptionZh: "週期是頻率的倒數",
+        symbols: [
+          { symbol: "T", meaning: "Period (time for one complete oscillation)", meaningZh: "週期（完成一次完整振動的時間）", unit: "second (s)" },
+          { symbol: "f", meaning: "Frequency", meaningZh: "頻率", unit: "Hertz (Hz)" },
+        ],
       },
       {
         latex: "f = \\frac{1}{T}",
-        description: "Frequency from period",
-        descriptionZh: "由週期求頻率",
+        description: "Frequency is the reciprocal of period",
+        descriptionZh: "頻率是週期的倒數",
+        symbols: [
+          { symbol: "f", meaning: "Frequency", meaningZh: "頻率", unit: "Hertz (Hz)" },
+          { symbol: "T", meaning: "Period", meaningZh: "週期", unit: "second (s)" },
+        ],
       },
     ],
     examTips: [
@@ -635,18 +1041,32 @@ export const topics: Topic[] = [
     formulas: [
       {
         latex: "\\Delta y = \\frac{\\lambda D}{d}",
-        description: "Fringe spacing: λ = wavelength, D = screen distance, d = slit separation",
-        descriptionZh: "條紋間距：λ = 波長，D = 屏幕距離，d = 縫間距",
+        description: "Fringe spacing in Young's double slit experiment",
+        descriptionZh: "楊氏雙縫實驗的條紋間距",
+        symbols: [
+          { symbol: "Δy", meaning: "Fringe spacing (distance between adjacent bright fringes)", meaningZh: "條紋間距（相鄰亮條紋之間的距離）", unit: "metre (m)" },
+          { symbol: "λ (lambda)", meaning: "Wavelength of the light used", meaningZh: "所用光的波長", unit: "metre (m)" },
+          { symbol: "D", meaning: "Distance from the double slits to the screen", meaningZh: "雙縫到屏幕的距離", unit: "metre (m)" },
+          { symbol: "d", meaning: "Separation between the two slits", meaningZh: "兩縫之間的間距", unit: "metre (m)" },
+        ],
       },
       {
         latex: "\\text{Path difference} = n\\lambda \\quad (\\text{constructive})",
-        description: "Condition for bright fringes",
-        descriptionZh: "亮條紋條件",
+        description: "Condition for bright fringes (constructive interference)",
+        descriptionZh: "亮條紋條件（相長干涉）",
+        symbols: [
+          { symbol: "n", meaning: "Order number (0, 1, 2, 3, ...)", meaningZh: "級次（0, 1, 2, 3, ...）", unit: "dimensionless 無單位" },
+          { symbol: "λ", meaning: "Wavelength", meaningZh: "波長", unit: "metre (m)" },
+        ],
       },
       {
         latex: "\\text{Path difference} = \\left(n+\\frac{1}{2}\\right)\\lambda \\quad (\\text{destructive})",
-        description: "Condition for dark fringes",
-        descriptionZh: "暗條紋條件",
+        description: "Condition for dark fringes (destructive interference)",
+        descriptionZh: "暗條紋條件（相消干涉）",
+        symbols: [
+          { symbol: "n", meaning: "Order number (0, 1, 2, 3, ...)", meaningZh: "級次（0, 1, 2, 3, ...）", unit: "dimensionless 無單位" },
+          { symbol: "λ", meaning: "Wavelength", meaningZh: "波長", unit: "metre (m)" },
+        ],
       },
     ],
     examTips: [
@@ -706,8 +1126,12 @@ export const topics: Topic[] = [
     formulas: [
       {
         latex: "\\text{Diffraction} \\propto \\frac{\\lambda}{d}",
-        description: "Diffraction increases as wavelength increases or gap width decreases",
-        descriptionZh: "衍射隨波長增大或縫隙寬度減小而增強",
+        description: "Diffraction effect increases as wavelength (λ) increases or gap width (d) decreases",
+        descriptionZh: "衍射效果隨波長（λ）增大或縫隙寬度（d）減小而增強",
+        symbols: [
+          { symbol: "λ (lambda)", meaning: "Wavelength of the wave", meaningZh: "波的波長", unit: "metre (m)" },
+          { symbol: "d", meaning: "Width of the gap or aperture", meaningZh: "縫隙或孔徑的寬度", unit: "metre (m)" },
+        ],
       },
     ],
     examTips: [
