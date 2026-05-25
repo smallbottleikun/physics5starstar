@@ -8,6 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { topics } from "../physics-content";
+import PracticeQuestionBlock from "../components/PracticeQuestion";
+import { practiceQuestions } from "../practice-questions";
 
 const COLOR_MAP: Record<string, {
   border: string; text: string; bg: string; badge: string;
@@ -311,6 +313,31 @@ export default function TopicPage() {
             </div>
           </div>
         </motion.section>
+
+        {/* ── Practice Question Section ── */}
+        {(() => {
+          const pq = practiceQuestions.find(q => q.topicId === topic.id);
+          if (!pq) return null;
+          return (
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Syne, sans-serif" }}>Practice Question</h2>
+                <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${c.badge}`}>DSE</span>
+                <span className="text-sm" style={{ color: "rgba(230,237,243,0.35)", fontFamily: "Noto Sans TC, sans-serif" }}>練習題</span>
+              </div>
+              <PracticeQuestionBlock
+                question={pq}
+                accentColor={c.text}
+                dotColor={c.dot}
+                showZh={showZh}
+              />
+            </motion.section>
+          );
+        })()}
 
         {/* ── Navigation between topics ── */}
         <div className="flex items-center justify-between pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
