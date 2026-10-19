@@ -66,7 +66,7 @@ export default function PracticeQuestion({ question, accentColor, dotColor, show
               className="text-xs font-bold px-2.5 py-1 rounded-md"
               style={{ background: `${dotColor}20`, color: dotColor, border: `1px solid ${dotColor}35` }}
             >
-              📝 DSE Practice
+              📝 {question.isOriginal ? "Original DSE-style" : "DSE Practice"}
             </span>
             <span className="text-xs font-medium" style={{ color: "rgba(230,237,243,0.45)" }}>
               {question.year}
@@ -77,6 +77,14 @@ export default function PracticeQuestion({ question, accentColor, dotColor, show
             >
               {question.totalMarks} marks 分
             </span>
+            {question.difficulty && (
+              <span
+                className="text-xs px-2 py-0.5 rounded"
+                style={{ background: "rgba(255,255,255,0.04)", color: "rgba(230,237,243,0.42)", border: "1px solid rgba(255,255,255,0.08)" }}
+              >
+                {question.difficulty}
+              </span>
+            )}
           </div>
           <p className="text-sm leading-relaxed" style={{ color: "rgba(230,237,243,0.8)" }}>
             {question.scenario}
@@ -88,6 +96,28 @@ export default function PracticeQuestion({ question, accentColor, dotColor, show
             >
               {question.scenarioZh}
             </p>
+          )}
+          {question.diagram && (
+            <div
+              className="mt-3 rounded-lg px-3 py-2.5 text-xs leading-relaxed"
+              style={{ background: "rgba(255,255,255,0.035)", border: "1px dashed rgba(255,255,255,0.13)", color: "rgba(230,237,243,0.55)", fontFamily: "JetBrains Mono, monospace" }}
+            >
+              <span style={{ color: dotColor, fontWeight: 700 }}>Diagram cue · 圖像提示: </span>
+              {question.diagram}
+            </div>
+          )}
+          {question.tags && question.tags.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {question.tags.map(tag => (
+                <span
+                  key={tag}
+                  className="text-[0.68rem] px-2 py-0.5 rounded-full"
+                  style={{ background: `${dotColor}0d`, border: `1px solid ${dotColor}20`, color: "rgba(230,237,243,0.48)" }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           )}
         </div>
       </div>

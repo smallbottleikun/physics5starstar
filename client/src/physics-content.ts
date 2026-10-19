@@ -1,6 +1,13 @@
 // DSE Physics Revision Content
 // English main content with Traditional Chinese annotations
 
+import {
+  applyExistingTopicEnhancements,
+  expandedFormulaSheet,
+  expandedTopics,
+  existingFormulaSheetAdditions,
+} from "./expanded-physics-content";
+
 export interface Formula {
   latex: string;
   description: string;
@@ -1146,6 +1153,13 @@ export const topics: Topic[] = [
     ],
   },
 ];
+
+// Expand the original core notes into the complete DSE Force and Motion and
+// Heat and Gases coverage. The data is kept in a focused module so that the
+// original topics remain easy to maintain.
+applyExistingTopicEnhancements(topics);
+topics.push(...expandedTopics);
+formulaSheet.push(...existingFormulaSheetAdditions, ...expandedFormulaSheet);
 
 export const categories = [
   { id: "all", label: "All Topics", labelZh: "所有主題", color: "white" },

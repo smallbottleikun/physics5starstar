@@ -1,6 +1,8 @@
 // DSE Physics Practice Questions
 // One DSE-style question per topic, with model answers
 
+import { expandedPracticeQuestions } from "./expanded-practice-questions";
+
 export interface AnswerPart {
   label: string;       // e.g. "(a)", "(b)(i)"
   question: string;    // sub-question text
@@ -11,9 +13,13 @@ export interface AnswerPart {
 }
 
 export interface PracticeQuestion {
+  id?: string;          // stable UI key for additional question sets
   topicId: string;
   year: string;        // e.g. "DSE 2019 Paper 1"
   source: string;      // exam source label
+  difficulty?: string;
+  tags?: string[];
+  isOriginal?: boolean;
   scenario: string;    // paragraph describing the situation
   scenarioZh: string;
   diagram?: string;    // optional ASCII / description of diagram
@@ -168,8 +174,9 @@ export const practiceQuestions: PracticeQuestion[] = [
   // ─── Newton's Laws ────────────────────────────────────────────────────────
   {
     topicId: "newton-laws",
-    year: "DSE 2019 Paper 1 Q6",
-    source: "HKDSE Physics 2019",
+    year: "Original DSE-style · Core",
+    source: "Original bilingual practice",
+    isOriginal: true,
     scenario:
       "A car of mass 1200 kg accelerates from rest to 20 m/s in 8.0 s on a straight horizontal road. The driving force from the engine is constant at 4500 N.",
     scenarioZh:
@@ -226,8 +233,9 @@ export const practiceQuestions: PracticeQuestion[] = [
   // ─── Resultant Force ──────────────────────────────────────────────────────
   {
     topicId: "resultant-force",
-    year: "DSE 2021 Paper 1 Q5",
-    source: "HKDSE Physics 2021",
+    year: "Original DSE-style · Core",
+    source: "Original bilingual practice",
+    isOriginal: true,
     scenario:
       "A box of weight 80 N is pulled up a smooth inclined plane (angle 30° to horizontal) by a force F parallel to the slope.",
     scenarioZh:
@@ -276,8 +284,9 @@ export const practiceQuestions: PracticeQuestion[] = [
   // ─── Work Done ────────────────────────────────────────────────────────────
   {
     topicId: "work-done",
-    year: "DSE 2023 Paper 1 Q7",
-    source: "HKDSE Physics 2023",
+    year: "Original DSE-style · Core",
+    source: "Original bilingual practice",
+    isOriginal: true,
     scenario:
       "A motor lifts a load of mass 50 kg from the ground to a height of 12 m in 30 s. The motor has an efficiency of 60%. (Take g = 10 N/kg)",
     scenarioZh:
@@ -333,8 +342,9 @@ export const practiceQuestions: PracticeQuestion[] = [
   // ─── Heat ─────────────────────────────────────────────────────────────────
   {
     topicId: "heat",
-    year: "DSE 2017 Paper 1 Q8",
-    source: "HKDSE Physics 2017",
+    year: "Original DSE-style · Core",
+    source: "Original bilingual practice",
+    isOriginal: true,
     scenario:
       "A 0.50 kg block of ice at 0°C is placed into 2.0 kg of water at 25°C in an insulated container. The specific heat capacity of water is 4200 J/(kg·°C) and the specific latent heat of fusion of ice is 3.36 × 10⁵ J/kg.",
     scenarioZh:
@@ -535,3 +545,7 @@ export const practiceQuestions: PracticeQuestion[] = [
     totalMarks: 7,
   },
 ];
+
+// Additional original, bilingual practice sets for the extended Force and
+// Motion and Heat and Gases syllabus coverage.
+practiceQuestions.push(...expandedPracticeQuestions);

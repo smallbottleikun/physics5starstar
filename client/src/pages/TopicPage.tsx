@@ -63,6 +63,7 @@ export default function TopicPage() {
   const topicIndex = topics.findIndex(t => t.id === id);
   const prevTopic = topicIndex > 0 ? topics[topicIndex - 1] : null;
   const nextTopic = topicIndex < topics.length - 1 ? topics[topicIndex + 1] : null;
+  const topicQuestions = practiceQuestions.filter(question => question.topicId === topic.id);
 
   return (
     <div className="min-h-screen" style={{ background: "#0d1117" }}>
@@ -314,30 +315,31 @@ export default function TopicPage() {
           </div>
         </motion.section>
 
-        {/* ── Practice Question Section ── */}
-        {(() => {
-          const pq = practiceQuestions.find(q => q.topicId === topic.id);
-          if (!pq) return null;
-          return (
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Syne, sans-serif" }}>Practice Question</h2>
-                <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${c.badge}`}>DSE</span>
-                <span className="text-sm" style={{ color: "rgba(230,237,243,0.35)", fontFamily: "Noto Sans TC, sans-serif" }}>練習題</span>
-              </div>
-              <PracticeQuestionBlock
-                question={pq}
-                accentColor={c.text}
-                dotColor={c.dot}
-                showZh={showZh}
-              />
-            </motion.section>
-          );
-        })()}
+        {/* ── Practice Questions Section ── */}
+        {topicQuestions.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
+          >
+            <div className="flex items-center gap-3 mb-5">
+              <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Syne, sans-serif" }}>Practice Questions</h2>
+              <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${c.badge}`}>{topicQuestions.length}</span>
+              <span className="text-sm" style={{ color: "rgba(230,237,243,0.35)", fontFamily: "Noto Sans TC, sans-serif" }}>練習題</span>
+            </div>
+            <div className="space-y-5">
+              {topicQuestions.map((question, questionIndex) => (
+                <PracticeQuestionBlock
+                  key={question.id ?? `${question.topicId}-${questionIndex}`}
+                  question={question}
+                  accentColor={c.text}
+                  dotColor={c.dot}
+                  showZh={showZh}
+                />
+              ))}
+            </div>
+          </motion.section>
+        )}
 
         {/* ── Navigation between topics ── */}
         <div className="flex items-center justify-between pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
