@@ -1,16 +1,15 @@
 /* ============================================================
    Home Page — DSE Physics Revision
-   Dark Physics Lab theme: hero banner + topic grid
-   Color-coded categories: Optics=cyan, Mechanics=orange, Heat=red, Waves=purple
+   Focus Desk: a quiet, content-first revision workspace
    ============================================================ */
 
 import { useState } from "react";
-import { useLocation } from "wouter";
+import { ArrowRight, Atom, BookOpen, ChevronRight, FileText } from "lucide-react";
 import { motion } from "framer-motion";
-import { topics, categories } from "../physics-content";
+import { useLocation } from "wouter";
+import AppearanceControls from "../components/AppearanceControls";
 import FormulaSheet from "../components/FormulaSheet";
-
-const HERO_BG = "/manus-storage/hero-bg-user_b03cf975.png";
+import { categories, topics } from "../physics-content";
 
 const TOPIC_IMAGES: Record<string, string> = {
   Optics: "/manus-storage/optics-card-user_11e7935b.png",
@@ -19,29 +18,16 @@ const TOPIC_IMAGES: Record<string, string> = {
   Waves: "/manus-storage/waves-card-user_da054b96.png",
 };
 
-const COLOR_MAP: Record<string, { border: string; text: string; bg: string; badge: string; dot: string }> = {
-  cyan:   { border: "border-[#00d4ff]/30", text: "text-[#00d4ff]",   bg: "bg-[#00d4ff]/10",   badge: "bg-[#00d4ff]/15 text-[#00d4ff]",   dot: "#00d4ff" },
-  orange: { border: "border-[#f97316]/30", text: "text-[#f97316]",   bg: "bg-[#f97316]/10",   badge: "bg-[#f97316]/15 text-[#f97316]",   dot: "#f97316" },
-  red:    { border: "border-[#ef4444]/30", text: "text-[#ef4444]",   bg: "bg-[#ef4444]/10",   badge: "bg-[#ef4444]/15 text-[#ef4444]",   dot: "#ef4444" },
-  purple: { border: "border-[#a855f7]/30", text: "text-[#a855f7]",   bg: "bg-[#a855f7]/10",   badge: "bg-[#a855f7]/15 text-[#a855f7]",   dot: "#a855f7" },
-};
-
-const FILTER_COLORS: Record<string, string> = {
-  all:       "bg-white/10 text-white border-white/20 hover:bg-white/20",
-  Optics:    "bg-[#00d4ff]/10 text-[#00d4ff] border-[#00d4ff]/30 hover:bg-[#00d4ff]/20",
-  Mechanics: "bg-[#f97316]/10 text-[#f97316] border-[#f97316]/30 hover:bg-[#f97316]/20",
-  Heat:      "bg-[#ef4444]/10 text-[#ef4444] border-[#ef4444]/30 hover:bg-[#ef4444]/20",
-  Waves:     "bg-[#a855f7]/10 text-[#a855f7] border-[#a855f7]/30 hover:bg-[#a855f7]/20",
-};
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
+const COLOR_MAP: Record<string, { accent: string; }> = {
+  cyan: { accent: "var(--color-cyan)" },
+  orange: { accent: "var(--color-orange)" },
+  red: { accent: "var(--color-red)" },
+  purple: { accent: "var(--color-purple)" },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.28, ease: "easeOut" as const } },
 };
 
 export default function Home() {
@@ -50,203 +36,168 @@ export default function Home() {
 
   const filtered = activeCategory === "all"
     ? topics
-    : topics.filter(t => t.category === activeCategory);
+    : topics.filter(topic => topic.category === activeCategory);
+
+  const jumpTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
-    <div className="min-h-screen" style={{ background: "#0d1117" }}>
-      {/* ── Navigation Bar ── */}
-      <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
-        style={{ background: "rgba(13,17,23,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-lg" style={{ background: "rgba(0,212,255,0.15)", border: "1px solid rgba(0,212,255,0.3)" }}>
-            ⚛
+    <div className="app-shell">
+      <nav className="glass-nav fixed top-0 left-0 right-0 z-50 h-16">
+        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3">
+          <button
+            onClick={() => jumpTo("topic-grid")}
+            className="flex items-center gap-2.5 shrink-0 text-left"
+            aria-label="Go to topics"
+          >
+            <span className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "color-mix(in srgb, var(--color-cyan) 13%, transparent)", color: "var(--color-cyan)", border: "1px solid color-mix(in srgb, var(--color-cyan) 24%, var(--border-subtle))" }}>
+              <Atom size={16} strokeWidth={1.8} />
+            </span>
+            <span className="leading-tight">
+              <span className="block text-sm font-bold" style={{ color: "var(--text-primary)", fontFamily: "Syne, sans-serif" }}>DSE Physics</span>
+              <span className="block text-[0.65rem]" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>物理溫習</span>
+            </span>
+          </button>
+
+          <div className="hidden md:flex items-center gap-5 text-xs" style={{ color: "var(--text-muted)" }}>
+            <button onClick={() => jumpTo("topic-grid")} className="hover:opacity-70 transition-opacity">主題 Topics</button>
+            <button onClick={() => jumpTo("formula-sheet")} className="hover:opacity-70 transition-opacity">公式表 Formula sheet</button>
           </div>
-          <div>
-            <span className="font-bold text-white text-sm" style={{ fontFamily: "Syne, sans-serif" }}>DSE Physics</span>
-            <span className="text-xs ml-2" style={{ color: "rgba(230,237,243,0.4)", fontFamily: "Noto Sans TC, sans-serif" }}>物理溫習</span>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            <AppearanceControls compact />
+            <span className="hidden sm:inline text-xs whitespace-nowrap" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>
+              {topics.length} 個主題
+            </span>
           </div>
-        </div>
-        <div className="hidden md:flex items-center gap-1">
-          {categories.slice(1).map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium border transition-all duration-200 ${FILTER_COLORS[cat.id]}`}
-            >
-              {cat.label}
-              <span className="ml-1.5 opacity-60" style={{ fontFamily: "Noto Sans TC, sans-serif", fontSize: "0.7rem" }}>{cat.labelZh}</span>
-            </button>
-          ))}
-        </div>
-        <div className="text-xs" style={{ color: "rgba(230,237,243,0.35)", fontFamily: "Noto Sans TC, sans-serif" }}>
-          {topics.length} Topics 個主題
         </div>
       </nav>
 
-      {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden" style={{ paddingTop: "72px", minHeight: "520px" }}>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${HERO_BG})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center 40%",
-            filter: "brightness(0.35)",
-          }}
-        />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(13,17,23,0.3) 0%, rgba(13,17,23,0.7) 70%, #0d1117 100%)" }} />
-
-        <div className="relative container mx-auto px-6 py-20 flex flex-col items-start max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6" style={{ background: "rgba(0,212,255,0.12)", border: "1px solid rgba(0,212,255,0.25)", color: "#00d4ff" }}>
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#00d4ff" }} />
-              HKDSE Physics Revision Guide &nbsp;·&nbsp; <span style={{ fontFamily: "Noto Sans TC, sans-serif" }}>物理考前溫習</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight" style={{ fontFamily: "Syne, sans-serif" }}>
-              Physics<br />
-              <span style={{ color: "#00d4ff" }}>Revision</span>
-            </h1>
-            <p className="text-lg mb-2" style={{ color: "rgba(230,237,243,0.7)", maxWidth: "520px", fontFamily: "DM Sans, sans-serif" }}>
-              Master DSE Physics with bilingual notes, key formulas, and exam tips.
-            </p>
-            <p className="text-sm" style={{ color: "rgba(230,237,243,0.4)", fontFamily: "Noto Sans TC, sans-serif" }}>
-              中英對照筆記，涵蓋光學、力學、熱學、波動等核心主題
-            </p>
-          </motion.div>
-
-          {/* Stats row */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-            className="flex flex-wrap gap-6 mt-10"
-          >
-            {[
-              { num: topics.length, label: "Topics", zh: "主題" },
-              { num: topics.reduce((a, t) => a + t.formulas.length, 0), label: "Formulas", zh: "公式" },
-              { num: topics.reduce((a, t) => a + t.keyPoints.length, 0), label: "Key Points", zh: "重點" },
-              { num: 4, label: "Categories", zh: "類別" },
-            ].map(stat => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl font-bold text-white" style={{ fontFamily: "Syne, sans-serif" }}>{stat.num}</div>
-                <div className="text-xs mt-0.5" style={{ color: "rgba(230,237,243,0.5)" }}>{stat.label} <span style={{ fontFamily: "Noto Sans TC, sans-serif" }}>{stat.zh}</span></div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Filter Bar ── */}
-      <section className="sticky top-[72px] z-40 py-4" style={{ background: "rgba(13,17,23,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-        <div className="container mx-auto px-6 flex flex-wrap gap-2 items-center">
-          <span className="text-xs mr-2" style={{ color: "rgba(230,237,243,0.35)", fontFamily: "Noto Sans TC, sans-serif" }}>篩選：</span>
-          {categories.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${
-                activeCategory === cat.id
-                  ? FILTER_COLORS[cat.id] + " opacity-100 scale-105"
-                  : "bg-transparent border-white/10 text-white/40 hover:border-white/25 hover:text-white/70"
-              }`}
+      <main>
+        <section className="focus-hero pt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+              className="max-w-2xl"
             >
-              {cat.label}
-              <span className="ml-1.5" style={{ fontFamily: "Noto Sans TC, sans-serif", opacity: 0.7 }}>{cat.labelZh}</span>
-            </button>
-          ))}
-          <span className="ml-auto text-xs" style={{ color: "rgba(230,237,243,0.3)" }}>
-            {filtered.length} topic{filtered.length !== 1 ? "s" : ""}
-          </span>
-        </div>
-      </section>
+              <div className="eyebrow mb-4"><span className="eyebrow-dot" /> Revision desk · 考前溫習</div>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
+                選擇一個主題開始溫習
+              </h1>
+              <p className="mt-3 text-sm sm:text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                Bilingual notes, formulas and guided practice — keep the focus on the concept in front of you.
+              </p>
+              <p className="mt-1 text-xs sm:text-sm" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>
+                中英對照重點、公式符號說明及分步練習題。
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs" style={{ color: "var(--text-muted)" }}>
+                <span className="inline-flex items-center gap-1.5"><BookOpen size={13} /> {topics.length} 個主題</span>
+                <span className="inline-flex items-center gap-1.5"><FileText size={13} /> 按類別篩選</span>
+                <button onClick={() => jumpTo("formula-sheet")} className="inline-flex items-center gap-1 text-left hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
+                  查看公式表 <ArrowRight size={13} />
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
-      {/* ── Topic Grid ── */}
-      <section className="container mx-auto px-6 py-10 max-w-7xl">
-        <motion.div
-          key={activeCategory}
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          {filtered.map(topic => {
-            const c = COLOR_MAP[topic.color] || COLOR_MAP.cyan;
-            return (
-              <motion.div
-                key={topic.id}
-                variants={cardVariants}
-                onClick={() => navigate(`/topic/${topic.id}`)}
-                className={`topic-card group relative overflow-hidden border ${c.border}`}
-                style={{ background: "rgba(255,255,255,0.025)" }}
-              >
-                {/* Category image strip */}
-                <div className="relative h-36 overflow-hidden">
-                  <img
-                    src={TOPIC_IMAGES[topic.category]}
-                    alt={topic.category}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    style={{ filter: "brightness(0.55)" }}
-                  />
-                  <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 40%, rgba(13,17,23,0.95) 100%)` }} />
-                  {/* Category badge */}
-                  <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-md text-xs font-semibold ${c.badge}`} style={{ backdropFilter: "blur(8px)" }}>
-                    {topic.category}
-                    <span className="ml-1.5 opacity-70" style={{ fontFamily: "Noto Sans TC, sans-serif" }}>{topic.categoryZh}</span>
-                  </div>
-                  {/* Icon */}
-                  <div className="absolute top-3 right-3 text-2xl">{topic.icon}</div>
-                </div>
+        <section className="sticky top-16 z-40 py-3 glass-nav" aria-label="Topic filters">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center gap-2">
+            <span className="hidden sm:inline text-xs mr-1" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>篩選</span>
+            {categories.map(category => {
+              const color = category.id === "all" ? "var(--text-primary)" : (COLOR_MAP[category.color]?.accent ?? "var(--text-primary)");
+              const isActive = activeCategory === category.id;
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  aria-pressed={isActive}
+                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-150"
+                  style={{
+                    background: isActive ? "var(--surface)" : "transparent",
+                    color: isActive ? color : "var(--text-muted)",
+                    border: `1px solid ${isActive ? color : "var(--border-subtle)"}`,
+                    boxShadow: isActive ? "0 1px 2px rgba(22, 34, 53, 0.08)" : "none",
+                  }}
+                >
+                  <span>{category.label}</span>
+                  <span style={{ fontFamily: "Noto Sans TC, sans-serif", opacity: 0.78 }}>{category.labelZh}</span>
+                </button>
+              );
+            })}
+            <span className="ml-auto text-xs" style={{ color: "var(--text-muted)" }}>
+              顯示 {filtered.length} / {topics.length}
+            </span>
+          </div>
+        </section>
 
-                {/* Content */}
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-white mb-1 leading-snug" style={{ fontFamily: "Syne, sans-serif" }}>
-                    {topic.title}
-                  </h3>
-                  <p className="text-xs mb-3" style={{ color: "rgba(230,237,243,0.4)", fontFamily: "Noto Sans TC, sans-serif" }}>
-                    {topic.titleZh}
-                  </p>
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(230,237,243,0.6)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                    {topic.summary}
-                  </p>
+        <section id="topic-grid" className="max-w-7xl mx-auto px-4 sm:px-6 py-9 sm:py-11 scroll-mt-28">
+          <div className="flex items-end justify-between gap-4 mb-5 sm:mb-6">
+            <div>
+              <p className="eyebrow mb-2">Topics · 主題</p>
+              <h2 className="text-xl sm:text-2xl font-bold" style={{ color: "var(--text-primary)" }}>選擇主題</h2>
+            </div>
+            <p className="hidden sm:block text-xs text-right max-w-48" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>
+              選取卡片以開啟筆記、公式與練習。
+            </p>
+          </div>
 
-                  {/* Meta row */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-3 text-xs" style={{ color: "rgba(230,237,243,0.35)" }}>
-                      <span>{topic.formulas.length} formula{topic.formulas.length !== 1 ? "s" : ""}</span>
-                      <span>·</span>
-                      <span>{topic.keyPoints.length} key points</span>
+          <motion.div
+            key={activeCategory}
+            initial="hidden"
+            animate="visible"
+            transition={{ staggerChildren: 0.045 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
+            {filtered.map(topic => {
+              const color = COLOR_MAP[topic.color] ?? COLOR_MAP.cyan;
+              return (
+                <motion.button
+                  key={topic.id}
+                  variants={cardVariants}
+                  onClick={() => navigate(`/topic/${topic.id}`)}
+                  className="topic-card group text-left overflow-hidden relative"
+                  style={{ borderTop: `3px solid ${color.accent}` }}
+                >
+                  <div className="relative h-20 sm:h-24 overflow-hidden" style={{ background: "var(--surface-muted)" }}>
+                    <img src={TOPIC_IMAGES[topic.category]} alt="" className="topic-thumb w-full h-full object-cover" />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, color-mix(in srgb, var(--page-bg) 72%, transparent), transparent)" }} />
+                    <div className="absolute inset-x-4 top-3 flex items-center justify-between gap-3">
+                      <span className="px-2 py-1 rounded-md text-[0.65rem] font-semibold" style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)", color: color.accent, backdropFilter: "blur(8px)" }}>
+                        {topic.category} <span className="opacity-70" style={{ fontFamily: "Noto Sans TC, sans-serif" }}>{topic.categoryZh}</span>
+                      </span>
+                      <span className="text-xl" aria-hidden="true">{topic.icon}</span>
                     </div>
-                    <div className={`flex items-center gap-1.5 text-xs font-medium ${c.text} opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
-                      Study <span style={{ fontFamily: "Noto Sans TC, sans-serif" }}>溫習</span> →
+                  </div>
+
+                  <div className="p-4 sm:p-5">
+                    <h3 className="text-base sm:text-lg font-bold leading-snug" style={{ color: "var(--text-primary)" }}>{topic.title}</h3>
+                    <p className="mt-1 text-xs" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>{topic.titleZh}</p>
+                    <p className="mt-3 text-sm leading-relaxed line-clamp-1" style={{ color: "var(--text-secondary)" }}>{topic.summary}</p>
+
+                    <div className="mt-4 pt-3 flex items-center justify-between" style={{ borderTop: "1px solid var(--border-subtle)" }}>
+                      <span className="text-xs" style={{ color: "var(--text-muted)" }}>{topic.formulas.length} formulas · {topic.keyPoints.length} key points</span>
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold" style={{ color: color.accent }}>
+                        Study <span style={{ fontFamily: "Noto Sans TC, sans-serif" }}>溫習</span><ChevronRight size={14} />
+                      </span>
                     </div>
                   </div>
-                </div>
+                </motion.button>
+              );
+            })}
+          </motion.div>
+        </section>
 
-                {/* Bottom accent line */}
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: `linear-gradient(to right, transparent, ${c.dot}, transparent)` }} />
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </section>
+        <FormulaSheet />
+      </main>
 
-      {/* ── Formula Sheet Section ── */}
-      <FormulaSheet />
-
-      {/* ── Footer ── */}
-      <footer className="mt-8 py-8" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-xs" style={{ color: "rgba(230,237,243,0.25)", fontFamily: "Noto Sans TC, sans-serif" }}>
-            DSE Physics Revision · 物理考前溫習 · Good luck in your exam! 考試加油！
-          </p>
-        </div>
+      <footer className="py-6" style={{ borderTop: "1px solid var(--border-subtle)" }}>
+        <p className="text-center text-xs" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>
+          DSE Physics Revision · 溫習時專注一個概念，逐步建立信心。
+        </p>
       </footer>
     </div>
   );

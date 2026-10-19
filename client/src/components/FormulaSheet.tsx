@@ -41,7 +41,7 @@ function FormulaCard({ entry, index }: { entry: FormulaSheetEntry; index: number
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: index * 0.04, ease: "easeOut" }}
-      className={`rounded-xl border ${c.border} overflow-hidden`}
+      className={`formula-sheet-card rounded-xl border ${c.border} overflow-hidden`}
       style={{ background: "rgba(255,255,255,0.025)" }}
     >
       {/* Header */}
@@ -158,7 +158,7 @@ export default function FormulaSheet() {
     : formulaSheet.filter(e => e.color === activeGroup);
 
   return (
-    <section id="formula-sheet" className="py-16" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+    <section id="formula-sheet" className="themed-formula-sheet py-16" style={{ borderTop: "1px solid var(--border-subtle)" }}>
       <div className="max-w-5xl mx-auto px-6">
         {/* Section header */}
         <div className="mb-10">

@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { topics } from "../physics-content";
 import PracticeQuestionBlock from "../components/PracticeQuestion";
 import { practiceQuestions } from "../practice-questions";
+import AppearanceControls from "../components/AppearanceControls";
 
 const COLOR_MAP: Record<string, {
   border: string; text: string; bg: string; badge: string;
@@ -47,7 +48,7 @@ export default function TopicPage() {
 
   if (!topic) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#0d1117" }}>
+      <div className="app-shell min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">🔭</div>
           <h2 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "Syne, sans-serif" }}>Topic Not Found</h2>
@@ -66,28 +67,28 @@ export default function TopicPage() {
   const topicQuestions = practiceQuestions.filter(question => question.topicId === topic.id);
 
   return (
-    <div className="min-h-screen" style={{ background: "#0d1117" }}>
+    <div className="app-shell themed-topic-page min-h-screen">
       {/* ── Top Navigation ── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
-        style={{ background: "rgba(13,17,23,0.9)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        className="glass-nav fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3"
       >
         <button
           onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-sm transition-colors duration-200"
+          className="flex items-center gap-2 whitespace-nowrap text-sm transition-colors duration-200"
           style={{ color: "rgba(230,237,243,0.5)" }}
           onMouseEnter={e => (e.currentTarget.style.color = "rgba(230,237,243,0.9)")}
           onMouseLeave={e => (e.currentTarget.style.color = "rgba(230,237,243,0.5)")}
         >
-          ← <span>All Topics</span>
-          <span style={{ fontFamily: "Noto Sans TC, sans-serif", fontSize: "0.75rem" }}>所有主題</span>
+          ← <span className="topic-back-en">All Topics</span>
+          <span className="topic-back-zh" style={{ fontFamily: "Noto Sans TC, sans-serif", fontSize: "0.75rem" }}>所有主題</span>
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="topic-appearance"><AppearanceControls compact /></div>
           {/* Chinese toggle */}
           <button
             onClick={() => setShowZh(!showZh)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200"
+            className="flex items-center gap-2 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200"
             style={{
               background: showZh ? "rgba(255,255,255,0.08)" : "transparent",
               border: "1px solid rgba(255,255,255,0.1)",
@@ -98,7 +99,7 @@ export default function TopicPage() {
             <span className="opacity-60">{showZh ? "ON" : "OFF"}</span>
           </button>
 
-          <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${c.badge}`}>
+          <div className={`topic-category-badge px-3 py-1.5 rounded-lg text-xs font-semibold ${c.badge}`}>
             {topic.category} · {topic.categoryZh}
           </div>
         </div>

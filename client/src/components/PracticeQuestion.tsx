@@ -46,7 +46,7 @@ export default function PracticeQuestion({ question, accentColor, dotColor, show
 
   return (
     <div
-      className="rounded-2xl overflow-hidden"
+      className="themed-practice-question rounded-2xl overflow-hidden"
       style={{
         border: `1px solid ${dotColor}25`,
         background: "rgba(255,255,255,0.018)",

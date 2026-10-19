@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
+type ReadingScale = "small" | "normal" | "large";
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme?: () => void;
+  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
+  readingScale: ReadingScale;
+  setReadingScale: (scale: ReadingScale) => void;
   switchable: boolean;
 }
 
@@ -18,38 +22,40 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({
   children,
-  defaultTheme = "light",
+  defaultTheme = "dark",
   switchable = false,
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
-    if (switchable) {
-      const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
-    }
-    return defaultTheme;
+    if (!switchable) return defaultTheme;
+    return (localStorage.getItem("dse-physics-theme") as Theme) || defaultTheme;
+  });
+  const [readingScale, setReadingScale] = useState<ReadingScale>(() => {
+    if (!switchable) return "normal";
+    return (localStorage.getItem("dse-physics-reading-scale") as ReadingScale) || "normal";
   });
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    root.classList.toggle("dark", theme === "dark");
+    root.dataset.readingScale = readingScale;
 
     if (switchable) {
-      localStorage.setItem("theme", theme);
+      localStorage.setItem("dse-physics-theme", theme);
+      localStorage.setItem("dse-physics-reading-scale", readingScale);
     }
-  }, [theme, switchable]);
-
-  const toggleTheme = switchable
-    ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
-      }
-    : undefined;
+  }, [theme, readingScale, switchable]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        setTheme,
+        toggleTheme: () => setTheme(previous => (previous === "light" ? "dark" : "light")),
+        readingScale,
+        setReadingScale,
+        switchable,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
