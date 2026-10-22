@@ -156,4 +156,22 @@ export const expandedPracticeQuestions: PracticeQuestion[] = [
     ],
     totalMarks: 7,
   },
+  {
+    id: "mech-moments-beam-01",
+    topicId: "moments-equilibrium",
+    year: "Original DSE-style · Core",
+    source: "Original bilingual practice",
+    difficulty: "Core",
+    tags: ["moment", "pivot", "equilibrium"],
+    isOriginal: true,
+    scenario: "A uniform 2.0 m beam of weight 40 N is supported at a pivot P, 0.50 m from its left end. A 20 N load is hung at the left end. The beam is in equilibrium.",
+    scenarioZh: "一條均勻長 2.0 m、重 40 N 的樑由支點 P 支承，P 位於左端右方 0.50 m。左端懸掛一個 20 N 的負載，樑處於平衡狀態。",
+    parts: [
+      { label: "(a)", question: "Define the moment of a force about a pivot.", questionZh: "定義力對支點的力矩。", answer: "Moment = force × perpendicular distance from the pivot to the line of action of the force, τ = Fd.", answerZh: "力矩 = 力 × 支點至力作用線的垂直距離，τ = Fd。", marks: 2 },
+      { label: "(b)", question: "Calculate the anticlockwise moment due to the 20 N load about P.", questionZh: "計算 20 N 負載繞 P 的逆時針力矩。", answer: "The perpendicular distance is 0.50 m. Moment = 20 × 0.50 = 10 N·m anticlockwise.", answerZh: "垂直距離為 0.50 m。力矩 = 20 × 0.50 = 10 N·m，方向為逆時針。", marks: 2 },
+      { label: "(c)", question: "Calculate the upward support force at P.", questionZh: "計算 P 點的向上支持力。", answer: "For vertical equilibrium, upward support force = total downward force = 20 + 40 = 60 N.", answerZh: "由垂直方向平衡，向上支持力 = 向下總力 = 20 + 40 = 60 N。", marks: 1 },
+      { label: "(d)", question: "Explain why the beam's weight produces a clockwise moment about P.", questionZh: "解釋為何樑的重量繞 P 產生順時針力矩。", answer: "The weight acts vertically downward through the beam's centre, which is 0.50 m to the right of P. A downward force on the right side tends to rotate the beam clockwise.", answerZh: "重量向下作用於樑的中心，中心位於 P 右方 0.50 m。右側向下的力會令樑傾向順時針轉動。", marks: 2 },
+    ],
+    totalMarks: 7,
+  },
 ];

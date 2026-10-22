@@ -4,7 +4,7 @@
    ============================================================ */
 
 import { useState } from "react";
-import { ArrowRight, Atom, BookOpen, ChevronRight, FileText } from "lucide-react";
+import { ArrowRight, Atom, BookOpen, ChevronRight, ExternalLink, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import AppearanceControls from "../components/AppearanceControls";
@@ -29,6 +29,8 @@ const cardVariants = {
   hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.28, ease: "easeOut" as const } },
 };
+
+const OFFICIAL_FORMULA_SHEET_URL = "https://www.hkeaa.edu.hk/DocLibrary/HKDSE/Subject_Information/phy/Phy-Formulae-e.pdf";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -63,6 +65,9 @@ export default function Home() {
           <div className="hidden md:flex items-center gap-5 text-xs" style={{ color: "var(--text-muted)" }}>
             <button onClick={() => jumpTo("topic-grid")} className="hover:opacity-70 transition-opacity">主題 Topics</button>
             <button onClick={() => jumpTo("formula-sheet")} className="hover:opacity-70 transition-opacity">公式表 Formula sheet</button>
+            <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
+              官方公式表 <span style={{ fontFamily: "Noto Sans TC, sans-serif" }}>HKDSE</span> <ExternalLink size={12} />
+            </a>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
@@ -99,6 +104,9 @@ export default function Home() {
                 <button onClick={() => jumpTo("formula-sheet")} className="inline-flex items-center gap-1 text-left hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
                   查看公式表 <ArrowRight size={13} />
                 </button>
+                <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-left hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
+                  官方 DSE 公式表 <ExternalLink size={13} />
+                </a>
               </div>
             </motion.div>
           </div>

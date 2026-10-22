@@ -210,6 +210,30 @@ export const expandedTopics: Topic[] = [
     ],
   ),
   mechanics(
+    "moments-equilibrium",
+    "Moments & Equilibrium",
+    "力矩與平衡",
+    "⚖️",
+    "A moment is the turning effect of a force about a pivot. Use the perpendicular distance from the pivot and apply the principle of moments for rotational equilibrium.",
+    "力矩是力對支點產生的轉動效應。使用支點至力線的垂直距離，並以力矩原理處理轉動平衡。",
+    [
+      point("The moment of a force about a pivot equals force × perpendicular distance from the pivot to the line of action of the force.", "力對支點的力矩 = 力 × 支點至力作用線的垂直距離。"),
+      point("A pivot is the point or axis about which an object tends to rotate; a hinge or knife edge can act as a pivot.", "支點是物體傾向繞其轉動的點或軸；鉸鏈或刀口均可作支點。"),
+      point("Take anticlockwise moments and clockwise moments with opposite signs or compare their magnitudes consistently.", "逆時針和順時針力矩要取相反符號，或一致地比較兩者大小。"),
+      point("For rotational equilibrium, the sum of clockwise moments about a pivot equals the sum of anticlockwise moments.", "轉動平衡時，繞支點的順時針力矩總和等於逆時針力矩總和。"),
+      point("Choosing the pivot at an unknown reaction force can eliminate that reaction from the moment equation because its perpendicular distance is zero.", "把未知反作用力的支點選作取矩點，可因其垂直距離為零而消去該力矩。"),
+    ],
+    [
+      formula("Moment of a Force", "力矩", "\\tau=Fd", "Turning effect of a force about a pivot.", "力對支點的轉動效應。", [symbol("τ", "Moment of the force", "力矩", "N·m"), symbol("F", "Force", "力", "N"), symbol("d", "Perpendicular distance from pivot to line of action", "支點至力作用線的垂直距離", "m")]),
+      formula("Principle of Moments", "力矩原理", "\\sum\\tau_{\\rm clockwise}=\\sum\\tau_{\\rm anticlockwise}", "Condition for rotational equilibrium about a pivot.", "繞支點轉動平衡的條件。", [symbol("τ", "Moment of a force", "力矩", "N·m")]),
+      formula("Equilibrium of Forces", "力的平衡", "\\sum F=0", "The resultant force is zero for translational equilibrium.", "平移平衡時合力為零。", [symbol("ΣF", "Resultant force", "合力", "N")]),
+    ],
+    [
+      point("Always draw the line of action and use the shortest perpendicular distance, not the distance along the beam.", "必須畫出力作用線，並使用最短的垂直距離，而不是沿樑的距離。"),
+      point("Take moments about a convenient pivot and include only forces with a non-zero perpendicular distance.", "在方便的支點取矩，只需計算垂直距離不為零的力。"),
+    ],
+  ),
+  mechanics(
     "uniform-circular-motion",
     "Uniform Circular Motion",
     "勻速圓周運動",
@@ -343,11 +367,12 @@ export const expandedTopics: Topic[] = [
     ],
     [
       formula("Ideal Gas Equation", "理想氣體方程", "pV=nRT", "Equation of state for an ideal gas.", "理想氣體的狀態方程。", [symbol("p", "Pressure", "壓力", "Pa"), symbol("V", "Volume", "體積", "m³"), symbol("n", "Amount of gas", "物質的量", "mol"), symbol("R", "Molar gas constant", "莫耳氣體常數", "8.31 J/(mol·K)"), symbol("T", "Absolute temperature", "絕對溫度", "K")]),
-      formula("Gas-law Ratios", "氣體定律比例", "pV=\\text{constant},\\quad \\frac{V}{T}=\\text{constant},\\quad \\frac{p}{T}=\\text{constant}", "Use the relation whose other variable is kept constant.", "選用其他變量保持不變時的關係。", [symbol("p", "Pressure", "壓力", "Pa"), symbol("V", "Volume", "體積", "m³"), symbol("T", "Absolute temperature", "絕對溫度", "K")]),
-      formula("Kinetic Theory — Extension", "動理論—延伸", "pV=\\frac{1}{3}Nmc^2", "Extension: microscopic kinetic-theory equation for an ideal gas.", "延伸：理想氣體的微觀動理論方程。", [symbol("N", "Number of molecules", "分子數目", "dimensionless"), symbol("m", "Mass of one molecule", "一個分子的質量", "kg"), symbol("c", "Root-mean-square molecular speed", "分子均方根速率", "m/s"), symbol("p, V", "Pressure and volume", "壓力及體積", "Pa, m³")]),
+      formula("Kinetic Theory Equation", "動理論方程", "pV=\\frac{1}{3}Nmc^2", "Microscopic equation connecting pressure with molecular motion.", "把壓力與分子運動聯繫起來的微觀方程。", [symbol("N", "Number of molecules", "分子數目", "dimensionless"), symbol("m", "Mass of one molecule", "一個分子的質量", "kg"), symbol("c", "Root-mean-square molecular speed", "分子均方根速率", "m/s"), symbol("p, V", "Pressure and volume", "壓力及體積", "Pa, m³")]),
+      formula("Mean Kinetic Energy", "分子平均動能", "E_k=\\frac{3}{2}nRT", "Total random translational kinetic energy of an ideal gas sample.", "理想氣體樣本中分子隨機平移運動的總動能。", [symbol("Eₖ", "Total molecular kinetic energy", "分子總動能", "J"), symbol("n", "Amount of gas", "物質的量", "mol"), symbol("R", "Molar gas constant", "莫耳氣體常數", "8.31 J/(mol·K)"), symbol("T", "Absolute temperature", "絕對溫度", "K")]),
     ],
     [
       point("Convert Celsius temperature to kelvin before substituting into any gas equation or ratio.", "代入任何氣體方程或比值前，必須先把攝氏溫度換為開爾文。"),
+      point("The three core formulae are pV=nRT, pV=⅓Nmc² and Eₖ=3/2 nRT; use the first for macroscopic state variables and the latter two for molecular interpretation.", "三條核心公式是 pV=nRT、pV=⅓Nmc² 及 Eₖ=3/2 nRT；第一條用於宏觀狀態量，後兩條用於微觀分子解釋。"),
       point("Explain a gas-law change with collisions: heating raises molecular kinetic energy and initially makes collisions more frequent or forceful.", "用碰撞解釋氣體定律變化：加熱提高分子動能，起初會令碰撞更頻密或更有力。"),
     ],
   ),

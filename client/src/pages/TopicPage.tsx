@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import { topics } from "../physics-content";
 import PracticeQuestionBlock from "../components/PracticeQuestion";
 import { practiceQuestions } from "../practice-questions";
@@ -21,6 +22,8 @@ const COLOR_MAP: Record<string, {
   red:    { border: "border-[#ef4444]/25", text: "text-[#ef4444]",   bg: "bg-[#ef4444]/8",   badge: "bg-[#ef4444]/15 text-[#ef4444]",   dot: "#ef4444", glow: "rgba(239,68,68,0.25)",   gradFrom: "rgba(239,68,68,0.08)" },
   purple: { border: "border-[#a855f7]/25", text: "text-[#a855f7]",   bg: "bg-[#a855f7]/8",   badge: "bg-[#a855f7]/15 text-[#a855f7]",   dot: "#a855f7", glow: "rgba(168,85,247,0.25)",  gradFrom: "rgba(168,85,247,0.08)" },
 };
+
+const OFFICIAL_FORMULA_SHEET_URL = "https://www.hkeaa.edu.hk/DocLibrary/HKDSE/Subject_Information/phy/Phy-Formulae-e.pdf";
 
 // Render LaTeX using KaTeX (loaded via CDN in index.html)
 function FormulaDisplay({ latex }: { latex: string }) {
@@ -85,6 +88,9 @@ export default function TopicPage() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="topic-appearance"><AppearanceControls compact /></div>
+          <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noreferrer" className="hidden md:inline-flex items-center gap-1 text-xs hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
+            官方公式表 <ExternalLink size={12} />
+          </a>
           {/* Chinese toggle */}
           <button
             onClick={() => setShowZh(!showZh)}
