@@ -57,8 +57,7 @@ export default function Home() {
               <Atom size={16} strokeWidth={1.8} />
             </span>
             <span className="leading-tight">
-              <span className="block text-sm font-bold" style={{ color: "var(--text-primary)", fontFamily: "Syne, sans-serif" }}>DSE Physics</span>
-              <span className="block text-[0.65rem]" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>物理溫習</span>
+              <span className="block text-sm font-bold" style={{ color: "var(--text-primary)", fontFamily: "Syne, sans-serif" }}>Physics</span>
             </span>
           </button>
 
@@ -66,7 +65,7 @@ export default function Home() {
             <button onClick={() => jumpTo("topic-grid")} className="hover:opacity-70 transition-opacity">主題 Topics</button>
             <button onClick={() => jumpTo("formula-sheet")} className="hover:opacity-70 transition-opacity">公式表 Formula sheet</button>
             <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
-              官方公式表 <span style={{ fontFamily: "Noto Sans TC, sans-serif" }}>HKDSE</span> <ExternalLink size={12} />
+              官方公式表 <ExternalLink size={12} />
             </a>
           </div>
 
@@ -88,15 +87,11 @@ export default function Home() {
               transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
               className="max-w-2xl"
             >
-              <div className="eyebrow mb-4"><span className="eyebrow-dot" /> Revision desk · 考前溫習</div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
                 選擇一個主題開始溫習
               </h1>
               <p className="mt-3 text-sm sm:text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 Bilingual notes, formulas and guided practice — keep the focus on the concept in front of you.
-              </p>
-              <p className="mt-1 text-xs sm:text-sm" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>
-                中英對照重點、公式符號說明及分步練習題。
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs" style={{ color: "var(--text-muted)" }}>
                 <span className="inline-flex items-center gap-1.5"><BookOpen size={13} /> {topics.length} 個主題</span>
@@ -104,8 +99,8 @@ export default function Home() {
                 <button onClick={() => jumpTo("formula-sheet")} className="inline-flex items-center gap-1 text-left hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
                   查看公式表 <ArrowRight size={13} />
                 </button>
-                <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-left hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
-                  官方 DSE 公式表 <ExternalLink size={13} />
+                <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-left hover:opacity-70 transition-opacity" style={{ color: "#ff5757" }}>
+                  HKEAA DSE公式表 <ExternalLink size={13} />
                 </a>
               </div>
             </motion.div>
