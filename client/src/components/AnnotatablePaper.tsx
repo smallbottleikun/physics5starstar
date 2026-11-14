@@ -407,10 +407,11 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
     const stroke: InkStroke = { points: [point], color: kind === "highlighter" ? HIGHLIGHTER_COLOR : kind === "ruler" ? "#4b5563" : prefs.color, width: prefs.thickness / baseWidth, kind, opacity: kind === "highlighter" ? 0.3 : undefined };
     activeRef.current = { pointerId: native.pointerId, pointerType: native.pointerType, tool: prefs.tool, stroke, before: strokesRef.current, lastPoint: point, changed: false };
     paintedPointsRef.current = 0;
-    // Schedule the very first dot independently of pointer capture success.
+    // Capture before painting so a synchronous first-dot draw cannot race the
+    // browser's leave/capture events. The dot still paints even if capture fails.
+    capturePointer(canvas, native.pointerId);
     if (prefs.tool === "eraser") eraseBetween(point, point, rect);
     else { if (paintFirstPointNow(stroke)) paintedPointsRef.current = 1; schedulePaint(); }
-    capturePointer(canvas, native.pointerId);
   };
   const handlePointerMove = (native: PointerEvent) => {
     if (native.pointerType === "touch") {
@@ -424,7 +425,7 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
         const pinch = pinchRef.current; if (!pinch) return;
         const first = touchesRef.current.get(pinch.ids[0]); const second = touchesRef.current.get(pinch.ids[1]);
         if (!first || !second || first.blocked || second.blocked) { pinchRef.current = null; return; }
-        const geometry = pinchGeometry(first[1], second[1]); const nextZoom = clampPaperZoom(pinch.zoom * geometry.distance / pinch.distance);
+        const geometry = pinchGeometry(first, second); const nextZoom = clampPaperZoom(pinch.zoom * geometry.distance / pinch.distance);
         pendingAnchorRef.current = { zoom: nextZoom, midpoint: geometry.midpoint, paperPoint: pinch.paperPoint };
         if (zoomProp === undefined) setLocalZoom(nextZoom);
         onZoomChange?.(nextZoom);
@@ -483,9 +484,10 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       if (!hasCapture(canvas, event.pointerId)) nativeHandlersRef.current.end(event);
     };
     const leave = (event: PointerEvent) => {
-      // Without an active session there is nothing to finish; capture loss for
-      // an active pen is handled by lostpointercapture/window fallback instead.
-      if (activeRef.current?.pointerId === event.pointerId && hasCapture(canvas, event.pointerId)) nativeHandlersRef.current.end(event);
+      // A captured Pencil can leave the canvas while still drawing. If capture
+      // failed, finish only after the first point has reached the canvas; an
+      // immediate leave before the first frame must wait for a terminal event.
+      if (activeRef.current?.pointerId === event.pointerId && !hasCapture(canvas, event.pointerId) && paintedPointsRef.current > 0) nativeHandlersRef.current.end(event);
     };
     const fallbackMove = (event: PointerEvent) => {
       if (event.pointerType === "pen" && event.target !== canvas && activeRef.current?.pointerId === event.pointerId) move(event);
