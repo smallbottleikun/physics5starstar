@@ -21,7 +21,7 @@ const mcPages = (first: number, ranges: number[][]): SourcePage[] => ranges.map(
 const original = {
   mc2324: "/manus-storage/5x1_2324_A_MCQ_7e90b785.pdf",
   sq2324: "/manus-storage/5x1_2324_B_SQ_b6c8ec37.pdf",
-  combined2425: "/manus-storage/physics_2425_landscape_clean_5e41aca1.pdf",
+  combined2425: "/manus-storage/physics_2425_levelled_2a3985df.pdf",
   mc2526: "/manus-storage/5x1_2526_A_MCQ_ed55c2c6.pdf",
   sq2526: "/manus-storage/5x1_2526_B_SQ_ae475168.pdf",
 };
@@ -52,7 +52,7 @@ export const readerYears: ReaderYear[] = [
         { page: 4, questions: consecutive(21,27) },
       ],
       sq: [
-        { page: 5, questions: [1] }, { page: 6, questions: [2] }, { page: 7, questions: [3, 4] },
+        { page: 6, questions: [1, 2] }, { page: 7, questions: [3, 4] },
         { page: 8, questions: [5, 6] }, { page: 9, questions: [7, 8] },
         { page: 10, questions: [9] }, { page: 11, questions: [10] },
       ],

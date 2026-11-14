@@ -4,8 +4,12 @@ import { anchorScrollDelta, broadcastPaperPreferences, canvasBitmapSize, clampPa
 afterEach(() => vi.unstubAllGlobals());
 
 describe("paper zoom", () => {
-  it("clamps zoom to the supported 100–300% range, including invalid inputs", () => {
-    expect([0, 1, 1.5, 3, 8, NaN, Infinity].map(clampPaperZoom)).toEqual([1, 1, 1.5, 3, 3, 1, 1]);
+  it("clamps zoom to the supported 25–300% range, including invalid inputs", () => {
+    expect([0, .25, .5, 1, 1.5, 3, 8, NaN, Infinity].map(clampPaperZoom)).toEqual([.25, .25, .5, 1, 1.5, 3, 3, 1, 1]);
+  });
+
+  it("maps pen coordinates correctly when a 50% paper is centred", () => {
+    expect(paperCoordinateAt({x:450,y:250},{x:200,y:100},.5)).toEqual({x:500,y:300});
   });
 
   it("measures pinch distance and midpoint", () => {

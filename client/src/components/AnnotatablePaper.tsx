@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
-import type { CSSProperties, PointerEvent as ReactPointerEvent, ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { BookOpen, Ellipsis, Eraser, Highlighter, Pencil, Ruler, Trash2, Undo2 } from "lucide-react";
 import { anchorScrollDelta, broadcastPaperPreferences, canvasBitmapSize, clampPaperZoom, paperCoordinateAt, pinchGeometry, subscribePaperPreferences } from "./paper-zoom";
 import type { PaperPosition } from "./paper-zoom";
+import { createDeferredInkStorage, inkStartDecision, isInkMove, isPenContact, takeInkSession, touchMayNavigate } from "./ink-input";
 
 export interface AnnotatablePaperProps {
   children: ReactNode;
@@ -53,9 +54,6 @@ const controlStyle: CSSProperties = { width: 44, height: 44, minWidth: 44, minHe
 const hiddenStyle: CSSProperties = { position: "absolute", width: 1, height: 1, overflow: "hidden", clipPath: "inset(50%)" };
 
 function storageKey(pageLabel: string) { return `dse-physics-ink-v2:${pageLabel}`; }
-function cloneStrokes(strokes: InkStroke[]): InkStroke[] {
-  return strokes.map(stroke => ({ ...stroke, points: stroke.points.map(point => ({ ...point })) }));
-}
 function readStorage<T>(key: string): T | null {
   try { const value = window.localStorage.getItem(key); return value ? JSON.parse(value) as T : null; } catch { return null; }
 }
@@ -138,7 +136,8 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
   const lastPenRef = useRef<{ x: number; y: number; time: number } | null>(null);
   const metricsRef = useRef({ width: 0, height: 0 }); const frameRef = useRef<number | null>(null); const fullRedrawRef = useRef(true); const paintedPointsRef = useRef(0);
   const anchorFrameRef = useRef<number | null>(null); const pendingAnchorRef = useRef<ZoomAnchor | null>(null);
-  const statusTimerRef = useRef<number | null>(null);
+  const loadedPageRef = useRef(pageLabel);
+  const [storage] = useState(() => createDeferredInkStorage(writeStorage));
   const [preferences, setPreferences] = useState<Preferences>(initialPreferences);
   const preferencesRef = useRef(preferences); const writingRef = useRef(preferences.writing);
   const { thickness, color, tool, writing } = preferences;
@@ -147,11 +146,18 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
   const zoomRef = useRef(zoom);
   const [baseSize, setBaseSize] = useState({ width: 0, height: 0 });
   const [toolbarTarget, setToolbarTarget] = useState<HTMLElement | null>(null);
-  const [strokeCount, setStrokeCount] = useState(0); const [undoCount, setUndoCount] = useState(0); const [status, setStatus] = useState("");
+  const [strokeCount, setStrokeCount] = useState(0); const [undoCount, setUndoCount] = useState(0);
   const [inkWarning, setInkWarning] = useState(""); const [preferencesWarning, setPreferencesWarning] = useState("");
   const thicknessId = useId();
 
-  const saveStrokes = useCallback(() => setInkWarning(writeStorage(storageKey(pageLabel), strokesRef.current)), [pageLabel]);
+  const saveStrokes = useCallback(() => {
+    const page = loadedPageRef.current;
+    // Committed strokes and history snapshots are immutable; queue only the
+    // latest reference. JSON serialization and storage never run on pointerup.
+    storage.enqueue(storageKey(page), strokesRef.current, warning => {
+      if (loadedPageRef.current === page) setInkWarning(warning);
+    });
+  }, [storage]);
   const schedulePaint = useCallback((full = false) => {
     if (full) fullRedrawRef.current = true;
     if (frameRef.current !== null) return;
@@ -171,15 +177,15 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
     });
   }, []);
   const refreshCounts = useCallback(() => { setStrokeCount(strokesRef.current.length); setUndoCount(historyRef.current.length); }, []);
-  const finishGesture = useCallback(() => {
-    const gesture = activeRef.current; if (!gesture) return; activeRef.current = null;
+  const finishGesture = useCallback((pointerId?: number) => {
+    const gesture = takeInkSession(activeRef, pointerId); if (!gesture) return;
     if (gesture.tool !== "eraser" && gesture.stroke.points.length > (gesture.tool === "ruler" ? 1 : 0)) {
       historyRef.current.push(gesture.before); strokesRef.current = [...strokesRef.current, gesture.stroke]; saveStrokes();
     } else if (gesture.tool === "eraser" && gesture.changed) { historyRef.current.push(gesture.before); saveStrokes(); }
     releasePointer(canvasRef.current, gesture.pointerId); paintedPointsRef.current = 0; refreshCounts(); schedulePaint(true);
   }, [refreshCounts, saveStrokes, schedulePaint]);
   const cancelGesture = useCallback(() => {
-    const gesture = activeRef.current; if (!gesture) return; activeRef.current = null;
+    const gesture = takeInkSession(activeRef); if (!gesture) return;
     if (gesture.tool === "eraser") strokesRef.current = gesture.before;
     releasePointer(canvasRef.current, gesture.pointerId); paintedPointsRef.current = 0; refreshCounts(); schedulePaint(true);
   }, [refreshCounts, schedulePaint]);
@@ -199,23 +205,32 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
   }, []);
   useLayoutEffect(() => { zoomRef.current = zoom; scheduleAnchor(); }, [zoom, baseSize, scheduleAnchor]);
 
-  useEffect(() => {
-    cancelGesture();
+  useLayoutEffect(() => {
+    finishGesture(); storage.flush(); loadedPageRef.current = pageLabel;
     const loaded = readStorage<InkStroke[]>(storageKey(pageLabel));
     strokesRef.current = Array.isArray(loaded) ? loaded.filter(stroke => stroke && Array.isArray(stroke.points) && Number.isFinite(stroke.width) && stroke.width > 0 && ["pen", "highlighter", "ruler"].includes(stroke.kind) && stroke.points.every(point => point && Number.isFinite(point.x) && Number.isFinite(point.y) && Number.isFinite(point.pressure))) : [];
     historyRef.current = []; setInkWarning(""); refreshCounts(); schedulePaint(true);
-  }, [pageLabel, cancelGesture, refreshCounts, schedulePaint]);
+  }, [pageLabel, finishGesture, refreshCounts, schedulePaint, storage]);
   useEffect(() => subscribePaperPreferences<Preferences>(update => {
-    finishGesture(); preferencesRef.current = update.preferences; writingRef.current = update.preferences.writing;
-    setPreferences(update.preferences); setPreferencesWarning(update.warning);
-  }), [finishGesture]);
+    // A deferred persistence result is only a warning update, not a new tool
+    // selection, and must not interrupt the next in-progress Pencil stroke.
+    if (preferencesRef.current !== update.preferences) {
+      storage.cancel(PREFERENCES_KEY);
+      finishGesture(); preferencesRef.current = update.preferences; writingRef.current = update.preferences.writing;
+      setPreferences(update.preferences);
+    }
+    setPreferencesWarning(update.warning);
+  }), [finishGesture, storage]);
   // No mount-time preference writes: inactive pages must never overwrite the global settings.
   const changePreferences = (patch: Partial<Preferences>) => {
     finishGesture();
     const next = { ...preferencesRef.current, ...patch };
     preferencesRef.current = next; writingRef.current = next.writing; setPreferences(next);
-    const warning = writeStorage(PREFERENCES_KEY, next); setPreferencesWarning(warning);
-    broadcastPaperPreferences({ preferences: next, warning });
+    broadcastPaperPreferences({ preferences: next, warning: preferencesWarning });
+    storage.enqueue(PREFERENCES_KEY, next, warning => {
+      if (preferencesRef.current !== next) return;
+      setPreferencesWarning(warning); broadcastPaperPreferences({ preferences: next, warning });
+    });
   };
   useLayoutEffect(() => {
     if (!toolbarTargetId || !active) { setToolbarTarget(null); return; }
@@ -235,28 +250,34 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       const viewportWidth = viewport.clientWidth; const width = host.clientWidth; const height = host.offsetHeight;
       if (viewportWidth <= 0 || width <= 0 || height <= 0) return;
       setBaseSize(previous => previous.width === viewportWidth && previous.height === height ? previous : { width: viewportWidth, height });
+      // Keep normalized ink and paper layout, but release large offscreen bitmaps.
+      // A first Pencil contact also restores its bitmap synchronously in down().
+      const bounds = host.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement?.clientHeight || 1000;
+      if (!activeRef.current && (bounds.bottom < -385 || bounds.top > viewportHeight + 385)) {
+        metricsRef.current = { width, height };
+        if (canvas.width !== 1 || canvas.height !== 1) { canvas.width = 1; canvas.height = 1; }
+        fullRedrawRef.current = true;
+        return;
+      }
       const bitmap = canvasBitmapSize(width, height, window.devicePixelRatio);
       if (metricsRef.current.width === width && metricsRef.current.height === height && canvas.width === bitmap.width && canvas.height === bitmap.height) return;
       metricsRef.current = { width, height }; canvas.width = bitmap.width; canvas.height = bitmap.height; schedulePaint(true);
     };
     measure(); const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
     observer?.observe(viewport); observer?.observe(host);
+    const visibilityObserver = typeof IntersectionObserver !== "undefined" ? new IntersectionObserver(() => measure(), { rootMargin: "384px 0px" }) : null;
+    visibilityObserver?.observe(host);
     window.addEventListener("resize", measure); window.addEventListener("orientationchange", measure);
     return () => {
-      observer?.disconnect(); window.removeEventListener("resize", measure); window.removeEventListener("orientationchange", measure);
+      observer?.disconnect(); visibilityObserver?.disconnect(); window.removeEventListener("resize", measure); window.removeEventListener("orientationchange", measure);
       if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current); frameRef.current = null;
       if (anchorFrameRef.current !== null) window.cancelAnimationFrame(anchorFrameRef.current); anchorFrameRef.current = null; pendingAnchorRef.current = null;
-      if (statusTimerRef.current !== null) window.clearTimeout(statusTimerRef.current);
-      const gesture = activeRef.current; activeRef.current = null; if (gesture) releasePointer(canvas, gesture.pointerId);
       const touchIds = Array.from(touchesRef.current.keys()); touchesRef.current.clear(); pinchRef.current = null;
       touchIds.forEach(id => releasePointer(canvas, id));
     };
   }, [schedulePaint]);
 
-  const announce = (message: string) => {
-    setStatus(message); if (statusTimerRef.current !== null) window.clearTimeout(statusTimerRef.current);
-    statusTimerRef.current = window.setTimeout(() => setStatus(""), 1600);
-  };
   const pointFromEvent = (event: PointerEvent, rect: DOMRect): InkPoint | null => !rect.width || !rect.height || !Number.isFinite(event.clientX) || !Number.isFinite(event.clientY) ? null : {
     x: Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)),
     y: Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height)), pressure: pressureFor(event),
@@ -287,6 +308,9 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
     const rect = canvas.getBoundingClientRect(); let samples: PointerEvent[] = [];
     try { if (typeof event.getCoalescedEvents === "function") samples = event.getCoalescedEvents(); } catch { /* Unsupported coalesced events. */ }
     for (const sample of [...samples, event]) {
+      // An active ID can continue reporting hover after a missing pointerup.
+      // Only actual contact samples extend its ink; completion preserves it.
+      if (gesture.pointerType === "pen" && !(sample.pressure > 0 || (sample.buttons & 33) !== 0)) continue;
       const point = pointFromEvent(sample, rect); if (!point) continue;
       if (gesture.tool === "eraser") eraseBetween(gesture.lastPoint, point, rect);
       else if (gesture.tool === "ruler") {
@@ -299,7 +323,7 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
   };
   const beginPinch = () => {
     const fingers = Array.from(touchesRef.current.entries()).filter(([, touch]) => !touch.blocked);
-    if (fingers.length < 2 || !hostRef.current) { pinchRef.current = null; return; }
+    if (!touchMayNavigate(activeRef.current) || fingers.length < 2 || !hostRef.current) { pinchRef.current = null; return; }
     // Touch navigation cannot turn a preview into a saved stroke.
     cancelGesture();
     const [first, second] = fingers; const geometry = pinchGeometry(first[1], second[1]); const rect = hostRef.current.getBoundingClientRect();
@@ -308,48 +332,50 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       paperPoint: paperCoordinateAt(geometry.midpoint, { x: rect.left, y: rect.top }, zoomRef.current),
     };
   };
-  const handlePointerDown = (event: ReactPointerEvent<HTMLCanvasElement>) => {
-    const native = event.nativeEvent;
+  const handlePointerDown = (native: PointerEvent, recovering = false) => {
+    const canvas = canvasRef.current; if (!canvas) return;
     if (native.pointerType === "touch") {
-      event.preventDefault();
+      native.preventDefault();
       touchesRef.current.set(native.pointerId, { x: native.clientX, y: native.clientY, blocked: isPalm(native) });
-      capturePointer(event.currentTarget, native.pointerId);
+      capturePointer(canvas, native.pointerId);
       if (!pinchRef.current) beginPinch();
       return;
     }
-    // Safari/iPadOS may report a Pencil pointerdown with button=-1 or buttons=0.
-    // Only reject non-primary mouse buttons; Pencil input should always be accepted.
-    if (!writingRef.current || (native.pointerType !== "pen" && native.pointerType !== "mouse") || (native.pointerType === "mouse" && native.button !== 0) || activeRef.current) return;
+    if (!writingRef.current) return;
+    const decision = inkStartDecision(native, activeRef.current, recovering);
+    if (decision === "ignore") return;
     if (native.pointerType === "mouse" && touchesRef.current.size) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    const baseWidth = metricsRef.current.width || rect.width;
-    const baseHeight = metricsRef.current.height || rect.height;
-    // A Pencil can arrive in the same frame as the PDF canvas first becomes visible.
-    // Seed the unscaled metrics synchronously instead of dropping that first stroke.
-    if (baseWidth > 0 && baseHeight > 0 && (metricsRef.current.width === 0 || metricsRef.current.height === 0)) {
+    // A missing terminal event must not block the next Pencil contact, including
+    // platforms that reuse a pen pointer ID across contacts.
+    if (decision === "replace") finishGesture();
+    const host = hostRef.current;
+    const baseWidth = host?.clientWidth ?? 0; const baseHeight = host?.offsetHeight ?? 0;
+    if (baseWidth <= 0 || baseHeight <= 0) return;
+    // Seed first-frame metrics from untransformed layout, NEVER rect.width at
+    // zoom. Re-measure here even before ResizeObserver has delivered its event.
+    const bitmap = canvasBitmapSize(baseWidth, baseHeight, window.devicePixelRatio);
+    if (metricsRef.current.width !== baseWidth || metricsRef.current.height !== baseHeight || canvas.width !== bitmap.width || canvas.height !== bitmap.height) {
       metricsRef.current = { width: baseWidth, height: baseHeight };
-      const bitmap = canvasBitmapSize(baseWidth, baseHeight, window.devicePixelRatio);
-      if (event.currentTarget.width !== bitmap.width || event.currentTarget.height !== bitmap.height) {
-        event.currentTarget.width = bitmap.width;
-        event.currentTarget.height = bitmap.height;
-      }
+      canvas.width = bitmap.width; canvas.height = bitmap.height; fullRedrawRef.current = true;
     }
+    const rect = canvas.getBoundingClientRect();
     const point = pointFromEvent(native, rect);
-    if (!point || baseWidth <= 0) return;
-    event.preventDefault(); touchesRef.current.forEach(touch => { touch.blocked = true; }); pinchRef.current = null;
+    if (!point) return;
+    native.preventDefault(); touchesRef.current.forEach(touch => { touch.blocked = true; }); pinchRef.current = null;
     if (native.pointerType === "pen") rememberPen(native);
     const prefs = preferencesRef.current;
     const kind = prefs.tool === "highlighter" ? "highlighter" : prefs.tool === "ruler" ? "ruler" : "pen";
     const stroke: InkStroke = { points: [point], color: kind === "highlighter" ? HIGHLIGHTER_COLOR : kind === "ruler" ? "#4b5563" : prefs.color, width: prefs.thickness / baseWidth, kind, opacity: kind === "highlighter" ? 0.3 : undefined };
-    activeRef.current = { pointerId: native.pointerId, pointerType: native.pointerType, tool: prefs.tool, stroke, before: cloneStrokes(strokesRef.current), lastPoint: point, changed: false };
-    paintedPointsRef.current = 0; capturePointer(event.currentTarget, native.pointerId);
+    activeRef.current = { pointerId: native.pointerId, pointerType: native.pointerType, tool: prefs.tool, stroke, before: strokesRef.current, lastPoint: point, changed: false };
+    paintedPointsRef.current = 0;
+    // Schedule the very first dot independently of pointer capture success.
     if (prefs.tool === "eraser") eraseBetween(point, point, rect); else schedulePaint();
+    capturePointer(canvas, native.pointerId);
   };
-  const handlePointerMove = (event: ReactPointerEvent<HTMLCanvasElement>) => {
-    const native = event.nativeEvent;
+  const handlePointerMove = (native: PointerEvent) => {
     if (native.pointerType === "touch") {
       const touch = touchesRef.current.get(native.pointerId); if (!touch) return;
-      event.preventDefault(); const previous = { x: touch.x, y: touch.y }; touch.x = native.clientX; touch.y = native.clientY;
+      native.preventDefault(); const previous = { x: touch.x, y: touch.y }; touch.x = native.clientX; touch.y = native.clientY;
       if (isPalm(native)) { touch.blocked = true; pinchRef.current = null; }
       if (touch.blocked) return;
       const fingers = Array.from(touchesRef.current.values()).filter(finger => !finger.blocked);
@@ -371,43 +397,103 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       }
       return;
     }
-    if (!writingRef.current || activeRef.current?.pointerId !== native.pointerId) return;
-    event.preventDefault(); appendSamples(native);
+    if (!writingRef.current) return;
+    if (activeRef.current?.pointerId !== native.pointerId) {
+      // Recover a dropped down only on pressure-bearing pen contact, never
+      // hover, mouse motion or touch. Normal down accepts Safari's flags.
+      if (isPenContact(native)) handlePointerDown(native, true);
+      else return;
+    }
+    if (activeRef.current?.pointerId !== native.pointerId) return;
+    if (!isInkMove(native)) {
+      if (native.pointerType === "pen") appendSamples(native);
+      finishGesture(native.pointerId); return;
+    }
+    native.preventDefault(); appendSamples(native);
   };
-  const endPointer = (event: ReactPointerEvent<HTMLCanvasElement>, includeTip: boolean) => {
-    const native = event.nativeEvent;
+  const endPointer = (native: PointerEvent, includeTip = false) => {
     if (native.pointerType === "touch") {
       touchesRef.current.delete(native.pointerId);
       if (pinchRef.current?.ids.includes(native.pointerId)) pinchRef.current = null;
-      releasePointer(event.currentTarget, native.pointerId); return;
+      releasePointer(canvasRef.current, native.pointerId); return;
     }
     if (activeRef.current?.pointerId !== native.pointerId) return;
     if (includeTip) appendSamples(native);
     if (native.pointerType === "pen" && lastPenRef.current) lastPenRef.current.time = performance.now();
-    if (includeTip) finishGesture(); else cancelGesture();
+    // Cancellation/capture loss/uncaptured leave preserve received contact.
+    // Only intentional navigation calls cancelGesture to discard a preview.
+    finishGesture(native.pointerId);
   };
+  const nativeHandlersRef = useRef({ down: handlePointerDown, move: handlePointerMove, end: endPointer });
+  useLayoutEffect(() => {
+    nativeHandlersRef.current = { down: handlePointerDown, move: handlePointerMove, end: endPointer };
+  });
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current; if (!canvas) return;
+    const down = (event: PointerEvent) => nativeHandlersRef.current.down(event);
+    const move = (event: PointerEvent) => nativeHandlersRef.current.move(event);
+    const up = (event: PointerEvent) => nativeHandlersRef.current.end(event, true);
+    const cancel = (event: PointerEvent) => nativeHandlersRef.current.end(event);
+    const lost = (event: PointerEvent) => {
+      // A late lostcapture notification for a replaced contact may arrive
+      // after capture has already been reacquired for the new one.
+      if (!hasCapture(canvas, event.pointerId)) nativeHandlersRef.current.end(event);
+    };
+    const leave = (event: PointerEvent) => {
+      if (!hasCapture(canvas, event.pointerId)) nativeHandlersRef.current.end(event);
+    };
+    const fallbackMove = (event: PointerEvent) => {
+      if (event.target !== canvas && activeRef.current?.pointerId === event.pointerId) move(event);
+    };
+    const flush = () => { finishGesture(); storage.flush(); };
+    const visibility = () => { if (document.visibilityState === "hidden") flush(); };
+    const options = { capture: true, passive: false };
+    canvas.addEventListener("pointerdown", down, options);
+    canvas.addEventListener("pointermove", move, options);
+    canvas.addEventListener("pointerup", up, options);
+    canvas.addEventListener("pointercancel", cancel, options);
+    canvas.addEventListener("lostpointercapture", lost, options);
+    canvas.addEventListener("pointerleave", leave, options);
+    // Native window capture sees terminal events even if React/the canvas
+    // loses them. takeInkSession makes fallback and canvas completion once-only.
+    window.addEventListener("pointerup", up, options);
+    window.addEventListener("pointercancel", cancel, options);
+    window.addEventListener("pointermove", fallbackMove, options);
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", visibility);
+    return () => {
+      canvas.removeEventListener("pointerdown", down, true);
+      canvas.removeEventListener("pointermove", move, true);
+      canvas.removeEventListener("pointerup", up, true);
+      canvas.removeEventListener("pointercancel", cancel, true);
+      canvas.removeEventListener("lostpointercapture", lost, true);
+      canvas.removeEventListener("pointerleave", leave, true);
+      window.removeEventListener("pointerup", up, true);
+      window.removeEventListener("pointercancel", cancel, true);
+      window.removeEventListener("pointermove", fallbackMove, true);
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", visibility);
+      flush();
+      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current); frameRef.current = null;
+    };
+  }, [finishGesture, storage]);
+  useEffect(() => { if (!active) finishGesture(); }, [active, finishGesture]);
   const chooseTool = (next: InkTool) => changePreferences({ tool: next });
-  const cycleTool = () => {
-    const tools: InkTool[] = ["pen", "highlighter", "eraser", "ruler"]; const current = preferencesRef.current.tool;
-    const next = tools[(tools.indexOf(current) + 1) % tools.length]; chooseTool(next);
-    announce(`工具：${next === "pen" ? "畫筆" : next === "highlighter" ? "螢光筆" : next === "eraser" ? "擦膠" : "尺規"}`);
-  };
   const undo = () => {
     finishGesture(); const previous = historyRef.current.pop(); if (!previous) return;
-    strokesRef.current = cloneStrokes(previous); saveStrokes(); refreshCounts(); schedulePaint(true);
+    strokesRef.current = previous; saveStrokes(); refreshCounts(); schedulePaint(true);
   };
   const clear = () => {
     finishGesture(); if (!strokesRef.current.length) return;
-    historyRef.current.push(cloneStrokes(strokesRef.current)); strokesRef.current = [];
-    try { window.localStorage.removeItem(storageKey(pageLabel)); setInkWarning(""); } catch { setInkWarning(STORAGE_WARNING); }
+    historyRef.current.push(strokesRef.current); strokesRef.current = []; saveStrokes();
     refreshCounts(); schedulePaint(true);
   };
   const buttonClass = (selected: boolean) => `ink-button${selected ? " is-active" : ""}`;
   const toolbar = <div className="ink-toolbar" role="toolbar" aria-label={`${pageLabel}：批註工具列`} style={{ display: "flex", flexWrap: "nowrap", alignItems: "center", gap: 4, padding: 4, marginBottom: toolbarTarget ? 0 : 4, overflowX: "auto", maxWidth: "100%", minWidth: 0 }}>
     <button type="button" className={buttonClass(writing)} style={controlStyle} title={writing ? "切換至閱讀模式" : "切換至書寫模式"} aria-label={writing ? "切換至閱讀模式" : "切換至書寫模式"} aria-pressed={writing} onClick={() => changePreferences({ writing: !writingRef.current })}>{writing ? <span style={{ fontSize: 14 }}>寫</span> : <BookOpen size={18} />}</button>
     <button type="button" className={buttonClass(tool === "pen")} style={controlStyle} title="畫筆" aria-label="畫筆" aria-pressed={tool === "pen"} disabled={!writing} onClick={() => chooseTool("pen")}><Pencil size={18} /></button>
-    <button type="button" className={buttonClass(tool === "highlighter")} style={controlStyle} title="螢光筆" aria-label="螢光筆" aria-pressed={tool === "highlighter"} disabled={!writing} onClick={() => chooseTool("highlighter")}><Highlighter size={18} /></button>
     <button type="button" className={buttonClass(tool === "eraser")} style={controlStyle} title="擦膠：擦除整條筆跡" aria-label="擦膠：擦除整條筆跡" aria-pressed={tool === "eraser"} disabled={!writing} onClick={() => chooseTool("eraser")}><Eraser size={18} /></button>
+    <button type="button" className={buttonClass(tool === "highlighter")} style={controlStyle} title="螢光筆" aria-label="螢光筆" aria-pressed={tool === "highlighter"} disabled={!writing} onClick={() => chooseTool("highlighter")}><Highlighter size={18} /></button>
     <button type="button" className={buttonClass(tool === "ruler")} style={controlStyle} title="尺規：畫直線" aria-label="尺規：畫直線" aria-pressed={tool === "ruler"} disabled={!writing} onClick={() => chooseTool("ruler")}><Ruler size={18} /></button>
     <div role="group" aria-label="筆跡顏色" style={{ display: "flex", flexWrap: "nowrap", gap: 2, flexShrink: 0 }}>{COLORS.map(option => <button key={option.value} type="button" className={`${buttonClass(color === option.value)} ${option.className}`} style={controlStyle} title={`${option.name}筆跡`} aria-label={`${option.name}筆跡`} aria-pressed={color === option.value} disabled={!writing} onClick={() => changePreferences({ color: option.value })}><span aria-hidden="true" style={{ width: 18, height: 18, borderRadius: "50%", backgroundColor: option.value }} /></button>)}</div>
     <label htmlFor={thicknessId} style={hiddenStyle}>粗幼</label><select id={thicknessId} className="ink-thickness" style={{ ...controlStyle, width: 68, padding: "0 4px" }} title="畫筆粗幼" aria-label="畫筆粗幼" disabled={!writing} value={thickness} onChange={event => changePreferences({ thickness: Number(event.target.value) })}><option value={1.5}>幼</option><option value={2.5}>中</option><option value={4}>粗</option><option value={6}>特粗</option></select>
@@ -419,17 +505,16 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
         <button type="button" className="ink-button" style={{ ...controlStyle, width: "auto", padding: "0 12px", whiteSpace: "nowrap" }} title="清除此頁筆跡" aria-label={`清除此頁筆跡：${pageLabel}`} disabled={strokeCount === 0} onClick={clear}><Trash2 size={16} />清除此頁</button>
       </div>
     </details>
-    <span aria-live="polite" aria-atomic="true" style={hiddenStyle}>{status}</span>
   </div>;
 
   return <div className="annotatable-paper" data-writing={writing ? "true" : "false"} style={{ width: "100%", minWidth: 0 }}>
     {(!toolbarTargetId || active) && (toolbarTarget ? createPortal(toolbar, toolbarTarget) : toolbar)}
     {(inkWarning || (preferencesWarning && (!toolbarTargetId || active))) && <p className="ink-storage-warning" role="alert" style={{ margin: "4px 0", fontSize: 12, color: "#b45309" }}>{inkWarning || preferencesWarning}</p>}
     <div ref={viewportRef} className="paper-zoom-viewport" style={{ position: "relative", width: "100%", maxWidth: "100%", minWidth: 0, overflowX: "auto", overflowY: "hidden", overscrollBehaviorX: "contain", touchAction: "none" }}>
-      <div className="paper-zoom-spacer" style={{ position: "relative", width: baseSize.width ? baseSize.width * zoom : "100%", height: baseSize.height * zoom }}>
-        <div ref={hostRef} className="annotatable-paper-page paper-zoom-content" style={{ position: "absolute", top: 0, left: 0, width: baseSize.width || "100%", transform: `scale(${zoom})`, transformOrigin: "top left" }}>
+      <div className="paper-zoom-spacer" style={{ position: "relative", width: baseSize.width ? Math.max(baseSize.width, baseSize.width * zoom) : "100%", height: baseSize.height * zoom }}>
+        <div ref={hostRef} className="annotatable-paper-page paper-zoom-content" style={{ position: "absolute", top: 0, left: baseSize.width && zoom < 1 ? baseSize.width * (1 - zoom) / 2 : 0, width: baseSize.width || "100%", transform: `scale(${zoom})`, transformOrigin: "top left" }}>
           {children}
-          <canvas ref={canvasRef} className="paper-ink-canvas" data-strokes={strokeCount} role="img" aria-label={`${pageLabel}：${writing ? "書寫" : "閱讀"}模式的批註畫布`} title={writing ? "在畫布雙擊切換工具；手指拖動及雙指縮放" : "手指拖動及雙指縮放"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", background: "transparent", zIndex: 2, pointerEvents: "auto", touchAction: "none", cursor: writing ? (tool === "eraser" ? "cell" : "crosshair") : "grab", userSelect: "none" }} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={event => endPointer(event, true)} onPointerCancel={event => endPointer(event, false)} onLostPointerCapture={event => endPointer(event, false)} onDoubleClick={event => { if (writingRef.current && !touchesRef.current.size && !pinchRef.current) { event.preventDefault(); cycleTool(); } }} onPointerLeave={event => { if (!hasCapture(event.currentTarget, event.pointerId)) endPointer(event, false); }} />
+          <canvas ref={canvasRef} className="paper-ink-canvas" data-strokes={strokeCount} role="img" aria-label={`${pageLabel}：${writing ? "書寫" : "閱讀"}模式的批註畫布`} title="手指拖動及雙指縮放" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", background: "transparent", zIndex: 2, pointerEvents: "auto", touchAction: "none", cursor: writing ? (tool === "eraser" ? "cell" : "crosshair") : "grab", userSelect: "none" }} />
         </div>
       </div>
     </div>

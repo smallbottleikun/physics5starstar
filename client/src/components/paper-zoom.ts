@@ -1,4 +1,4 @@
-export const MIN_PAPER_ZOOM = 1;
+export const MIN_PAPER_ZOOM = .25;
 export const MAX_PAPER_ZOOM = 3;
 export const MAX_CANVAS_PIXELS = 5_000_000;
 
@@ -6,7 +6,7 @@ export type PaperPosition = { x: number; y: number };
 export type PinchGeometry = { distance: number; midpoint: PaperPosition };
 
 export function clampPaperZoom(zoom: number): number {
-  return Number.isFinite(zoom) ? Math.min(MAX_PAPER_ZOOM, Math.max(MIN_PAPER_ZOOM, zoom)) : MIN_PAPER_ZOOM;
+  return Number.isFinite(zoom) ? Math.min(MAX_PAPER_ZOOM, Math.max(MIN_PAPER_ZOOM, zoom)) : 1;
 }
 
 /** Bitmap dimensions must come from untransformed layout sizes, never a DOMRect. */

@@ -23,7 +23,10 @@ describe("original PDF reader", () => {
   });
   it("the 2024–25 horizontal PDF maps each original page and question correctly", () => {
     const y=readerYears.find(y=>y.id==="2425")!;
-    expect(y.source.mc).toContain("physics_2425_landscape_clean");
+    expect(y.source.mc).toContain("physics_2425_levelled");
+    expect(y.pages.sq[0]).toEqual({page:6,questions:[1,2]});
+    expect(questionPage(y,"sq",1)).toBe(6);
+    expect(questionPage(y,"sq",2)).toBe(6);
     expect(y.pages.mc.find(p=>p.page===2)?.questions).toEqual([1,2,3,4,5,6,7,8,9,10,11,12]);
     expect(y.pages.mc.find(p=>p.page===4)?.questions).toEqual([21,22,23,24,25,26,27]);
     expect(y.pages.sq.find(p=>p.page===9)?.questions).toEqual([7,8]);

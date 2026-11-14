@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link, useRoute } from "wouter";
-import { ArrowLeft, ExternalLink, Eye, EyeOff, Loader2, ChevronDown, FileText, Minus, Plus, Maximize, MoreHorizontal, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowLeft, ExternalLink, Eye, EyeOff, Loader2, ChevronDown, FileText, Minus, Plus, Maximize, Minimize, MoreHorizontal, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { getDocument, GlobalWorkerOptions, type PDFDocumentProxy } from "pdfjs-dist";
 import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 import AppearanceControls from "../components/AppearanceControls";
 import OriginalPdfPage from "../components/OriginalPdfPage";
 import AnnotatablePaper from "../components/AnnotatablePaper";
+import { clampPaperZoom, MIN_PAPER_ZOOM, MAX_PAPER_ZOOM } from "../components/paper-zoom";
+import { usePaperFullscreen } from "../components/usePaperFullscreen";
 import { readerYears, getReaderSolution, questionPage, type PaperSection, type ReaderSolution } from "../exam-reader-data";
 
 GlobalWorkerOptions.workerSrc = workerUrl;
@@ -111,6 +113,7 @@ export default function ExamReader() {
   const [moreOpen, setMoreOpen] = useState(false);
   const [dockHeight, setDockHeight] = useState(102);
   const dockRef = useRef<HTMLDivElement>(null);
+  const fullscreen = usePaperFullscreen();
 
   useEffect(() => {
     if (!sourceUrl) return;
@@ -175,8 +178,9 @@ export default function ExamReader() {
   const currentPage = activePage ?? year.pages[section][0]?.page;
   const currentEntry = year.pages[section].find(page => page.page === currentPage);
   const pageName = currentEntry?.questions.length ? `${section.toUpperCase()} ${currentEntry.questions.map(q => `Q${q}`).join("、")}` : "續題";
-  const changeZoom = (value: number) => setZoom(Math.max(1, Math.min(3, value)));
-  return <div className="app-shell exam-reader reader-workspace" style={{ "--reader-dock-height": `${dockHeight}px` } as CSSProperties}>
+  const changeZoom = (value: number) => setZoom(clampPaperZoom(value));
+  const toggleFullscreen = () => { setMoreOpen(false); void fullscreen.toggle(); };
+  return <div className={`app-shell exam-reader reader-workspace ${fullscreen.active ? "is-paper-fullscreen" : ""}`} style={{ "--reader-dock-height": `${dockHeight}px` } as CSSProperties}>
     <div className="reader-dock" ref={dockRef}>
       <nav className="reader-compact-nav" aria-label="試卷閱讀菜單">
         <Link href="/papers" className="reader-dock-button" aria-label="返回校內試卷" title="返回校內試卷"><ArrowLeft size={18} /></Link>
@@ -187,19 +191,28 @@ export default function ExamReader() {
           <button className="reader-dock-button reader-question-step" aria-label="下一題" title="下一題" disabled={selectedQuestion >= questionCount || !pdf} onClick={() => jumpTo(selectedQuestion + 1)}><ChevronRight size={17} /></button>
         </div>
         <div className="reader-zoom-controls" role="group" aria-label="試卷縮放">
-          <button className="reader-dock-button" aria-label="縮小試卷" title="縮小試卷" disabled={zoom <= 1} onClick={() => changeZoom(zoom - .25)}><Minus size={17} /></button>
+          <button className="reader-dock-button" aria-label="縮小試卷" title="縮小試卷（最小 25%）" disabled={zoom <= MIN_PAPER_ZOOM} onClick={() => changeZoom(zoom - .25)}><Minus size={17} /></button>
           <button className="reader-zoom-value" aria-label="回復全寬" title="回復全寬（100%）" onClick={() => changeZoom(1)}>{Math.round(zoom * 100)}%</button>
-          <button className="reader-dock-button" aria-label="放大試卷" title="放大試卷" disabled={zoom >= 3} onClick={() => changeZoom(zoom + .25)}><Plus size={17} /></button>
+          <button className="reader-dock-button" aria-label="放大試卷" title="放大試卷" disabled={zoom >= MAX_PAPER_ZOOM} onClick={() => changeZoom(zoom + .25)}><Plus size={17} /></button>
           <button className="reader-dock-button reader-fit-button" aria-label="適合畫面寬度" title="適合畫面寬度" onClick={() => changeZoom(1)}><Maximize size={16} /></button>
         </div>
         <span className="reader-active-page">第 {currentPage} 頁 · {pageName}</span>
-        <button className="reader-dock-button" aria-label={showAnswers ? "收起答案" : "顯示答案"} title={showAnswers ? "收起答案" : "顯示答案"} aria-pressed={showAnswers} onClick={() => setShowAnswers(v => !v)}>{showAnswers ? <EyeOff size={17} /> : <Eye size={17} />}</button>
+        <button className="reader-dock-button reader-fullscreen-button" aria-label="進入全屏" title="進入全屏／專注書寫" onClick={toggleFullscreen}><Maximize size={19} /><span>全屏</span></button>
+        <button className="reader-dock-button reader-answers-toggle" aria-label={showAnswers ? "收起答案" : "顯示答案"} title={showAnswers ? "收起答案" : "顯示答案"} aria-pressed={showAnswers} onClick={() => setShowAnswers(v => !v)}>{showAnswers ? <EyeOff size={17} /> : <Eye size={17} />}</button>
         <button className="reader-dock-button" aria-label="更多選單與說明" title="更多選單與說明" aria-expanded={moreOpen} aria-controls="reader-more-menu" onClick={() => setMoreOpen(v => !v)}><MoreHorizontal size={19} /></button>
       </nav>
       <div id="exam-ink-tools" className="reader-ink-dock" aria-label="目前試卷頁的標註工具">{!pdf && <span className="reader-tool-loading">正在載入標註工具…</span>}</div>
+      {fullscreen.active && <div className="reader-fullscreen-controls" aria-label="全屏縮放與退出">
+        <button className="reader-dock-button" aria-label="縮小試卷" title="縮小試卷" disabled={zoom <= MIN_PAPER_ZOOM} onClick={() => changeZoom(zoom-.25)}><Minus size={17}/></button>
+        <button className="reader-zoom-value" aria-label="回復全寬" title="回復全寬" onClick={() => changeZoom(1)}>{Math.round(zoom*100)}%</button>
+        <button className="reader-dock-button" aria-label="放大試卷" title="放大試卷" disabled={zoom >= MAX_PAPER_ZOOM} onClick={() => changeZoom(zoom+.25)}><Plus size={17}/></button>
+        <button className="reader-dock-button reader-fullscreen-exit" aria-label="退出全屏" title="退出全屏" onClick={toggleFullscreen}><Minimize size={19}/><span>退出</span></button>
+      </div>}
+      {fullscreen.active && fullscreen.notice && <span className="reader-fullscreen-notice" role="status">{fullscreen.notice}</span>}
       {moreOpen && <section id="reader-more-menu" className="reader-more-menu" aria-label="試卷設定與操作說明">
         <div className="reader-more-title"><h2>{year.year} · {section === "mc" ? "MC 選擇題" : "SQ 長答題"}</h2><button className="reader-dock-button" onClick={() => setMoreOpen(false)} aria-label="關閉更多選單"><X size={17} /></button></div>
-        <p>雙指張合縮放；一指拖動移動試卷；Apple Pencil 書寫。點縮放百分比可回復全寬。</p>
+        <p>雙指張合或使用 +／− 縮放（25%–300%）；一指拖動試卷；Apple Pencil 書寫。點百分比回復全寬，點「全屏」進入精簡書寫畫面。</p>
+        <button className="reader-menu-answer-toggle" onClick={() => setShowAnswers(v => !v)}>{showAnswers ? "收起答案" : "顯示答案"}</button>
         <p>筆跡只儲存在目前瀏覽器。切換頁面、縮放及重新載入不會重置粗細設定。</p>
         <p className="reader-help-note">筆身雙擊／擠壓手勢須由 iPadOS 與瀏覽器提供事件；網頁不保證收到這些硬件手勢。請使用頂部工具按鈕切換。</p>
         <div className="reader-section-tabs"><Link href={`/papers/${year.id}/mc`}>MC 選擇題</Link><Link href={`/papers/${year.id}/sq`}>SQ 長答題</Link><a href={sourceUrl} target="_blank" rel="noopener noreferrer">開啟原 PDF <ExternalLink size={13} /></a>{year.markingScheme && <a href={year.markingScheme} target="_blank" rel="noopener noreferrer">學校答案 <ExternalLink size={13} /></a>}<a href="/formula-library" target="_blank" rel="noopener noreferrer">公式庫 <ExternalLink size={13} /></a></div>
