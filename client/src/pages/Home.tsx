@@ -62,10 +62,10 @@ export default function Home() {
           </button>
 
           <div className="hidden md:flex items-center gap-5 text-xs" style={{ color: "var(--text-muted)" }}>
-            <button onClick={() => jumpTo("topic-grid")} className="hover:opacity-70 transition-opacity">主題 Topics</button>
+            <button onClick={() => jumpTo("topic-grid")} className="hover:opacity-70 transition-opacity" style={{color: '#1eff00'}}>主題 Topics</button>
             <button onClick={() => jumpTo("formula-sheet")} className="hover:opacity-70 transition-opacity">公式表 Formula sheet</button>
-            <a href="/papers" className="hover:opacity-70 transition-opacity">歷屆試卷 Past papers</a>
-            <a href="/formula-library" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:opacity-70 transition-opacity">完整公式庫 <ExternalLink size={12} /></a>
+            <a href="/papers" className="hover:opacity-70 transition-opacity" style={{color: '#bb00ff'}}>校内歷屆考試卷</a>
+            <a href="/formula-library" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:opacity-70 transition-opacity" style={{color: '#003efa'}}>完整公式庫 <ExternalLink size={12} style={{color: '#003efa'}} /></a>
             <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:opacity-70 transition-opacity" style={{ color: "var(--color-cyan)" }}>
               官方公式表 <ExternalLink size={12} />
             </a>
