@@ -21,11 +21,15 @@ describe("original PDF reader", () => {
       expect(s?.formulas.length).toBeGreaterThan(0);
     }
   });
-  it("the 2024–25 two-page source spread maps to the correct question pair", () => {
+  it("the 2024–25 split PDF maps each printed page and continuation correctly", () => {
     const y=readerYears.find(y=>y.id==="2425")!;
-    expect(y.pages.sq.find(p=>p.page===7)?.questions).toEqual([3,4]);
-    expect(y.pages.sq.find(p=>p.page===8)?.questions).toEqual([5,6]);
-    expect(y.pages.sq.find(p=>p.page===10)?.questions).toEqual([8,9]);
+    expect(y.source.mc).toContain("physics_2425_single_pages");
+    expect(y.pages.mc.find(p=>p.page===3)?.questions).toEqual([1,2,3,4,5,6]);
+    expect(y.pages.mc.find(p=>p.page===8)?.questions).toEqual([24,25,26,27]);
+    expect(y.pages.sq.find(p=>p.page===17)?.questions).toEqual([8]);
+    expect(y.pages.sq.find(p=>p.page===18)?.questions).toEqual([]);
+    expect(y.pages.sq.find(p=>p.page===19)?.questions).toEqual([9]);
+    expect(questionPage(y,"sq",9)).toBe(19);
   });
   it("corrected grating and speaker answers replace legacy claims", () => {
     const y=readerYears.find(y=>y.id==="2425")!;

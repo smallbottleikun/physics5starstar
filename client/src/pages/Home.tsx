@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <div className="app-shell">
-      <nav className="glass-nav fixed top-0 left-0 right-0 z-50 h-16">
+      <nav className="glass-nav home-nav fixed top-0 left-0 right-0 z-50 h-16">
         <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3">
           <button
             onClick={() => jumpTo("topic-grid")}
@@ -73,9 +73,10 @@ export default function Home() {
 
           <div className="flex items-center gap-2 sm:gap-3">
             <AppearanceControls compact />
-            <span className="hidden sm:inline text-xs whitespace-nowrap" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>
+            <span className="hidden xl:inline text-xs whitespace-nowrap" style={{ color: "var(--text-muted)", fontFamily: "Noto Sans TC, sans-serif" }}>
               {topics.length} 個主題
             </span>
+            <a href="/papers" className="home-papers-button" aria-label="開啟校內試卷"><FileText size={15} /><span>校內試卷</span></a>
           </div>
         </div>
       </nav>
