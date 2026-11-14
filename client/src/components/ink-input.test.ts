@@ -306,7 +306,7 @@ describe("actual native annotation handlers", () => {
     const tree = h.render("other-page");
     for (const title of ["紅色筆跡", "黑色筆跡", "藍色筆跡"]) expect(findElement(tree, element => element.props?.title === title)).not.toBeNull();
     const toolbar = findElement(tree, element => element.props?.role === "toolbar");
-    expect(toolbar.props.children.slice(1, 5).map((element: any) => element.props.title)).toEqual(["畫筆", "擦膠：擦除整條筆跡", "螢光筆", "尺規：畫直線"]);
+    expect(toolbar.props.children.slice(1, 6).map((element: any) => element.props.title)).toEqual(["切換為橡皮擦", "畫筆", "擦膠：擦除整條筆跡", "螢光筆", "尺規：畫直線"]);
     expect(findElement(tree, element => !!element.props?.onDoubleClick)).toBeNull();
     h.unmount();
   });

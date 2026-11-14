@@ -549,6 +549,9 @@ html[data-reading-scale="large"] { font-size: 18px; }
 @media (max-width:430px) { .reader-document-name { display:none; } .reader-compact-nav { gap:0; } .reader-question-controls select { min-width:74px; } .reader-zoom-controls { padding-left:0; } }
 @media print { .reader-dock { display:none!important; } .reader-workspace .reader-main { padding:0; } .reader-workspace .paper-zoom-viewport { overflow:visible!important; } }
 .reader-ink-dock button[aria-label="黑色筆跡"] span { outline:1px solid var(--text-muted); outline-offset:1px; }
+.reader-ink-dock .ink-tool-toggle { width:52px!important; gap:.2rem; border-color:color-mix(in srgb,var(--color-cyan) 35%,var(--border-subtle)); }
+.reader-ink-dock .ink-tool-toggle[aria-pressed="true"] { color:var(--color-orange); border-color:var(--color-orange); background:color-mix(in srgb,var(--color-orange) 9%,var(--surface)); }
+.ink-tool-toggle-label { font-size:.65rem; font-family:"Noto Sans TC",sans-serif; line-height:1; }
 
 /* Native fullscreen when supported; compact focus mode otherwise, without nested document scrolling. */
 .reader-fullscreen-button { gap:.3rem; padding:0 .5rem; font-size:.72rem; }

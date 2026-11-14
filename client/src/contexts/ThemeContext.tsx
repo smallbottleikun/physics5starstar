@@ -13,6 +13,8 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const THEME_STORAGE_KEY = "dse-physics-theme-v2";
+const READING_SCALE_STORAGE_KEY = "dse-physics-reading-scale-v1";
 
 interface ThemeProviderProps {
   children: React.ReactNode;
@@ -27,11 +29,11 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (!switchable) return defaultTheme;
-    return (localStorage.getItem("dse-physics-theme") as Theme) || defaultTheme;
+    return (localStorage.getItem(THEME_STORAGE_KEY) as Theme) || defaultTheme;
   });
   const [readingScale, setReadingScale] = useState<ReadingScale>(() => {
     if (!switchable) return "normal";
-    return (localStorage.getItem("dse-physics-reading-scale") as ReadingScale) || "normal";
+    return (localStorage.getItem(READING_SCALE_STORAGE_KEY) as ReadingScale) || "normal";
   });
 
   useEffect(() => {
@@ -40,8 +42,8 @@ export function ThemeProvider({
     root.dataset.readingScale = readingScale;
 
     if (switchable) {
-      localStorage.setItem("dse-physics-theme", theme);
-      localStorage.setItem("dse-physics-reading-scale", readingScale);
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+      localStorage.setItem(READING_SCALE_STORAGE_KEY, readingScale);
     }
   }, [theme, readingScale, switchable]);
 
