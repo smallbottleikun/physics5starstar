@@ -1,0 +1,39 @@
+{
+  "yearId": "2425",
+  "question": 8,
+  "title": "Convection-current boat and momentum transfer",
+  "titleZh": "對流電流船與動量轉移",
+  "answer": "(a) Advantage: copper has higher thermal conductivity than aluminium, so heat from the candle is transferred to the water more effectively. Disadvantage: copper is denser (heavier), increasing the boat's mass and reducing the acceleration for a given thrust. (b) The candle heats the water in the pipe. The heated water rises and flows out of the rear-facing end; the expelled water gains momentum towards the rear (to the right in the figure). Initially, the boat plus water has approximately zero horizontal momentum. By conservation of momentum, the boat gains equal momentum in the opposite direction, towards the front (to the left), so it moves forwards as shown. (c) Mass-flow rate: m_dot = rho A v = (1000)(5 x 10^-4)(0.1) = 0.050 kg s^-1. Taking the water entering with negligible horizontal momentum and leaving at 0.1 m s^-1 towards the rear, the average force on the water is F = m_dot v = (0.050)(0.1) = 5.0 x 10^-3 N. By Newton's third law, the average force exerted by the water on the boat is 5.0 x 10^-3 N forwards.",
+  "answerZh": "(a) 優點：銅的熱導率比鋁高，因此蠟燭的熱量能更有效地傳給管內的水。缺點：銅的密度較大（較重），會增加船的質量；在推力相同時，船的加速度較小。(b) 蠟燭加熱管內的水。受熱的水上升，並由朝向船尾的一端流出；被排出的水獲得向船尾（圖中向右）的動量。開始時，船和水的水平總動量近似為零。根據動量守恆，船獲得大小相等但方向相反的動量，向船頭（圖中向左）運動，因此船按圖示方向前進。(c) 質量流率：m_dot = rho A v = (1000)(5 x 10^-4)(0.1) = 0.050 kg s^-1。假設流入的水沒有顯著的水平動量，而流出的水以 0.1 m s^-1 向船尾運動，水所受的平均力為 F = m_dot v = (0.050)(0.1) = 5.0 x 10^-3 N。根據牛頓第三定律，水對船的平均作用力為 5.0 x 10^-3 N，方向向前。",
+  "formulas": [
+    "m_dot = rho A v",
+    "F = Delta p / Delta t = m_dot Delta v",
+    "F_boat = -F_water (Newton's third law)",
+    "1 kg m s^-2 = 1 N"
+  ],
+  "explanation": "Copper is selected for its greater thermal conductivity, while its greater density is a disadvantage for a small boat. Heating produces convection: water is expelled rearwards, so conservation of momentum gives the boat a forwards momentum. For the force, the volume flow rate is Av, hence the mass-flow rate is rho Av. With negligible horizontal inlet speed, the momentum carried away per second is (rho Av)v, giving F = rho A v^2 = 0.005 N. The boat's force has the opposite direction to the force on the water.",
+  "explanationZh": "選用銅是因為它的熱導率較高；但銅的密度較大，對小船而言會增加負載。加熱造成對流：水向船尾排出，因此根據動量守恆，船獲得向前的動量。求力時，體積流率為 Av，所以質量流率為 rho Av。若流入水的水平速度可忽略，每秒帶走的動量為 (rho Av)v，故 F = rho A v^2 = 0.005 N。船所受的力方向與水所受的力相反。",
+  "steps": [
+    {
+      "label": "(a) Material comparison",
+      "en": "State that copper conducts heat better, but is denser and therefore makes the boat heavier.",
+      "zh": "指出銅的導熱性較好，但密度較大，會令船更重。"
+    },
+    {
+      "label": "(b) Momentum direction",
+      "en": "Heated water leaves towards the rear with rearward momentum; conservation of total momentum gives the boat equal forward momentum, so it travels forwards.",
+      "zh": "受熱的水向船尾流出並帶有向後動量；根據總動量守恆，船獲得大小相等的向前動量，因此向前行駛。"
+    },
+    {
+      "label": "(c) Mass-flow rate",
+      "en": "m_dot = rho A v = (1000)(5 x 10^-4)(0.1) = 0.050 kg s^-1.",
+      "zh": "m_dot = rho A v = (1000)(5 x 10^-4)(0.1) = 0.050 kg s^-1。"
+    },
+    {
+      "label": "(c) Momentum force",
+      "en": "F = m_dot Delta v = (0.050)(0.1) = 5.0 x 10^-3 N; the water exerts this force forwards on the boat.",
+      "zh": "F = m_dot Delta v = (0.050)(0.1) = 5.0 x 10^-3 N；水對船施加此大小、向前的力。"
+    }
+  ],
+  "sourceNotes": "Source: /home/ubuntu/paper-work-2425/physics/5x1_2425_SQ_MCQ.pdf, scanned page 9, Section B Q8; the original question image is preserved in the source PDF. The printed numerical data verified from a high-resolution render are v = 0.1 m s^-1, A = 5 x 10^-4 m^2, and rho = 1000 kg m^-3. No 2425 school marking scheme was supplied; this is an independent physics-based self-reference. Handwritten student answers were ignored as authority. The force calculation uses the standard stated model that inlet horizontal speed is negligible and the water exits at the given speed; Python gave m_dot = 0.05 kg s^-1 and F = 0.005 N."
+}

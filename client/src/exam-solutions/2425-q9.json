@@ -1,0 +1,44 @@
+{
+  "yearId": "2425",
+  "question": 9,
+  "title": "Elevator cabin, counterweight and power",
+  "titleZh": "升降機吊艙、平衡重與功率",
+  "answer": "(a) The counterweight mass is m_cw = 2000 + 0.40(550) = 2220 kg. (b)(i) The fully loaded cabin and passengers have mass 2000 + 550 = 2550 kg, so their change in gravitational potential energy when raised 40 m is ΔE = +2550(9.81)(40) = +1.001 × 10^6 J (about +1.00 MJ). (b)(ii) The counterweight moves down 40 m, so ΔE_cw = 2220(9.81)(−40) = −8.711 × 10^5 J (about −0.871 MJ). (b)(iii) The counterweight loses gravitational potential energy while the cabin rises; this energy supplies much of the cabin's gain, so the motor need only provide the difference rather than lift the whole loaded cabin unaided. Therefore the required electrical/mechanical energy and power are reduced (ideal pulley, negligible friction). (c) Power delivered to the cabin means the rate of increase of the cabin-plus-passenger gravitational energy: P_cabin = mgv = 2550(9.81)(1.75) = 4.378 × 10^4 W = 43.8 kW. For clarity, the ideal motor's net power after the counterweight assists is (2550 − 2220)gv = 5.67 kW; this is not the same as the power delivered to the cabin requested in the question.",
+  "answerZh": "(a) 平衡重的質量為 m_cw = 2000 + 0.40(550) = 2220 kg。(b)(i) 滿載吊艙連乘客的質量為 2000 + 550 = 2550 kg，上升 40 m 時重力勢能改變為 ΔE = +2550(9.81)(40) = +1.001 × 10^6 J（約 +1.00 MJ）。(b)(ii) 平衡重下降 40 m，因此 ΔE_cw = 2220(9.81)(−40) = −8.711 × 10^5 J（約 −0.871 MJ）。(b)(iii) 吊艙上升時，平衡重的重力勢能減少；這部分能量供應了吊艙勢能增加的大部分，所以馬達只需提供兩者的差值，而不是獨力提升整個滿載吊艙。因此所需的機械／電能及功率均會減少（假設滑輪摩擦可忽略）。(c) 題目所問的是傳給吊艙的功率，即吊艙連乘客重力勢能增加的速率：P_cabin = mgv = 2550(9.81)(1.75) = 4.378 × 10^4 W = 43.8 kW。為免混淆，扣除平衡重助力後，理想馬達的淨功率為 (2550 − 2220)gv = 5.67 kW；這不是題目所要求的吊艙接收功率。",
+  "formulas": [
+    "m_cw = m_cabin + 0.40 m_capacity",
+    "ΔE_g = mgΔh",
+    "P = ΔE/Δt = mgv",
+    "P_motor, net = (m_loaded − m_cw)gv"
+  ],
+  "explanation": "The counterweight mass is defined as the cabin mass plus 40% of the rated capacity. Gravitational potential energy changes use ΔE_g = mgΔh, with upward displacement positive. At constant velocity, the cabin's received power is the rate at which its gravitational potential energy increases, mgv. The descending counterweight supplies part of this energy, so the ideal motor net power is based on the mass difference, not the full loaded mass. These are distinct quantities: the question asks for cabin received power.",
+  "explanationZh": "平衡重的質量由「吊艙質量加上額定載重量的 40%」定義。重力勢能改變使用 ΔE_g = mgΔh，並取向上位移為正。吊艙以等速上升時，吊艙接收的功率就是其重力勢能增加率 mgv。下降的平衡重提供其中一部分能量，所以理想馬達的淨功率應按質量差計算，而不是按滿載總質量計算。兩者是不同物理量：本題要求的是吊艙接收功率。",
+  "steps": [
+    {
+      "label": "1. Counterweight mass",
+      "en": "Use the stated 40% capacity rule: m_cw = 2000 + 0.40(550) = 2220 kg.",
+      "zh": "使用題目給出的 40% 載重量規則：m_cw = 2000 + 0.40(550) = 2220 kg。"
+    },
+    {
+      "label": "2. Loaded cabin mass",
+      "en": "Add the full capacity: m_loaded = 2000 + 550 = 2550 kg.",
+      "zh": "加入全部載重量：m_loaded = 2000 + 550 = 2550 kg。"
+    },
+    {
+      "label": "3. Cabin/load energy",
+      "en": "For a 40 m upward displacement, ΔE_loaded = 2550(9.81)(40) = +1.001 × 10^6 J.",
+      "zh": "上升 40 m 時，ΔE_loaded = 2550(9.81)(40) = +1.001 × 10^6 J。"
+    },
+    {
+      "label": "4. Counterweight energy",
+      "en": "The counterweight goes down, so ΔE_cw = 2220(9.81)(−40) = −8.711 × 10^5 J.",
+      "zh": "平衡重向下移動，因此 ΔE_cw = 2220(9.81)(−40) = −8.711 × 10^5 J。"
+    },
+    {
+      "label": "5. Power at 1.75 m s^-1",
+      "en": "Cabin received power: P = 2550(9.81)(1.75) = 43.8 kW. The ideal motor net power, separately, is (2550−2220)(9.81)(1.75) = 5.67 kW.",
+      "zh": "吊艙接收功率：P = 2550(9.81)(1.75) = 43.8 kW。另計的理想馬達淨功率為 (2550−2220)(9.81)(1.75) = 5.67 kW。"
+    }
+  ],
+  "sourceNotes": "Question wording and numerical data were read from page 10 of the supplied 2425 question PDF; handwritten work was not used as authority. No 2425 school marking scheme was available. Calculations use g = 9.81 m s^-2 and retain the distinction requested by the prompt: 43.8 kW is power delivered to the fully loaded cabin, whereas 5.67 kW is the ideal net motor power after counterweight assistance."
+}

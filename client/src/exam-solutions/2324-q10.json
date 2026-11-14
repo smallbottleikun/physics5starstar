@@ -1,0 +1,45 @@
+{
+  "yearId": "2324",
+  "question": 10,
+  "title": "Double-slit interference and diffraction grating",
+  "titleZh": "雙縫干涉與繞射光柵",
+  "answer": "(a)(i) Figure 10.1 shows 10 adjacent bright-spot intervals spanning 4.0 cm, so Δy = 4.0 cm/10 = 0.40 cm = 4.0×10^-3 m. Using Δy = λD/a, λ = Δy a/D = (4.0×10^-3)(0.3×10^-3)/1.8 = 6.67×10^-7 m (667 nm). (a)(ii) Each slit must be sufficiently narrow to diffract the light substantially. The waves from the two slits then spread out and overlap on the screen, producing observable interference bright spots. (b)(i) For 500 lines mm^-1, d = 1/(500 mm^-1) = 2.00×10^-6 m. For first order, d sinθ = λ, so sinθ = (6.67×10^-7)/(2.00×10^-6) = 0.3335 and θ ≈ 19.5°. Thus y = D tanθ = 1.8 tan(19.5°) ≈ 0.637 m, so the separation is about 0.636–0.637 m (636–637 mm). (b)(ii) Draw bright spots symmetrically about the centre: the central (zero-order) spot, first-order spots at equal distances on both sides, and second-order spots farther from the centre on both sides. The sketch is qualitative; the second-order spot is not required numerically.",
+  "answerZh": "(a)(i) 圖10.1顯示10個相鄰亮點間距共佔4.0 cm，因此 Δy = 4.0 cm/10 = 0.40 cm = 4.0×10^-3 m。使用 Δy = λD/a，λ = Δy a/D = (4.0×10^-3)(0.3×10^-3)/1.8 = 6.67×10^-7 m（667 nm）。(a)(ii) 每條狹縫必須足夠窄，使光產生明顯繞射。兩條狹縫射出的波因此能在螢幕上展開並重疊，形成可觀察的干涉亮點。(b)(i) 光柵有500條線 mm^-1，d = 1/(500 mm^-1) = 2.00×10^-6 m。對一級亮紋，d sinθ = λ，所以 sinθ = (6.67×10^-7)/(2.00×10^-6) = 0.3335，θ ≈ 19.5°。因此 y = D tanθ = 1.8 tan(19.5°) ≈ 0.637 m，所以分隔約為0.636–0.637 m（636–637 mm）。(b)(ii) 以中心為對稱軸畫亮點：中央零級亮點、兩側等距的一級亮點，以及兩側更遠的二級亮點。草圖只需表達定性位置，不需計算二級位置。",
+  "formulas": [
+    "Δy = λD/a",
+    "λ = Δy a/D",
+    "d = 1/(number of lines per unit length)",
+    "d sin θ = mλ",
+    "y = D tan θ"
+  ],
+  "explanation": "The double-slit relation follows from interference geometry. Narrow slits are needed so diffraction spreads the two beams enough to overlap. For a grating, constructive interference occurs when the path difference d sinθ equals mλ; the screen displacement is then y = D tanθ from the screen geometry.",
+  "explanationZh": "雙縫公式來自干涉幾何。狹縫要窄，才能使繞射把兩束光充分展開並重疊。對光柵，當光程差 d sinθ 等於 mλ 時產生建設性干涉；再用螢幕幾何式 y = D tanθ 求位移。",
+  "steps": [
+    {
+      "label": "1",
+      "en": "Read the graph: 10 fringe spacings span 4.0 cm, so Δy = 4.0×10^-2/10 = 4.0×10^-3 m.",
+      "zh": "讀取圖表：10個條紋間距共長4.0 cm，所以 Δy = 4.0×10^-2/10 = 4.0×10^-3 m。"
+    },
+    {
+      "label": "2",
+      "en": "Use λ = Δy a/D: λ = (4.0×10^-3)(0.3×10^-3)/1.8 = 6.67×10^-7 m.",
+      "zh": "使用 λ = Δy a/D：λ = (4.0×10^-3)(0.3×10^-3)/1.8 = 6.67×10^-7 m。"
+    },
+    {
+      "label": "3",
+      "en": "State that narrow slits provide sufficient diffraction and overlap for interference.",
+      "zh": "說明狹縫窄可產生足夠繞射及重疊，因而形成干涉。"
+    },
+    {
+      "label": "4",
+      "en": "For the grating, d = 10^-3/500 = 2.00×10^-6 m; for m=1, θ = asin(λ/d) ≈ 19.5°.",
+      "zh": "對光柵，d = 10^-3/500 = 2.00×10^-6 m；m=1時，θ = asin(λ/d) ≈ 19.5°。"
+    },
+    {
+      "label": "5",
+      "en": "Calculate y = 1.8 tan(19.5°) ≈ 0.637 m, then sketch orders symmetrically with second order farther out.",
+      "zh": "計算 y = 1.8 tan(19.5°) ≈ 0.637 m，然後以中心對稱繪圖，二級亮點在更外側。"
+    }
+  ],
+  "sourceNotes": "Question and diagrams were read from the original 2324 Section B SQ PDF pages 11–12. The school marking scheme page 5 confirms the intended method, λ ≈ 6.67×10^-7 m, first-order separation ≈ 0.636 m, and the qualitative sketch criteria. Numerical work was independently checked with Python; 0.636–0.637 m is rounding. No illegible numerical figure was used."
+}

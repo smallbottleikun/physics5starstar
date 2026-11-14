@@ -1,0 +1,39 @@
+{
+  "yearId": "2425",
+  "question": 4,
+  "title": "Energy conservation on a smooth track",
+  "titleZh": "光滑軌道上的能量守恆",
+  "answer": "(a) Yes. Since A is 30 cm above the reference level and B is only 14 cm above it, the ball has enough gravitational potential energy to rise to B on the smooth track. (b) Taking g = 9.81 m s^-2 and using A to B: v^2 = 2g(h_A - h_B) = 2(9.81)(0.30 - 0.14), so v_B = 1.77 m s^-1. (c) The ball has its greatest speed at the lowest point of the track, where its gravitational potential energy is minimum. Its highest speed is found from the 0.30 m drop from A: v_max^2 = 2g(0.30), giving v_max = 2.43 m s^-1. (d) If friction exists, some mechanical energy is converted to thermal energy. The ball may fail to reach B if the frictional energy loss is too large; if it does reach B, its speed there is less than 1.77 m s^-1. Its maximum speed is also less than 2.43 m s^-1. The exact frictional values cannot be found without the friction force/coefficient and track length. The maximum-speed position is normally near the lowest point, but with friction it is exactly where the downhill component of weight balances friction, so it need not be exactly at the geometrical lowest point.",
+  "answerZh": "(a) 可以。A 點離參考水平面 30 cm，而 B 點只高 14 cm；在光滑軌道上，球在 A 點的重力勢能足以升至 B 點。(b) 取 g = 9.81 m s^-2，對 A 至 B 應用能量守恆：v^2 = 2g(h_A - h_B) = 2(9.81)(0.30 - 0.14)，所以 B 點速度 v_B = 1.77 m s^-1。(c) 球在軌道最低點的重力勢能最小，因此速度最大。由 A 點下降 0.30 m：v_max^2 = 2g(0.30)，得到最高速度 v_max = 2.43 m s^-1。(d) 若存在摩擦，部分機械能會轉化為熱能。若摩擦耗散的能量太大，球可能到不了 B；即使到達，B 點速度也會小於 1.77 m s^-1，最高速度也會小於 2.43 m s^-1。沒有摩擦力或摩擦係數及軌道長度，不能求出確切的摩擦情況。最大速度通常在最低點附近，但有摩擦時，準確位置是重力沿斜面的分量與摩擦力平衡之處，因此不一定正好是幾何最低點。",
+  "formulas": [
+    "E_p = mgh",
+    "1/2 m v^2 = mg(h_A - h_B)",
+    "v = sqrt(2g Delta h)",
+    "W_friction = Delta E_mechanical"
+  ],
+  "explanation": "On a smooth track, mechanical energy is conserved: the decrease in gravitational potential energy becomes kinetic energy. For A to B, the relevant vertical drop is 0.30 - 0.14 = 0.16 m, not the full 0.30 m. The greatest speed occurs where the ball has lost the most height, namely the lowest point. With friction, mechanical energy decreases by the work done against friction, so the ideal speeds are upper limits and the exact result requires friction data.",
+  "explanationZh": "在光滑軌道上機械能守恆，重力勢能的減少轉化為動能。由 A 到 B 的垂直下降高度是 0.30 - 0.14 = 0.16 m，而不是完整的 0.30 m，因此計算 B 點速度時只能使用 0.16 m。球在最低點失去最多重力勢能，所以速度最大。若有摩擦，摩擦力會作負功並使機械能減少，因此無摩擦計算所得速度只是上限；確切答案要知道摩擦資料。",
+  "steps": [
+    {
+      "label": "1. Compare heights",
+      "en": "A is 0.30 m high and B is 0.14 m high, so B is lower than A; on a smooth track the ball can reach B.",
+      "zh": "A 點高度為 0.30 m，B 點高度為 0.14 m，所以 B 低於 A；在光滑軌道上球可以到達 B。"
+    },
+    {
+      "label": "2. Find speed at B",
+      "en": "Use the drop 0.16 m: v_B = sqrt[2(9.81)(0.30 - 0.14)] = 1.77 m s^-1.",
+      "zh": "使用 0.16 m 的下降高度：v_B = sqrt[2(9.81)(0.30 - 0.14)] = 1.77 m s^-1。"
+    },
+    {
+      "label": "3. Find greatest speed",
+      "en": "At the lowest point the drop from A is 0.30 m: v_max = sqrt[2(9.81)(0.30)] = 2.43 m s^-1.",
+      "zh": "在最低點，球由 A 點下降 0.30 m：v_max = sqrt[2(9.81)(0.30)] = 2.43 m s^-1。"
+    },
+    {
+      "label": "4. Include friction",
+      "en": "Friction removes mechanical energy, so reaching B is not guaranteed and any speeds reached are below the smooth-track values; exact values need friction data.",
+      "zh": "摩擦會消耗機械能，因此不能保證到達 B，且所達到的速度低於光滑軌道數值；確切數值需要摩擦資料。"
+    }
+  ],
+  "sourceNotes": "Source: 5x1_2425_SQ_MCQ.pdf, scanned page 7, Section B Q4. The printed diagram/text is legible: A = 30 cm and B = 14 cm. No 2425 school marking scheme was supplied; this is a self-derived solution using conservation of mechanical energy. Handwritten student annotations were ignored as requested. Friction subpart is stated conditionally because no friction coefficient, force, or track length is given."
+}
