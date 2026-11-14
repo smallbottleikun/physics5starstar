@@ -317,9 +317,24 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       if (!pinchRef.current) beginPinch();
       return;
     }
-    if (!writingRef.current || (native.pointerType !== "pen" && native.pointerType !== "mouse") || native.button !== 0 || activeRef.current) return;
+    // Safari/iPadOS may report a Pencil pointerdown with button=-1 or buttons=0.
+    // Only reject non-primary mouse buttons; Pencil input should always be accepted.
+    if (!writingRef.current || (native.pointerType !== "pen" && native.pointerType !== "mouse") || (native.pointerType === "mouse" && native.button !== 0) || activeRef.current) return;
     if (native.pointerType === "mouse" && touchesRef.current.size) return;
-    const rect = event.currentTarget.getBoundingClientRect(); const point = pointFromEvent(native, rect); const baseWidth = metricsRef.current.width;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const baseWidth = metricsRef.current.width || rect.width;
+    const baseHeight = metricsRef.current.height || rect.height;
+    // A Pencil can arrive in the same frame as the PDF canvas first becomes visible.
+    // Seed the unscaled metrics synchronously instead of dropping that first stroke.
+    if (baseWidth > 0 && baseHeight > 0 && (metricsRef.current.width === 0 || metricsRef.current.height === 0)) {
+      metricsRef.current = { width: baseWidth, height: baseHeight };
+      const bitmap = canvasBitmapSize(baseWidth, baseHeight, window.devicePixelRatio);
+      if (event.currentTarget.width !== bitmap.width || event.currentTarget.height !== bitmap.height) {
+        event.currentTarget.width = bitmap.width;
+        event.currentTarget.height = bitmap.height;
+      }
+    }
+    const point = pointFromEvent(native, rect);
     if (!point || baseWidth <= 0) return;
     event.preventDefault(); touchesRef.current.forEach(touch => { touch.blocked = true; }); pinchRef.current = null;
     if (native.pointerType === "pen") rememberPen(native);

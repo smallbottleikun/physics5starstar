@@ -21,7 +21,7 @@ const mcPages = (first: number, ranges: number[][]): SourcePage[] => ranges.map(
 const original = {
   mc2324: "/manus-storage/5x1_2324_A_MCQ_7e90b785.pdf",
   sq2324: "/manus-storage/5x1_2324_B_SQ_b6c8ec37.pdf",
-  combined2425: "/manus-storage/physics_2425_single_pages_clean_30c409ae.pdf",
+  combined2425: "/manus-storage/physics_2425_landscape_clean_5e41aca1.pdf",
   mc2526: "/manus-storage/5x1_2526_A_MCQ_ed55c2c6.pdf",
   sq2526: "/manus-storage/5x1_2526_B_SQ_ae475168.pdf",
 };
@@ -46,18 +46,15 @@ export const readerYears: ReaderYear[] = [
     source: { mc: original.combined2425, sq: original.combined2425 },
     mcAnswers: mcqAnswer2425,
     pages: {
-      // Losslessly split spreads into actual portrait PDF pages, left then right; scans stay unchanged.
+      // Keep the supplied horizontal spread layout so each original scan is one readable page.
       mc: [
-        { page: 3, questions: consecutive(1,6) }, { page: 4, questions: consecutive(7,12) },
-        { page: 5, questions: consecutive(13,16) }, { page: 6, questions: consecutive(17,20) },
-        { page: 7, questions: consecutive(21,23) }, { page: 8, questions: consecutive(24,27) },
+        { page: 2, questions: consecutive(1,12) }, { page: 3, questions: consecutive(13,20) },
+        { page: 4, questions: consecutive(21,27) },
       ],
       sq: [
-        ...consecutive(1,7).map(q => ({ page: q + 9, questions: [q] })),
-        { page: 17, questions: [8], label: "SQ Q8(a)–(c)（單頁）" },
-        { page: 18, questions: [], label: "SQ Q9(a)–(b)(i)（下一頁續題）" },
-        { page: 19, questions: [9], label: "SQ Q9(b)(ii)–(c)（續頁完整題目）" },
-        { page: 20, questions: [10] },
+        { page: 5, questions: [1] }, { page: 6, questions: [2] }, { page: 7, questions: [3, 4] },
+        { page: 8, questions: [5, 6] }, { page: 9, questions: [7, 8] },
+        { page: 10, questions: [9] }, { page: 11, questions: [10] },
       ],
     },
   },
@@ -94,7 +91,7 @@ export function getReaderSolution(year: ReaderYear, question: number): ReaderSol
 export function questionPage(year: ReaderYear, section: PaperSection, question: number): number | undefined {
   if (section === "sq" && year.id === "2526" && question === 6) return 7;
   if (section === "sq" && year.id === "2324" && question === 10) return 11;
-  if (section === "sq" && year.id === "2425" && question === 8) return 17;
-  if (section === "sq" && year.id === "2425" && question === 9) return 19;
+  if (section === "sq" && year.id === "2425" && question === 8) return 9;
+  if (section === "sq" && year.id === "2425" && question === 9) return 10;
   return year.pages[section].find(p => p.questions.includes(question))?.page;
 }
