@@ -43,6 +43,7 @@ vi.mock("react", async () => {
   };
 });
 import { AnnotatablePaper } from "./AnnotatablePaper";
+import type { AnnotatablePaperProps } from "./AnnotatablePaper";
 
 const pen = (overrides: Partial<PointerEvent> = {}) => ({ pointerId: 7, pointerType: "pen", button: 0, buttons: 1, pressure: 0.6, ...overrides });
 function pointer(type: string, overrides: Partial<PointerEvent> = {}) {
@@ -60,8 +61,14 @@ function findElement(tree: any, predicate: (element: any) => boolean): any {
   return predicate(tree) ? tree : findElement(tree.props?.children, predicate);
 }
 
-function mountPaper({ zoom = 1, captureFails = false, lateMetrics = false }: { zoom?: number; captureFails?: boolean; lateMetrics?: boolean } = {}) {
-  const saved = new Map<string, string>();
+function mountPaper({ zoom = 1, captureFails = false, lateMetrics = false, initialSaved = {}, legacyInkRegion }: {
+  zoom?: number;
+  captureFails?: boolean;
+  lateMetrics?: boolean;
+  initialSaved?: Record<string, string>;
+  legacyInkRegion?: AnnotatablePaperProps["legacyInkRegion"];
+} = {}) {
+  const saved = new Map<string, string>(Object.entries(initialSaved));
   const localStorage = {
     getItem: vi.fn((key: string) => saved.get(key) ?? null),
     setItem: vi.fn((key: string, value: string) => { saved.set(key, value); }),
@@ -98,9 +105,10 @@ function mountPaper({ zoom = 1, captureFails = false, lateMetrics = false }: { z
     }),
   });
   const runtime = { cursor: 0, refCount: 0, cells: [] as any[], effects: [] as (() => void)[], elements: [viewport, host, canvas] };
-  const render = (pageLabel = "test-pencil") => {
+  const onZoomChange = vi.fn();
+  const render = (pageLabel = "test-pencil", region = legacyInkRegion) => {
     runtime.cursor = 0; runtime.refCount = 0; hookContext.current = runtime;
-    const tree = AnnotatablePaper({ children: null, pageLabel, zoom });
+    const tree = AnnotatablePaper({ children: null, pageLabel, zoom, onZoomChange, legacyInkRegion: region });
     while (runtime.effects.length) runtime.effects.shift()!();
     return tree;
   };
@@ -110,7 +118,7 @@ function mountPaper({ zoom = 1, captureFails = false, lateMetrics = false }: { z
   const ink = (page = "test-pencil") => JSON.parse(saved.get(`dse-physics-ink-v2:${page}`) ?? "[]") as { points: { x: number; y: number }[]; width: number; color: string }[];
   const paint = () => { const batch = Array.from(frames.values()); frames.clear(); batch.forEach(callback => callback(0)); };
   const unmount = () => runtime.cells.forEach(cell => cell?.cleanup?.());
-  return { canvas, host, win, doc, viewport, saved, localStorage, emit, ink, paint, context, frames, render, unmount };
+  return { canvas, host, win, doc, viewport, saved, localStorage, emit, ink, paint, context, frames, render, unmount, onZoomChange };
 }
 
 beforeEach(() => vi.useFakeTimers());
@@ -119,6 +127,18 @@ afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); vi.restoreAllMocks(
 describe("Pencil lifecycle policy", () => {
   it("accepts explicit Safari pen down with unusual button flags", () => {
     expect(inkStartDecision(pen({ button: -1, buttons: 0, pressure: 0 }), null)).toBe("start");
+  });
+  it.each(["touch", "mouse", ""])("rejects %s ink even with pressure and tip/eraser contact flags", pointerType => {
+    for (const buttons of [1, 32]) {
+      const input = pen({ pointerType, pressure: 0.8, buttons });
+      expect(isPenContact(input)).toBe(false);
+      expect(isInkMove(input)).toBe(false);
+      for (const active of [null, { pointerId: 7, pointerType: "pen" }]) {
+        expect(inkStartDecision(input, active)).toBe("ignore");
+        expect(inkStartDecision(input, active, true)).toBe("ignore");
+      }
+    }
+    expect(isInkMove(pen({ pointerType, pressure: 0, buttons: 1 }))).toBe(false);
   });
   it("flushes stale pen contacts, including a reused pointer ID", () => {
     expect(inkStartDecision(pen(), { pointerId: 7, pointerType: "pen" })).toBe("replace");
@@ -145,6 +165,90 @@ describe("Pencil lifecycle policy", () => {
 });
 
 describe("actual native annotation handlers", () => {
+  it.each(["touch", "mouse", ""])("%s cannot create a preview or erase saved ink with pressure", pointerType => {
+    const h = mountPaper(); h.paint(); h.context.arc.mockClear();
+    h.emit("pointerdown", { pointerType, pressure: 0.8 });
+    h.emit("pointermove", { pointerType, pressure: 0.8, clientX: 180 });
+    h.emit("pointerup", { pointerType, pressure: 0.8 }, h.win);
+    h.paint();
+    expect(h.context.arc).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(120); expect(h.ink()).toHaveLength(0);
+    h.emit("pointerdown"); h.emit("pointerup", { pressure: 0, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120); expect(h.ink()).toHaveLength(1);
+    findElement(h.render(), element => element.props?.title === "擦膠：擦除整條筆跡").props.onClick();
+    const original = h.ink();
+    h.emit("pointerdown", { pointerType, pressure: 0.8, button: 5, buttons: 32 });
+    h.emit("pointermove", { pointerType, pressure: 0.8, buttons: 32, clientX: 180 });
+    h.emit("pointerup", { pointerType, pressure: 0.8 }, h.win);
+    h.emit("pointercancel", { pointerType }, h.win);
+    vi.advanceTimersByTime(120); expect(h.ink()).toEqual(original);
+    expect(findElement(h.render(), element => element.type === "canvas").props["data-strokes"]).toBe(1);
+    h.unmount();
+  });
+  it.each(["pointerup", "pointercancel"])("explicit zero-pressure Safari down saves its first dot on %s", ending => {
+    const h = mountPaper(); h.paint(); h.context.arc.mockClear();
+    h.emit("pointerdown", { pressure: 0, button: -1, buttons: 0 });
+    h.paint(); expect(h.context.arc).toHaveBeenCalledTimes(1);
+    h.emit(ending, { pressure: 0, button: -1, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120);
+    expect(h.ink()).toHaveLength(1); expect(h.ink()[0].points).toHaveLength(1);
+    h.unmount();
+  });
+  it.each(["pen", "eraser"] as const)("same-ID non-pen events cannot disturb an active %s contact", tool => {
+    for (const pointerType of ["touch", "mouse", ""]) {
+      for (const captureFails of [false, true]) {
+        const h = mountPaper({ captureFails });
+        if (tool === "eraser") {
+          for (const clientX of [160, 400]) {
+            h.emit("pointerdown", { clientX }); h.emit("pointerup", { clientX, pressure: 0, buttons: 0 }, h.win);
+          }
+          findElement(h.render(), element => element.props?.title === "擦膠：擦除整條筆跡").props.onClick();
+          vi.advanceTimersByTime(120);
+        }
+        h.localStorage.setItem.mockClear();
+        h.emit("pointerdown");
+        h.emit("pointerdown", { pointerType, clientX: 400, pressure: 0.8, buttons: 32 });
+        h.emit("pointermove", { pointerType, clientX: 400, pressure: 0.8, buttons: 32 });
+        h.emit("pointermove", { pointerType, clientX: 400, pressure: 0, buttons: 0 }, h.win);
+        for (const ending of ["pointerup", "pointercancel", "lostpointercapture", "pointerleave"]) {
+          h.emit(ending, { pointerType, clientX: 400, pressure: 0.8, buttons: 32 });
+        }
+        h.emit("pointerup", { pointerType, clientX: 400, pressure: 0.8 }, h.win);
+        h.emit("pointercancel", { pointerType }, h.win);
+        vi.advanceTimersByTime(120); expect(h.localStorage.setItem).not.toHaveBeenCalled();
+        h.emit("pointermove", { clientX: 200 });
+        h.emit("pointerup", { clientX: 200, pressure: 0, buttons: 0 }, h.win);
+        vi.advanceTimersByTime(120);
+        expect(h.ink()).toHaveLength(1);
+        if (tool === "pen") expect(h.ink()[0].points.map(point => point.x)).toEqual([0.075, 0.125]);
+        else expect(h.ink()[0].points[0].x).toBe(0.375);
+        expect(h.localStorage.setItem).toHaveBeenCalledTimes(1);
+        h.unmount();
+      }
+    }
+  });
+  it.each(["pen", "eraser"] as const)("filters non-pen and mismatched-ID coalesced samples during %s contact", tool => {
+    const h = mountPaper();
+    if (tool === "eraser") {
+      h.emit("pointerdown", { clientX: 400 }); h.emit("pointerup", { clientX: 400, pressure: 0, buttons: 0 }, h.win);
+      findElement(h.render(), element => element.props?.title === "擦膠：擦除整條筆跡").props.onClick();
+      vi.advanceTimersByTime(120);
+    }
+    h.emit("pointerdown");
+    h.emit("pointermove", {
+      clientX: 200,
+      getCoalescedEvents: () => [
+        ...["touch", "mouse", ""].map(pointerType => ({ ...pen({ pointerType }), clientX: 400, clientY: 120 } as PointerEvent)),
+        { ...pen({ pointerId: 99 }), clientX: 400, clientY: 120 } as PointerEvent,
+        { ...pen(), clientX: 180, clientY: 120 } as PointerEvent,
+      ],
+    });
+    h.emit("pointerup", { clientX: 200, pressure: 0, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120); expect(h.ink()).toHaveLength(1);
+    if (tool === "pen") expect(h.ink()[0].points.map(point => point.x)).toEqual([0.075, 0.1, 0.125]);
+    else expect(h.ink()[0].points[0].x).toBe(0.375);
+    h.unmount();
+  });
   it.each(["pointercancel", "lostpointercapture", "pointerleave"])("preserves actual pen contact on %s and completes once", ending => {
     const h = mountPaper({ captureFails: ending !== "pointercancel" });
     h.emit("pointerdown"); h.emit("pointermove", { clientX: 180 });
@@ -241,12 +345,24 @@ describe("actual native annotation handlers", () => {
     expect(h.ink()).toHaveLength(1); expect(h.ink()[0].points).toHaveLength(2);
     h.unmount();
   });
-  it("intentional two-touch navigation still discards a mouse preview", () => {
-    const h = mountPaper(); h.emit("pointerdown", { pointerId: 9, pointerType: "mouse" });
+  it("mouse cannot establish a preview and one-/two-touch navigation produces no ink", () => {
+    const h = mountPaper(); h.paint(); h.context.arc.mockClear();
+    h.emit("pointerdown", { pointerId: 9, pointerType: "mouse" });
+    h.emit("pointermove", { pointerId: 9, pointerType: "mouse", clientX: 180 });
+    h.paint(); expect(h.context.arc).not.toHaveBeenCalled();
+    expect(h.canvas.setPointerCapture).not.toHaveBeenCalled();
     h.emit("pointerdown", { pointerId: 1, pointerType: "touch" });
+    h.emit("pointermove", { pointerId: 1, pointerType: "touch", clientX: 180, clientY: 140 });
+    expect(h.viewport.scrollLeft).toBe(-20); expect(h.win.scrollBy).toHaveBeenCalled();
     h.emit("pointerdown", { pointerId: 2, pointerType: "touch", clientX: 300 });
+    h.emit("pointermove", { pointerId: 2, pointerType: "touch", clientX: 360 });
+    expect(h.onZoomChange).toHaveBeenCalledWith(expect.any(Number));
     h.emit("pointerup", { pointerId: 9, pointerType: "mouse" }, h.win);
+    h.emit("pointerup", { pointerId: 1, pointerType: "touch" }, h.win);
+    h.emit("pointerup", { pointerId: 2, pointerType: "touch" }, h.win);
+    h.paint(); expect(h.context.arc).not.toHaveBeenCalled();
     vi.advanceTimersByTime(120); expect(h.ink()).toHaveLength(0);
+    expect(h.localStorage.setItem).not.toHaveBeenCalled();
     h.unmount();
   });
   it.each([0.25, 2])("seeds late metrics from unscaled host at zoom %s and caps bitmap", zoom => {
@@ -310,6 +426,27 @@ describe("actual native annotation handlers", () => {
     expect(findElement(tree, element => !!element.props?.onDoubleClick)).toBeNull();
     h.unmount();
   });
+  it("one-tap pen → eraser → pen keeps color, thickness and persisted preferences", () => {
+    const h = mountPaper();
+    findElement(h.render(), element => element.type === "select").props.onChange({ target: { value: "6" } });
+    findElement(h.render(), element => element.props?.title === "紅色筆跡").props.onClick();
+    h.emit("pointerdown"); h.emit("pointerup", { pressure: 0, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120);
+    const toggle = (title: string) => findElement(h.render(), element => element.props?.title === title).props.onClick();
+    toggle("切換為橡皮擦");
+    h.emit("pointerdown"); h.emit("pointerup", { pressure: 0, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120); expect(h.ink()).toHaveLength(0);
+    expect(JSON.parse(h.saved.get("dse-physics-ink-preferences-v2")!)).toMatchObject({ tool: "eraser", color: "#dc2626", thickness: 6 });
+    toggle("切換為畫筆");
+    h.emit("pointerdown", { clientX: 220 }); h.emit("pointercancel", { pressure: 0, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120);
+    expect(h.ink()).toHaveLength(1); expect(h.ink()[0]).toMatchObject({ color: "#dc2626", width: 6 / 800 });
+    expect(JSON.parse(h.saved.get("dse-physics-ink-preferences-v2")!)).toMatchObject({ tool: "pen", color: "#dc2626", thickness: 6 });
+    const tree = h.render();
+    expect(findElement(tree, element => element.type === "canvas").props["aria-label"]).toContain("只限 Pencil 書寫／擦除；手指可拖動／縮放");
+    expect(findElement(tree, element => !!element.props?.onDoubleClick)).toBeNull();
+    h.unmount();
+  });
   it("publishes honest deferred storage errors and clears warning only after a successful save", () => {
     const h = mountPaper();
     h.localStorage.setItem.mockImplementationOnce(() => { throw new Error("quota"); });
@@ -322,6 +459,54 @@ describe("actual native annotation handlers", () => {
     vi.advanceTimersByTime(120);
     expect(findElement(h.render(), element => element.props?.role === "alert")).toBeNull();
     expect(h.ink()).toHaveLength(2);
+    h.unmount();
+  });
+});
+
+describe("single-page legacy ink lifecycle", () => {
+  const legacyKey = "dse-physics-ink-v2:old-spread";
+  const newKey = "dse-physics-ink-v2:test-pencil";
+  const legacyInkRegion = { pageLabel: "old-spread", x0: 0, x1: 0.5 };
+  const oldStrokes = JSON.stringify([
+    { points: [{ x: 0.1, y: 0.2, pressure: 0.6 }], color: "#dc2626", width: 0.005, kind: "pen" },
+    { points: [{ x: 0.8, y: 0.2, pressure: 0.6 }], color: "#2563eb", width: 0.005, kind: "pen" },
+  ]);
+  it("migrates only the selected region, defers the new-key write and retains the spread", () => {
+    const h = mountPaper({ initialSaved: { [legacyKey]: oldStrokes }, legacyInkRegion });
+    expect(findElement(h.render(), element => element.type === "canvas").props["data-strokes"]).toBe(1);
+    expect(h.localStorage.setItem).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(120);
+    expect(h.ink()).toHaveLength(1);
+    expect(h.ink()[0].points[0]).toMatchObject({ x: 0.2, y: 0.2 });
+    expect(h.ink()[0].color).toBe("#dc2626");
+    expect(h.saved.get(legacyKey)).toBe(oldStrokes);
+    expect(h.localStorage.setItem).toHaveBeenCalledTimes(1);
+    h.unmount();
+  });
+  it("never imports legacy ink into an explicitly saved empty page", () => {
+    const h = mountPaper({ initialSaved: { [legacyKey]: oldStrokes, [newKey]: "[]" }, legacyInkRegion });
+    expect(findElement(h.render(), element => element.type === "canvas").props["data-strokes"]).toBe(0);
+    vi.advanceTimersByTime(120);
+    expect(h.ink()).toEqual([]); expect(h.localStorage.setItem).not.toHaveBeenCalled();
+    h.unmount();
+  });
+  it("equivalent region objects do not reload or finish an active pen stroke", () => {
+    const h = mountPaper({ initialSaved: { [legacyKey]: oldStrokes }, legacyInkRegion });
+    vi.advanceTimersByTime(120); h.localStorage.setItem.mockClear();
+    h.emit("pointerdown", { clientX: 220 });
+    h.render("test-pencil", { ...legacyInkRegion });
+    vi.advanceTimersByTime(120); expect(h.localStorage.setItem).not.toHaveBeenCalled();
+    h.emit("pointermove", { clientX: 240 }); h.emit("pointerup", { pressure: 0, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120);
+    expect(h.ink()).toHaveLength(2); expect(h.ink()[1].points).toHaveLength(2);
+    h.unmount();
+  });
+  it("reports a failed deferred migration save through the existing page warning", () => {
+    const h = mountPaper({ initialSaved: { [legacyKey]: oldStrokes }, legacyInkRegion });
+    h.localStorage.setItem.mockImplementationOnce(() => { throw new Error("quota"); });
+    vi.advanceTimersByTime(120);
+    expect(findElement(h.render(), element => element.props?.role === "alert")).not.toBeNull();
+    expect(h.saved.get(legacyKey)).toBe(oldStrokes); expect(h.saved.has(newKey)).toBe(false);
     h.unmount();
   });
 });

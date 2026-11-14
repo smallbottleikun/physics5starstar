@@ -566,3 +566,8 @@ html[data-reading-scale="large"] { font-size: 18px; }
 @media (max-width:740px) { .reader-fullscreen-button span { display:none; } }
 @media (max-width:430px) { .reader-compact-nav .reader-answers-toggle { display:none; } }
 @media print { .reader-fullscreen-controls,.reader-fullscreen-notice { display:none!important; } }
+
+/* Per-printed-page answers: unrelated continuation answers stay on their own source page. */
+.reader-answer-reasoning { display:grid; gap:1.4rem; }
+.reader-part-reasoning > summary { color:var(--color-cyan); cursor:pointer; padding:.65rem 0; font-size:.82rem; }
+.reader-part-reasoning[open] > .reader-answer-reasoning { margin-top:1rem; }

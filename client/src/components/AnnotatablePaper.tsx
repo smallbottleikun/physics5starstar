@@ -5,6 +5,7 @@ import { BookOpen, Ellipsis, Eraser, Highlighter, Pencil, Ruler, Trash2, Undo2 }
 import { anchorScrollDelta, broadcastPaperPreferences, canvasBitmapSize, clampPaperZoom, paperCoordinateAt, pinchGeometry, subscribePaperPreferences } from "./paper-zoom";
 import type { PaperPosition } from "./paper-zoom";
 import { createDeferredInkStorage, inkStartDecision, isInkMove, isPenContact, takeInkSession, touchMayNavigate } from "./ink-input";
+import { remapSplitInk } from "./split-paper-ink";
 
 export interface AnnotatablePaperProps {
   children: ReactNode;
@@ -13,10 +14,11 @@ export interface AnnotatablePaperProps {
   onZoomChange?: (zoom: number) => void;
   toolbarTargetId?: string;
   active?: boolean;
+  legacyInkRegion?: { pageLabel: string; x0: number; x1: number; y0?: number; y1?: number };
 }
 
 type InkPoint = { x: number; y: number; pressure: number };
-type InkStroke = {
+export type InkStroke = {
   points: InkPoint[];
   color: string;
   width: number;
@@ -129,7 +131,7 @@ function capturePointer(canvas: HTMLCanvasElement, pointerId: number) { try { ca
 function releasePointer(canvas: HTMLCanvasElement | null, pointerId: number) { try { if (canvas?.hasPointerCapture(pointerId)) canvas.releasePointerCapture(pointerId); } catch { /* Already released. */ } }
 function hasCapture(canvas: HTMLCanvasElement, pointerId: number) { try { return canvas.hasPointerCapture(pointerId); } catch { return false; } }
 
-export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomChange, toolbarTargetId, active = true }: AnnotatablePaperProps) {
+export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomChange, toolbarTargetId, active = true, legacyInkRegion }: AnnotatablePaperProps) {
   const viewportRef = useRef<HTMLDivElement>(null); const hostRef = useRef<HTMLDivElement>(null); const canvasRef = useRef<HTMLCanvasElement>(null);
   const strokesRef = useRef<InkStroke[]>([]); const historyRef = useRef<InkStroke[][]>([]); const activeRef = useRef<Gesture | null>(null);
   const touchesRef = useRef(new Map<number, TouchGesture>()); const pinchRef = useRef<Pinch | null>(null);
@@ -207,10 +209,23 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
 
   useLayoutEffect(() => {
     finishGesture(); storage.flush(); loadedPageRef.current = pageLabel;
-    const loaded = readStorage<InkStroke[]>(storageKey(pageLabel));
+    let loaded = readStorage<InkStroke[]>(storageKey(pageLabel));
+    let migrated = false;
+    // An existing [] is intentional (the page was cleared), so never reimport
+    // legacy spread ink unless the new single-page key has no saved value.
+    if (loaded === null && legacyInkRegion) {
+      const legacy = readStorage<InkStroke[]>(storageKey(legacyInkRegion.pageLabel));
+      if (Array.isArray(legacy)) {
+        loaded = remapSplitInk(legacy, legacyInkRegion);
+        migrated = true;
+      }
+    }
     strokesRef.current = Array.isArray(loaded) ? loaded.filter(stroke => stroke && Array.isArray(stroke.points) && Number.isFinite(stroke.width) && stroke.width > 0 && ["pen", "highlighter", "ruler"].includes(stroke.kind) && stroke.points.every(point => point && Number.isFinite(point.x) && Number.isFinite(point.y) && Number.isFinite(point.pressure))) : [];
     historyRef.current = []; setInkWarning(""); refreshCounts(); schedulePaint(true);
-  }, [pageLabel, finishGesture, refreshCounts, schedulePaint, storage]);
+    // Keep the old spread key; deferred persistence uses the normal page-scoped
+    // warning reporter, including quota/private-browsing errors.
+    if (migrated) saveStrokes();
+  }, [pageLabel, legacyInkRegion?.pageLabel, legacyInkRegion?.x0, legacyInkRegion?.x1, legacyInkRegion?.y0, legacyInkRegion?.y1, finishGesture, refreshCounts, saveStrokes, schedulePaint, storage]);
   useEffect(() => subscribePaperPreferences<Preferences>(update => {
     // A deferred persistence result is only a warning update, not a new tool
     // selection, and must not interrupt the next in-progress Pencil stroke.
@@ -304,13 +319,13 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
   };
   const appendSamples = (event: PointerEvent) => {
     const gesture = activeRef.current; const canvas = canvasRef.current;
-    if (!gesture || gesture.pointerId !== event.pointerId || !canvas) return;
+    if (!gesture || gesture.pointerType !== "pen" || event.pointerType !== "pen" || gesture.pointerId !== event.pointerId || !canvas) return;
     const rect = canvas.getBoundingClientRect(); let samples: PointerEvent[] = [];
     try { if (typeof event.getCoalescedEvents === "function") samples = event.getCoalescedEvents(); } catch { /* Unsupported coalesced events. */ }
     for (const sample of [...samples, event]) {
       // An active ID can continue reporting hover after a missing pointerup.
       // Only actual contact samples extend its ink; completion preserves it.
-      if (gesture.pointerType === "pen" && !(sample.pressure > 0 || (sample.buttons & 33) !== 0)) continue;
+      if (sample.pointerId !== gesture.pointerId || !isInkMove(sample)) continue;
       const point = pointFromEvent(sample, rect); if (!point) continue;
       if (gesture.tool === "eraser") eraseBetween(gesture.lastPoint, point, rect);
       else if (gesture.tool === "ruler") {
@@ -336,6 +351,8 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
     const canvas = canvasRef.current; if (!canvas) return;
     if (native.pointerType === "touch") {
       native.preventDefault();
+      // Never capture the pen's ownership through a mismatched pointer type.
+      if (activeRef.current?.pointerId === native.pointerId) return;
       touchesRef.current.set(native.pointerId, { x: native.clientX, y: native.clientY, blocked: isPalm(native) });
       capturePointer(canvas, native.pointerId);
       if (!pinchRef.current) beginPinch();
@@ -344,7 +361,6 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
     if (!writingRef.current) return;
     const decision = inkStartDecision(native, activeRef.current, recovering);
     if (decision === "ignore") return;
-    if (native.pointerType === "mouse" && touchesRef.current.size) return;
     // A missing terminal event must not block the next Pencil contact, including
     // platforms that reuse a pen pointer ID across contacts.
     if (decision === "replace") finishGesture();
@@ -397,7 +413,9 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       }
       return;
     }
-    if (!writingRef.current) return;
+    // Check type BEFORE ownership/hover completion: a mouse with the same ID
+    // must not extend, erase or finish the current pen contact.
+    if (native.pointerType !== "pen" || !writingRef.current) return;
     if (activeRef.current?.pointerId !== native.pointerId) {
       // Recover a dropped down only on pressure-bearing pen contact, never
       // hover, mouse motion or touch. Normal down accepts Safari's flags.
@@ -413,11 +431,12 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
   };
   const endPointer = (native: PointerEvent, includeTip = false) => {
     if (native.pointerType === "touch") {
+      if (activeRef.current?.pointerId === native.pointerId) return;
       touchesRef.current.delete(native.pointerId);
       if (pinchRef.current?.ids.includes(native.pointerId)) pinchRef.current = null;
       releasePointer(canvasRef.current, native.pointerId); return;
     }
-    if (activeRef.current?.pointerId !== native.pointerId) return;
+    if (native.pointerType !== "pen" || activeRef.current?.pointerType !== "pen" || activeRef.current.pointerId !== native.pointerId) return;
     if (includeTip) appendSamples(native);
     if (native.pointerType === "pen" && lastPenRef.current) lastPenRef.current.time = performance.now();
     // Cancellation/capture loss/uncaptured leave preserve received contact.
@@ -443,7 +462,7 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       if (!hasCapture(canvas, event.pointerId)) nativeHandlersRef.current.end(event);
     };
     const fallbackMove = (event: PointerEvent) => {
-      if (event.target !== canvas && activeRef.current?.pointerId === event.pointerId) move(event);
+      if (event.pointerType === "pen" && event.target !== canvas && activeRef.current?.pointerId === event.pointerId) move(event);
     };
     const flush = () => { finishGesture(); storage.flush(); };
     const visibility = () => { if (document.visibilityState === "hidden") flush(); };
@@ -515,7 +534,7 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       <div className="paper-zoom-spacer" style={{ position: "relative", width: baseSize.width ? Math.max(baseSize.width, baseSize.width * zoom) : "100%", height: baseSize.height * zoom }}>
         <div ref={hostRef} className="annotatable-paper-page paper-zoom-content" style={{ position: "absolute", top: 0, left: baseSize.width && zoom < 1 ? baseSize.width * (1 - zoom) / 2 : 0, width: baseSize.width || "100%", transform: `scale(${zoom})`, transformOrigin: "top left" }}>
           {children}
-          <canvas ref={canvasRef} className="paper-ink-canvas" data-strokes={strokeCount} role="img" aria-label={`${pageLabel}：${writing ? "書寫" : "閱讀"}模式的批註畫布`} title="手指拖動及雙指縮放" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", background: "transparent", zIndex: 2, pointerEvents: "auto", touchAction: "none", cursor: writing ? (tool === "eraser" ? "cell" : "crosshair") : "grab", userSelect: "none" }} />
+          <canvas ref={canvasRef} className="paper-ink-canvas" data-strokes={strokeCount} role="img" aria-label={`${pageLabel}：${writing ? "書寫" : "閱讀"}模式的批註畫布；只限 Pencil 書寫／擦除；手指可拖動／縮放`} title="只限 Pencil 書寫／擦除；手指可拖動／縮放" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", background: "transparent", zIndex: 2, pointerEvents: "auto", touchAction: "none", cursor: writing ? (tool === "eraser" ? "cell" : "crosshair") : "grab", userSelect: "none" }} />
         </div>
       </div>
     </div>

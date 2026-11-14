@@ -16,9 +16,10 @@ export function isPenContact(pointer: InkPointer): boolean {
 }
 
 export function inkStartDecision(pointer: InkPointer, active: InkSession | null, recovering = false): "ignore" | "start" | "replace" {
-  if (pointer.pointerType !== "pen" && pointer.pointerType !== "mouse") return "ignore";
+  // Web Pointer Events identify a pen, not its hardware brand. Fingers, mice
+  // and unspecified pointer types must never create ink, regardless of pressure.
+  if (pointer.pointerType !== "pen") return "ignore";
   if (recovering && !isPenContact(pointer)) return "ignore";
-  if (pointer.pointerType === "mouse" && (pointer.button !== 0 || active !== null)) return "ignore";
   if (recovering && active?.pointerId === pointer.pointerId) return "ignore";
   // A new pen down is a new contact even when Safari reuses the pointer ID.
   // Preserve any previous received samples instead of blocking this contact.
@@ -26,8 +27,7 @@ export function inkStartDecision(pointer: InkPointer, active: InkSession | null,
 }
 
 export function isInkMove(pointer: InkPointer): boolean {
-  return pointer.pointerType === "mouse" ? (pointer.buttons & 1) !== 0
-    : pointer.pointerType === "pen" && (pointer.pressure > 0 || (pointer.buttons & 33) !== 0);
+  return pointer.pointerType === "pen" && (pointer.pressure > 0 || (pointer.buttons & 33) !== 0);
 }
 
 // Clear ownership BEFORE releasing capture or committing: lostcapture, native

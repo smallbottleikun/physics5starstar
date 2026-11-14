@@ -8,7 +8,8 @@ import OriginalPdfPage from "../components/OriginalPdfPage";
 import AnnotatablePaper from "../components/AnnotatablePaper";
 import { clampPaperZoom, MIN_PAPER_ZOOM, MAX_PAPER_ZOOM } from "../components/paper-zoom";
 import { usePaperFullscreen } from "../components/usePaperFullscreen";
-import { readerYears, getReaderSolution, questionPage, type PaperSection, type ReaderSolution } from "../exam-reader-data";
+import { readerYears, getReaderSolution, questionPage, pageQuestionNumbers, readerPageLabel, legacyPageInkRegion, type PaperSection, type ReaderSolution } from "../exam-reader-data";
+import { getAnswerParts } from "../exam-answer-parts";
 
 GlobalWorkerOptions.workerSrc = workerUrl;
 
@@ -47,30 +48,19 @@ function quickMcReason(yearId: string, question: number, answer: string) {
   return `核對答案：${answer}。先圈出題目中的已知量和關鍵概念，再用相關公式或定律逐項排除其他選項；詳細公式可在主題頁及公式庫複習。`;
 }
 
-type AnswerPart = { label: string; answer: string; answerZh: string };
-function answerParts(solution: ReaderSolution): AnswerPart[] {
-  const split = (text: string) => {
-    const markers = Array.from(text.matchAll(/(?:\([a-z]\)\([ivx]+\)|\([a-z]\))\s/gi));
-    if (markers.length === 0) return [text.trim()].filter(Boolean);
-    return markers.map((marker, index) => text.slice(marker.index ?? 0, markers[index + 1]?.index ?? text.length).trim()).filter(Boolean);
-  };
-  const answers = split(solution.answer);
-  const answersZh = split(solution.answerZh);
-  if (answers.length <= 1) return [{ label: "整題答案", answer: solution.answer, answerZh: solution.answerZh }];
-  return answers.map((answer, index) => ({
-    label: answer.match(/^\([a-z]\)(?:\([ivx]+\))?/i)?.[0] ?? `小問 ${index + 1}`,
-    answer: answer.replace(/^\([a-z]\)(?:\([ivx]+\))?\s*/i, ""),
-    answerZh: (answersZh[index] ?? solution.answerZh).replace(/^\([a-z]\)(?:\([ivx]+\))?\s*/i, ""),
-  }));
-}
-
-function AnswerBelow({ solution, visible, referenceOnly }: { solution: ReaderSolution; visible: boolean; referenceOnly: boolean }) {
+function AnswerBelow({ solution, visible, referenceOnly, partLabels }: { solution: ReaderSolution; visible: boolean; referenceOnly: boolean; partLabels?: string[] }) {
   const [open, setOpen] = useState(visible);
   useEffect(() => setOpen(visible), [visible]);
-  const parts = useMemo(() => answerParts(solution), [solution]);
-  return <section className="reader-answer reader-sq-answer" id={`answer-q${solution.question}`} data-question={solution.question}>
+  const parts = useMemo(() => getAnswerParts(solution, partLabels), [solution, partLabels]);
+  const reasoning = <div className="reader-answer-reasoning">
+    <div className="reader-sq-explanation"><h4>為甚麼這樣做？</h4><p className="reader-preserve-lines">{solution.explanationZh}</p><details className="reader-english"><summary>English reasoning · 英文作答思路</summary><p className="mt-2 reader-preserve-lines">{solution.explanation}</p></details></div>
+    <div><h4>用甚麼公式？</h4><div className="reader-formulas">{solution.formulas.map((formula, i) => <code key={i}>{formula}</code>)}</div></div>
+    {solution.steps && solution.steps.length > 0 && <div><h4>一步一步講解</h4><ol className="reader-steps">{solution.steps.map((step, i) => <li key={i}><span>{i + 1}</span><div><h5>{step.label}</h5><p className="reader-preserve-lines">{step.zh}</p><details className="reader-english"><summary>English</summary><p className="mt-2">{step.en}</p></details></div></li>)}</ol></div>}
+    {solution.sourceNotes && <p className="reader-source-note">{solution.sourceNotes}</p>}
+  </div>;
+  return <section className="reader-answer reader-sq-answer" id={`answer-q${solution.question}${partLabels ? `-${partLabels.join("").replace(/[()]/g, "")}` : ""}`} data-question={solution.question}>
     <button className="reader-answer-heading" onClick={() => setOpen(v => !v)} aria-expanded={open}>
-      <div><span className="reader-answer-label">SQ Q{solution.question} · 答案與講解</span><h3>{solution.titleZh}</h3></div>
+      <div><span className="reader-answer-label">SQ Q{solution.question} {partLabels?.join("、")} · 本頁答案與講解</span><h3>{solution.titleZh}</h3></div>
       <ChevronDown size={18} className={open ? "rotate-180" : ""} />
     </button>
     {open && <div className="reader-answer-content">
@@ -82,10 +72,7 @@ function AnswerBelow({ solution, visible, referenceOnly }: { solution: ReaderSol
           <h4>中文答案／概念翻譯</h4><p className="reader-preserve-lines">{part.answerZh}</p>
         </article>)}
       </div>
-      <div className="reader-sq-explanation"><h4>為甚麼這樣做？</h4><p className="reader-preserve-lines">{solution.explanationZh}</p><details className="reader-english"><summary>English reasoning · 英文作答思路</summary><p className="mt-2 reader-preserve-lines">{solution.explanation}</p></details></div>
-      <div><h4>用甚麼公式？</h4><div className="reader-formulas">{solution.formulas.map((formula, i) => <code key={i}>{formula}</code>)}</div></div>
-      {solution.steps && solution.steps.length > 0 && <div><h4>一步一步講解</h4><ol className="reader-steps">{solution.steps.map((step, i) => <li key={i}><span>{i + 1}</span><div><h5>{step.label}</h5><p className="reader-preserve-lines">{step.zh}</p><details className="reader-english"><summary>English</summary><p className="mt-2">{step.en}</p></details></div></li>)}</ol></div>}
-      {solution.sourceNotes && <p className="reader-source-note">{solution.sourceNotes}</p>}
+      {partLabels ? <details className="reader-part-reasoning"><summary>查看整題原理、公式與推導（含其他頁小問）</summary>{reasoning}</details> : reasoning}
     </div>}
   </section>;
 }
@@ -177,7 +164,8 @@ export default function ExamReader() {
   const questionCount = section === "mc" ? 27 : 10;
   const currentPage = activePage ?? year.pages[section][0]?.page;
   const currentEntry = year.pages[section].find(page => page.page === currentPage);
-  const pageName = currentEntry?.questions.length ? `${section.toUpperCase()} ${currentEntry.questions.map(q => `Q${q}`).join("、")}` : "續題";
+  const currentQuestions = currentEntry ? pageQuestionNumbers(currentEntry) : [];
+  const pageName = currentQuestions.length ? `${section.toUpperCase()} ${currentQuestions.map(q => `Q${q}`).join("、")}` : "續題";
   const changeZoom = (value: number) => setZoom(clampPaperZoom(value));
   const toggleFullscreen = () => { setMoreOpen(false); void fullscreen.toggle(); };
   return <div className={`app-shell exam-reader reader-workspace ${fullscreen.active ? "is-paper-fullscreen" : ""}`} style={{ "--reader-dock-height": `${dockHeight}px` } as CSSProperties}>
@@ -211,7 +199,7 @@ export default function ExamReader() {
       {fullscreen.active && fullscreen.notice && <span className="reader-fullscreen-notice" role="status">{fullscreen.notice}</span>}
       {moreOpen && <section id="reader-more-menu" className="reader-more-menu" aria-label="試卷設定與操作說明">
         <div className="reader-more-title"><h2>{year.year} · {section === "mc" ? "MC 選擇題" : "SQ 長答題"}</h2><button className="reader-dock-button" onClick={() => setMoreOpen(false)} aria-label="關閉更多選單"><X size={17} /></button></div>
-        <p>雙指張合或使用 +／− 縮放（25%–300%）；一指拖動試卷；Apple Pencil 書寫。點百分比回復全寬，點「全屏」進入精簡書寫畫面。</p>
+        <p>每個原卷區域只顯示一張單頁 PDF。只有 Pencil 可書寫或擦筆跡；手指只作一指拖動及雙指縮放（25%–300%），不會寫字。點百分比回復全寬，點「全屏」進入精簡書寫畫面。</p>
         <button className="reader-menu-answer-toggle" onClick={() => setShowAnswers(v => !v)}>{showAnswers ? "收起答案" : "顯示答案"}</button>
         <p>筆跡只儲存在目前瀏覽器。切換頁面、縮放及重新載入不會重置粗細設定。</p>
         <p className="reader-help-note">筆身雙擊／擠壓手勢須由 iPadOS 與瀏覽器提供事件；網頁不保證收到這些硬件手勢。請使用頂部工具按鈕切換。</p>
@@ -223,13 +211,13 @@ export default function ExamReader() {
     <main className="reader-main">
       {!pdf && !error && <div className="reader-loading" role="status"><Loader2 size={24} className="animate-spin" /><p>正在載入原版 PDF…</p>{year.id === "2425" && <p>2024–25 掃描卷較大，首次載入可能需要數秒。</p>}</div>}
       {error && <div className="reader-error" role="alert"><FileText size={24} /><p>{error}</p><button onClick={() => setRetry(v => v + 1)}>重新載入</button><a href={sourceUrl} target="_blank" rel="noopener noreferrer">開啟原 PDF</a></div>}
-      {pdf && year.pages[section].map(page => <article className="reader-source-block" id={`source-page-${page.page}`} key={`${sourceUrl}-${page.page}`} data-source-page={page.page}>
-        <div className="reader-page-heading"><span>第 {page.page} 頁</span><strong>{page.label ?? `${section.toUpperCase()} ${page.questions.map(q => `Q${q}`).join("、")}`}</strong></div>
-        <AnnotatablePaper pageLabel={`${year.year} ${section.toUpperCase()} 原卷第 ${page.page} 頁`} zoom={zoom} onZoomChange={changeZoom} toolbarTargetId="exam-ink-tools" active={page.page === currentPage}><OriginalPdfPage pdf={pdf} pageNumber={page.page} accessibleLabel={`${year.year} ${section.toUpperCase()} 原卷第 ${page.page} 頁`} /></AnnotatablePaper>
-        {page.questions.length === 0 && <p className="reader-continuation">本題尚有續頁；請向下閱讀，答案會放在完整題目最後一張原卷頁面之下。</p>}
+      {pdf && year.pages[section].map(page => <article className="reader-source-block" id={`source-page-${page.page}`} key={`${sourceUrl}-${page.page}`} data-source-page={page.page} data-paper-layout="single">
+        <div className="reader-page-heading"><span>單頁 PDF · 第 {page.page} 頁</span><strong>{page.label ?? `${section.toUpperCase()} ${pageQuestionNumbers(page).map(q => `Q${q}`).join("、")}`}</strong></div>
+        <AnnotatablePaper pageLabel={readerPageLabel(year, section, page.page)} legacyInkRegion={legacyPageInkRegion(year, section, page.page)} zoom={zoom} onZoomChange={changeZoom} toolbarTargetId="exam-ink-tools" active={page.page === currentPage}><OriginalPdfPage pdf={pdf} pageNumber={page.page} accessibleLabel={readerPageLabel(year, section, page.page)} /></AnnotatablePaper>
+        {pageQuestionNumbers(page).length === 0 && <p className="reader-continuation">本題尚有續頁；請向下閱讀，答案會放在完整題目最後一張原卷頁面之下。</p>}
         <div className="reader-under-pdf" data-answer-for-page={page.page}>
           {section === "mc" && <section className="reader-mc-answer"><div className="reader-mc-grid">{page.questions.map(q => <McAnswer key={q} yearId={year.id} question={q} answer={year.mcAnswers[q - 1] ?? "待核對"} />)}</div><p className="reader-mc-source">{year.referenceOnly ? "自行解題的參考答案 · 非學校官方答案" : "答案來源：附件中的學校評分標準"}</p></section>}
-          {section === "sq" && page.questions.map(q => { const solution = getReaderSolution(year, q); return solution ? <AnswerBelow solution={solution} visible={showAnswers} referenceOnly={year.referenceOnly} key={`${year.id}-${q}`} /> : <p className="reader-error" key={q}>SQ Q{q} 答案尚未載入。</p>; })}
+          {section === "sq" && pageQuestionNumbers(page).map(q => { const solution = getReaderSolution(year, q); return solution ? <AnswerBelow solution={solution} visible={showAnswers} referenceOnly={year.referenceOnly} partLabels={page.answerParts?.[q]} key={`${year.id}-${page.page}-${q}`} /> : <p className="reader-error" key={q}>SQ Q{q} 答案尚未載入。</p>; })}
         </div>
       </article>)}
       <div className="reader-bottom-links"><Link href="/papers">返回年份選單</Link><Link href={`/papers/${year.id}/${section === "mc" ? "sq" : "mc"}`}>轉到 {section === "mc" ? "SQ 長答題" : "MC 選擇題"}</Link><a href="/formula-library" target="_blank" rel="noopener noreferrer">完整公式庫 <ExternalLink size={13} /></a></div>

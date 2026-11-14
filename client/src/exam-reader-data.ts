@@ -2,6 +2,7 @@ import { longAnswerIndex } from "./exam-audit";
 import { longAnswerSolutions } from "./long-answer-solutions";
 import { longAnswer2425, mcqAnswer2425 } from "./self-answers-2425";
 import { examAnswerTranslations } from "./exam-answer-translations";
+import singlePageRegions from "./exam-single-page-regions.json";
 
 export type PaperSection = "mc" | "sq";
 export interface ReaderStep { label: string; en: string; zh: string; }
@@ -10,7 +11,13 @@ export interface ReaderSolution {
   answer: string; answerZh: string; formulas: string[];
   explanation: string; explanationZh: string; steps?: ReaderStep[]; sourceNotes?: string;
 }
-export interface SourcePage { page: number; questions: number[]; label?: string; }
+export interface SourcePage {
+  page: number; questions: number[]; label?: string;
+  // Complete questions remain indexed exactly once. Partial answers are attached
+  // to the actual printed page where those subquestions appear.
+  partialQuestions?: number[];
+  answerParts?: Record<number, string[]>;
+}
 export interface ReaderYear {
   id: string; year: string; note: string; referenceOnly: boolean;
   source: Record<PaperSection, string>; pages: Record<PaperSection, SourcePage[]>;
@@ -21,7 +28,7 @@ const mcPages = (first: number, ranges: number[][]): SourcePage[] => ranges.map(
 const original = {
   mc2324: "/manus-storage/5x1_2324_A_MCQ_7e90b785.pdf",
   sq2324: "/manus-storage/5x1_2324_B_SQ_b6c8ec37.pdf",
-  combined2425: "/manus-storage/physics_2425_levelled_2a3985df.pdf",
+  single2425: "/manus-storage/physics_2425_levelled_single_f57a53c0.pdf",
   mc2526: "/manus-storage/5x1_2526_A_MCQ_ed55c2c6.pdf",
   sq2526: "/manus-storage/5x1_2526_B_SQ_ae475168.pdf",
 };
@@ -42,19 +49,24 @@ export const readerYears: ReaderYear[] = [
     },
   },
   {
-    id: "2425", year: "2024–25", note: "原掃描卷＋自行解題的參考答案（非學校評分標準）", referenceOnly: true,
-    source: { mc: original.combined2425, sq: original.combined2425 },
+    id: "2425", year: "2024–25", note: "已校平及去除舊筆跡的單頁原卷＋自行解題參考答案", referenceOnly: true,
+    source: { mc: original.single2425, sq: original.single2425 },
     mcAnswers: mcqAnswer2425,
     pages: {
-      // Keep the supplied horizontal spread layout so each original scan is one readable page.
       mc: [
-        { page: 2, questions: consecutive(1,12) }, { page: 3, questions: consecutive(13,20) },
-        { page: 4, questions: consecutive(21,27) },
+        { page: 3, questions: consecutive(1,6) }, { page: 4, questions: consecutive(7,12) },
+        { page: 5, questions: consecutive(13,16) }, { page: 6, questions: consecutive(17,20) },
+        { page: 7, questions: consecutive(21,23) }, { page: 8, questions: consecutive(24,27) },
       ],
       sq: [
-        { page: 6, questions: [1, 2] }, { page: 7, questions: [3, 4] },
-        { page: 8, questions: [5, 6] }, { page: 9, questions: [7, 8] },
-        { page: 10, questions: [9] }, { page: 11, questions: [10] },
+        { page: 10, questions: [1] }, { page: 11, questions: [2] },
+        { page: 12, questions: [3] }, { page: 13, questions: [4] },
+        { page: 14, questions: [5] }, { page: 15, questions: [6] },
+        { page: 16, questions: [7] },
+        { page: 17, questions: [], partialQuestions: [8], answerParts: {8:["(a)","(b)","(c)"]}, label: "SQ Q8(a)–(c) · 本頁答案，(d) 在下一頁" },
+        { page: 18, questions: [8], partialQuestions: [9], answerParts: {8:["(d)"],9:["(a)","(b)(i)"]}, label: "SQ Q8(d)；Q9(a)、(b)(i)" },
+        { page: 19, questions: [9], answerParts: {9:["(b)(ii)","(b)(iii)","(c)"]}, label: "SQ Q9(b)(ii)–(iii)、(c)" },
+        { page: 20, questions: [10] },
       ],
     },
   },
@@ -74,6 +86,18 @@ export const readerYears: ReaderYear[] = [
   },
 ];
 
+export function pageQuestionNumbers(page: SourcePage): number[] {
+  return Array.from(new Set([...page.questions, ...(page.partialQuestions ?? [])])).sort((a,b)=>a-b);
+}
+export function readerPageLabel(year: ReaderYear, section: PaperSection, page: number): string {
+  return `${year.year} ${section.toUpperCase()} ${year.id === "2425" ? "單頁" : "原卷"}第 ${page} 頁`;
+}
+export function legacyPageInkRegion(year: ReaderYear, section: PaperSection, page: number) {
+  if(year.id!=="2425") return undefined;
+  const region=singlePageRegions.find(r=>r.page===page);
+  return region ? {pageLabel:`${year.year} ${section.toUpperCase()} 原卷第 ${region.originalPage} 頁`,x0:region.x0,x1:region.x1,y0:region.y0,y1:region.y1} : undefined;
+}
+
 const checkedModules = import.meta.glob("./exam-solutions/*.json", { eager: true, import: "default" }) as Record<string, ReaderSolution>;
 const checkedSolutions = Object.values(checkedModules);
 export function getReaderSolution(year: ReaderYear, question: number): ReaderSolution | undefined {
@@ -81,17 +105,14 @@ export function getReaderSolution(year: ReaderYear, question: number): ReaderSol
   if (checked) return checked;
   if (year.id === "2425") {
     const s = longAnswer2425.find(s => s.question === `Q${question}`);
-    return s ? { ...s, question, yearId: year.id, title: `SQ Q${question}`, titleZh: "長答题", explanationZh: s.answerZh } : undefined;
+    return s ? { ...s, question, yearId: year.id, title: `SQ Q${question}`, titleZh: "長答題", explanationZh: s.answerZh } : undefined;
   }
   const s = longAnswerSolutions[`${year.year}-Q${question}`];
   const meta = longAnswerIndex.find(q => q.year === year.year && q.question === `Q${question}`);
   return s ? { ...s, yearId: year.id, question, title: meta?.title ?? `SQ Q${question}`, titleZh: meta?.titleZh ?? "長答題", answerZh: examAnswerTranslations[`${year.id}-${question}`] ?? s.explanationZh } : undefined;
 }
-
 export function questionPage(year: ReaderYear, section: PaperSection, question: number): number | undefined {
   if (section === "sq" && year.id === "2526" && question === 6) return 7;
   if (section === "sq" && year.id === "2324" && question === 10) return 11;
-  if (section === "sq" && year.id === "2425" && question === 8) return 9;
-  if (section === "sq" && year.id === "2425" && question === 9) return 10;
-  return year.pages[section].find(p => p.questions.includes(question))?.page;
+  return year.pages[section].find(p => pageQuestionNumbers(p).includes(question))?.page;
 }
