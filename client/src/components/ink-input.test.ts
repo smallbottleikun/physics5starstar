@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createDeferredInkStorage, inkStartDecision, isInkMove, isPenContact, takeInkSession, touchMayNavigate } from "./ink-input";
+import { createDeferredInkStorage, inkStartDecision, isInkMove, isPenButtonDown, isPenContact, takeInkSession, touchMayNavigate } from "./ink-input";
 
 // Exercise the actual component's effects/native handlers without a browser or
 // adding a DOM dependency. The hook runner retains refs/state/dependency arrays;
@@ -128,6 +128,10 @@ describe("Pencil lifecycle policy", () => {
   it("accepts explicit Safari pen down with unusual button flags", () => {
     expect(inkStartDecision(pen({ button: -1, buttons: 0, pressure: 0 }), null)).toBe("start");
   });
+  it.each([-1, 0, 1, 5])("treats Safari/iPadOS pen button %s without pressed flags as a down", button => {
+    expect(isPenButtonDown(pen({ button, buttons: 0, pressure: 0 }))).toBe(true);
+    expect(inkStartDecision(pen({ button, buttons: 0, pressure: 0 }), null)).toBe("start");
+  });
   it.each(["touch", "mouse", ""])("rejects %s ink even with pressure and tip/eraser contact flags", pointerType => {
     for (const buttons of [1, 32]) {
       const input = pen({ pointerType, pressure: 0.8, buttons });
@@ -154,6 +158,10 @@ describe("Pencil lifecycle policy", () => {
     expect(inkStartDecision(pen(), null, true)).toBe("start");
     expect(isInkMove(pen({ pressure: 0, buttons: 0 }))).toBe(false);
     expect(touchMayNavigate({ pointerId: 7, pointerType: "pen" })).toBe(false);
+  });
+  it("hover pen (no down flag, no pressure) never starts a stroke", () => {
+    expect(isPenButtonDown(pen({ button: 2, buttons: 0, pressure: 0 }))).toBe(false);
+    expect(inkStartDecision(pen({ button: 2, buttons: 0, pressure: 0 }), null)).toBe("ignore");
   });
   it("takes a session exactly once before re-entrant completion and ignores other IDs", () => {
     const session = { pointerId: 7, pointerType: "pen" };
@@ -192,6 +200,26 @@ describe("actual native annotation handlers", () => {
     h.emit(ending, { pressure: 0, button: -1, buttons: 0 }, h.win);
     vi.advanceTimersByTime(120);
     expect(h.ink()).toHaveLength(1); expect(h.ink()[0].points).toHaveLength(1);
+    h.unmount();
+  });
+  it.each([0, -1, 5])("iPadOS down with button %s and buttons=0/pressure=0 still keeps the first dot", button => {
+    const h = mountPaper(); h.paint(); h.context.arc.mockClear();
+    h.emit("pointerdown", { button, buttons: 0, pressure: 0 });
+    h.paint(); expect(h.context.arc).toHaveBeenCalledTimes(1);
+    h.emit("pointerup", { button, buttons: 0, pressure: 0 }, h.win);
+    vi.advanceTimersByTime(120);
+    expect(h.ink()).toHaveLength(1); expect(h.ink()[0].points).toHaveLength(1);
+    h.unmount();
+  });
+  it("recovers a missed down from a Safari button-only move without pressure", () => {
+    const h = mountPaper();
+    // No down was received; a move arriving with pen button flags recovers the stroke.
+    h.emit("pointermove", { clientX: 200, button: 0, buttons: 1, pressure: 0 });
+    h.emit("pointermove", { clientX: 220, pressure: 0.5 });
+    h.emit("pointerup", { pressure: 0, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120);
+    expect(h.ink()).toHaveLength(1);
+    expect(h.ink()[0].points.length).toBeGreaterThanOrEqual(1);
     h.unmount();
   });
   it.each(["pen", "eraser"] as const)("same-ID non-pen events cannot disturb an active %s contact", tool => {
@@ -308,6 +336,17 @@ describe("actual native annotation handlers", () => {
     h.emit("pointerleave", { pressure: 0, buttons: 0 });
     vi.advanceTimersByTime(120); expect(h.localStorage.setItem).not.toHaveBeenCalled();
     h.emit("pointermove", { clientX: 200 }); h.emit("pointerup", { pressure: 0, buttons: 0 }, h.win);
+    vi.advanceTimersByTime(120); expect(h.ink()[0].points).toHaveLength(2);
+    h.unmount();
+  });
+  it("uncaptured pointerleave on an active pen does not finish the stroke early", () => {
+    const h = mountPaper({ captureFails: true });
+    h.emit("pointerdown");
+    // No pointer capture; leaving bounds must not complete the pending stroke.
+    h.emit("pointerleave", { pressure: 0, buttons: 0 });
+    vi.advanceTimersByTime(120); expect(h.localStorage.setItem).not.toHaveBeenCalled();
+    h.emit("pointermove", { clientX: 200 });
+    h.emit("pointerup", { pressure: 0, buttons: 0 }, h.win);
     vi.advanceTimersByTime(120); expect(h.ink()[0].points).toHaveLength(2);
     h.unmount();
   });
