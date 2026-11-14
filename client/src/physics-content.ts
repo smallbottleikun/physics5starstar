@@ -7,12 +7,16 @@ import {
   expandedTopics,
   existingFormulaSheetAdditions,
 } from "./expanded-physics-content";
+import { applyDetailedLessons } from "./lesson-registry";
 
 export interface Formula {
   latex: string;
   description: string;
   descriptionZh: string;
   symbols?: SymbolDef[];
+  name?: string;
+  nameZh?: string;
+  rearrangements?: { target: string; latex: string; note: string; noteZh: string }[];
 }
 
 export interface SymbolDef {
@@ -52,6 +56,7 @@ export interface FormulaSheetEntry {
   topicZh: string;
   color: string;
   symbols: SymbolDef[];
+  rearrangements?: Formula["rearrangements"];
 }
 
 export const formulaSheet: FormulaSheetEntry[] = [
@@ -1160,6 +1165,7 @@ export const topics: Topic[] = [
 applyExistingTopicEnhancements(topics);
 topics.push(...expandedTopics);
 formulaSheet.push(...existingFormulaSheetAdditions, ...expandedFormulaSheet);
+applyDetailedLessons(topics, formulaSheet);
 
 export const categories = [
   { id: "all", label: "All Topics", labelZh: "所有主題", color: "white" },

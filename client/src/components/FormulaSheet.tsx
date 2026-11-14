@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { formulaSheet, type FormulaSheetEntry } from "../physics-content";
+import MathFormula from "./MathFormula";
 
 const COLOR_MAP: Record<string, { border: string; text: string; bg: string; badge: string; dot: string; glow: string }> = {
   cyan:   { border: "border-[#00d4ff]/20", text: "text-[#00d4ff]",   bg: "bg-[#00d4ff]/6",   badge: "bg-[#00d4ff]/15 text-[#00d4ff]",   dot: "#00d4ff", glow: "rgba(0,212,255,0.15)" },
@@ -110,7 +111,7 @@ function FormulaCard({ entry, index }: { entry: FormulaSheetEntry; index: number
                         color: c.dot,
                       }}
                     >
-                      {sym.symbol}
+                      {sym.symbol.includes('\\') ? <MathFormula latex={sym.symbol} /> : sym.symbol}
                     </div>
                     {/* Meaning */}
                     <div className="flex-1 min-w-0">
@@ -135,6 +136,15 @@ function FormulaCard({ entry, index }: { entry: FormulaSheetEntry; index: number
                   </div>
                 ))}
               </div>
+              {!!entry.rearrangements?.length && <div className="mt-5 space-y-3">
+                <h4 className="text-sm">Solve for each symbol · 每個字母怎樣求</h4>
+                {entry.rearrangements.map((item, i) => <div key={i} className="lesson-rearrangement">
+                  <p className="text-xs font-mono font-semibold" style={{ color: "var(--color-cyan)" }}>Find {item.target}</p>
+                  <MathFormula latex={item.latex} />
+                  <p className="lesson-en text-sm">{item.note}</p>
+                  <p className="lesson-zh">{item.noteZh}</p>
+                </div>)}
+              </div>}
             </div>
           </motion.div>
         )}

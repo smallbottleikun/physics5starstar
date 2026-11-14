@@ -2,6 +2,7 @@
 // One DSE-style question per topic, with model answers
 
 import { expandedPracticeQuestions } from "./expanded-practice-questions";
+import { lessonQuestions } from "./lesson-registry";
 
 export interface AnswerPart {
   label: string;       // e.g. "(a)", "(b)(i)"
@@ -549,3 +550,4 @@ export const practiceQuestions: PracticeQuestion[] = [
 // Additional original, bilingual practice sets for the extended Force and
 // Motion and Heat and Gases syllabus coverage.
 practiceQuestions.push(...expandedPracticeQuestions);
+practiceQuestions.push(...lessonQuestions);

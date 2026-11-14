@@ -360,20 +360,20 @@ export const expandedTopics: Topic[] = [
     "氣體定律聯繫壓力、體積及絕對溫度；動理論以分子的隨機運動及碰撞解釋這些關係。",
     [
       point("Gas pressure is produced by molecular collisions with the walls of its container.", "氣體壓力源於分子撞擊容器壁。"),
-      point("At constant temperature, Boyle's law gives pV = constant. At constant pressure, V/T = constant.", "溫度不變時，波義耳定律給出 pV = 常數；壓力不變時，V/T = 常數。"),
-      point("At constant volume, p/T = constant. Every gas-law ratio must use kelvin, not degrees Celsius.", "體積不變時，p/T = 常數；所有氣體定律比值必須使用開爾文，不能使用攝氏度。"),
+      point("For a fixed amount of ideal gas, at constant temperature Boyle's law gives pV = constant; at constant absolute pressure, V/T = constant.", "對固定氣量的理想氣體，溫度不變時波義耳定律給出 pV = 常數；絕對壓強不變時，V/T = 常數。"),
+      point("For a fixed amount at constant volume, p/T = constant. Use absolute pressure and kelvin, not gauge pressure or degrees Celsius.", "對固定氣量，體積不變時 p/T = 常數。必須使用絕對壓強及開爾文，不能使用表壓或攝氏度。"),
       point("Absolute zero can be estimated by extrapolating a pressure–Celsius-temperature or volume–Celsius-temperature graph.", "可從壓力—攝氏溫度或體積—攝氏溫度圖外推估計絕對零度。"),
       point("An ideal gas is a useful approximation at high temperature and low pressure.", "在高溫及低壓下，理想氣體是有用的近似模型。"),
     ],
     [
       formula("Ideal Gas Equation", "理想氣體方程", "pV=nRT", "Equation of state for an ideal gas.", "理想氣體的狀態方程。", [symbol("p", "Pressure", "壓力", "Pa"), symbol("V", "Volume", "體積", "m³"), symbol("n", "Amount of gas", "物質的量", "mol"), symbol("R", "Molar gas constant", "莫耳氣體常數", "8.31 J/(mol·K)"), symbol("T", "Absolute temperature", "絕對溫度", "K")]),
       formula("Kinetic Theory Equation", "動理論方程", "pV=\\frac{1}{3}Nmc^2", "Microscopic equation connecting pressure with molecular motion.", "把壓力與分子運動聯繫起來的微觀方程。", [symbol("N", "Number of molecules", "分子數目", "dimensionless"), symbol("m", "Mass of one molecule", "一個分子的質量", "kg"), symbol("c", "Root-mean-square molecular speed", "分子均方根速率", "m/s"), symbol("p, V", "Pressure and volume", "壓力及體積", "Pa, m³")]),
-      formula("Mean Kinetic Energy", "分子平均動能", "E_k=\\frac{3}{2}nRT", "Total random translational kinetic energy of an ideal gas sample.", "理想氣體樣本中分子隨機平移運動的總動能。", [symbol("Eₖ", "Total molecular kinetic energy", "分子總動能", "J"), symbol("n", "Amount of gas", "物質的量", "mol"), symbol("R", "Molar gas constant", "莫耳氣體常數", "8.31 J/(mol·K)"), symbol("T", "Absolute temperature", "絕對溫度", "K")]),
+      formula("Total Translational Kinetic Energy", "分子總平移動能", "K_{\\mathrm{total}}=\\frac{3}{2}nRT", "Total random translational kinetic energy of an ideal gas sample, not the mean per molecule.", "理想氣體樣本中分子隨機平移運動的總動能，並非每分子的平均值。", [symbol("K_total", "Total molecular translational kinetic energy", "分子總平移動能", "J"), symbol("n", "Amount of gas", "物質的量", "mol"), symbol("R", "Molar gas constant", "莫耳氣體常數", "8.31 J/(mol·K)"), symbol("T", "Absolute temperature", "絕對溫度", "K")]),
     ],
     [
       point("Convert Celsius temperature to kelvin before substituting into any gas equation or ratio.", "代入任何氣體方程或比值前，必須先把攝氏溫度換為開爾文。"),
-      point("The three core formulae are pV=nRT, pV=⅓Nmc² and Eₖ=3/2 nRT; use the first for macroscopic state variables and the latter two for molecular interpretation.", "三條核心公式是 pV=nRT、pV=⅓Nmc² 及 Eₖ=3/2 nRT；第一條用於宏觀狀態量，後兩條用於微觀分子解釋。"),
-      point("Explain a gas-law change with collisions: heating raises molecular kinetic energy and initially makes collisions more frequent or forceful.", "用碰撞解釋氣體定律變化：加熱提高分子動能，起初會令碰撞更頻密或更有力。"),
+      point("Mean kinetic energy per molecule is 3RT/(2N_A); multiplying it by the molecular count gives total translational energy 3nRT/2.", "每分子的平均動能為 3RT/(2N_A)；再乘分子數才得到總平移動能 3nRT/2。"),
+      point("State the fixed conditions before explaining collisions. In a sealed rigid container, heating increases RMS speed, collision rate and momentum transfer per collision, so pressure rises.", "先說明固定條件才解釋碰撞。在密封剛性容器內，加熱提高均方根速率、碰撞頻率及每次碰撞的動量傳遞，因此壓強上升。"),
     ],
   ),
 ];
