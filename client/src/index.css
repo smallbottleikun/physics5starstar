@@ -378,3 +378,20 @@ html[data-reading-scale="large"] { font-size: 18px; }
 .long-answer-solution strong { color:var(--color-cyan); font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; }
 .paper-formula-text { color:var(--color-orange); font-family:"JetBrains Mono",monospace; overflow-x:auto; }
 @media (max-width:700px) { .long-answer-solution { grid-template-columns:1fr; gap:.75rem; } }
+.paper-type-row { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.8rem; }
+.paper-type-row span { border:1px solid var(--border-subtle); border-radius:999px; padding:.25rem .45rem; color:var(--text-muted); font-size:.65rem; }
+.paper-type-row span:first-child { color:var(--color-cyan); border-color:color-mix(in srgb, var(--color-cyan) 45%, var(--border-subtle)); }
+.paper-type-row span:last-child { color:var(--color-orange); border-color:color-mix(in srgb, var(--color-orange) 45%, var(--border-subtle)); }
+.self-answer-section { border-top:1px solid var(--border-subtle); padding-top:2rem; }
+.self-mcq-key { border:1px solid color-mix(in srgb, var(--color-cyan) 35%, var(--border-subtle)); border-radius:.85rem; padding:.85rem; background:var(--surface); color:var(--color-cyan); font-size:.75rem; }
+.self-mcq-key > div { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.65rem; }
+.self-mcq-key span { display:inline-flex; flex-direction:column; align-items:center; min-width:30px; border:1px solid var(--border-subtle); border-radius:.35rem; padding:.25rem .35rem; color:var(--text-primary); font-family:"JetBrains Mono",monospace; }
+.self-mcq-key small { color:var(--text-muted); font-size:.55rem; }
+.self-answer-card { border:1px solid var(--border-subtle); border-radius:.75rem; background:var(--surface); overflow:hidden; }
+.self-answer-card summary { display:grid; grid-template-columns:120px 1fr auto; align-items:center; gap:.75rem; padding:.8rem 1rem; cursor:pointer; list-style:none; }
+.self-answer-card summary::-webkit-details-marker { display:none; }
+.self-answer-card summary > span:last-child { color:var(--color-cyan); font-size:1.1rem; }
+.self-answer-body { border-top:1px solid var(--border-subtle); padding:1rem; color:var(--text-secondary); font-size:.78rem; display:grid; gap:.55rem; }
+.answer-page-label { grid-column:1 / -1; color:var(--color-orange); font:600 .65rem "JetBrains Mono",monospace; letter-spacing:.08em; }
+@media print { .glass-nav, .paper-pencil-note, .paper-search, .paper-toggle { display:none !important; } .long-answer-detail[open] .long-answer-solution, .self-answer-card[open] .self-answer-body { break-before:page; page-break-before:always; } }
+@media (max-width:700px) { .self-answer-card summary { grid-template-columns:1fr auto; } .self-answer-card summary strong { grid-column:1 / -1; grid-row:2; } }

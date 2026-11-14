@@ -13,7 +13,7 @@ export const paperYears: PaperYear[] = [
     files: [paper("Section A · MCQ", "paper", "/manus-storage/5x1_2526_A_MCQ_ed55c2c6.pdf"), paper("Section B · Structured", "paper", "/manus-storage/5x1_2526_B_SQ_ae475168.pdf"), paper("Marking scheme · 答案", "answer", "/manus-storage/5x1_2526_ans_970d2fa6.pdf")],
   },
   {
-    year: "2024–25", title: "First Assessment · Form 5 Physics", note: "附件提供試卷，但沒有附上答案檔；網站只標示題目，不猜測官方答案。", mcqCount: 27, structuredCount: 10, answerStatus: "Question paper supplied; answer key not supplied",
+    year: "2024–25", title: "First Assessment · Form 5 Physics", note: "附件提供試卷，但沒有附上官方答案檔；頁面下方加入自行核對的參考答案。", mcqCount: 27, structuredCount: 10, answerStatus: "Question paper supplied; self-generated key below; official answer key not supplied",
     files: [paper("Question paper · MCQ + Structured", "paper", "/manus-storage/5x1_2425_SQ_MCQ_d72c2a7c.pdf")],
   },
   {
