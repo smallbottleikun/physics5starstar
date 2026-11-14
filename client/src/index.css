@@ -507,3 +507,45 @@ html[data-reading-scale="large"] { font-size: 18px; }
 .ink-toolbar small,.ink-toolbar .ink-hint { color:var(--text-muted); font-size:.68rem; flex-basis:100%; line-height:1.6; }
 .paper-ink-canvas { position:absolute; inset:0; width:100%; height:100%; z-index:5; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
 @media (max-width:640px) { .ink-toolbar { gap:.3rem; padding:.5rem; } .ink-toolbar button { padding:.45rem .55rem; } }
+
+/* Edge-to-edge iPad paper workspace. The original PDF and its ink share one zoom transform. */
+.reader-workspace { width:100%; min-height:100dvh; overflow-x:clip; }
+.reader-workspace .reader-main { width:100%; max-width:none; margin:0; padding:0 0 2rem; }
+.reader-workspace .reader-source-block { width:100%; max-width:none; margin:0 0 1.25rem; border:0; border-radius:0; box-shadow:none; scroll-margin-top:calc(var(--reader-dock-height,102px) + 4px); overflow:visible; }
+.reader-dock { position:sticky; top:0; z-index:70; background:var(--surface); box-shadow:0 1px 0 var(--border-subtle); isolation:isolate; padding-top:env(safe-area-inset-top,0px); }
+.reader-compact-nav { display:flex; align-items:center; gap:.3rem; height:50px; padding:2px max(.35rem,env(safe-area-inset-right,0px)) 2px max(.35rem,env(safe-area-inset-left,0px)); border-bottom:1px solid var(--border-subtle); color:var(--text-secondary); }
+.reader-document-name { white-space:nowrap; font-size:.76rem; padding:0 .45rem; color:var(--text-muted); }
+.reader-document-name strong { color:var(--text-primary); margin-left:.3rem; }
+.reader-dock-button,.reader-zoom-value { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; min-width:44px; height:44px; border-radius:.4rem; color:var(--text-secondary); background:transparent; touch-action:manipulation; }
+.reader-dock-button:hover,.reader-zoom-value:hover { background:var(--surface-muted); }
+.reader-dock-button:disabled { opacity:.35; cursor:not-allowed; }
+.reader-dock-button[aria-pressed="true"] { color:var(--color-cyan); }
+.reader-question-controls,.reader-zoom-controls { display:flex; align-items:center; gap:1px; flex-shrink:0; }
+.reader-question-controls { margin-right:.5rem; }
+.reader-question-controls select { height:40px; padding:0 .4rem; min-width:86px; border:1px solid var(--border-subtle); border-radius:.4rem; color:var(--text-primary); background:var(--surface-muted); font-size:.76rem; }
+.reader-zoom-controls { border-left:1px solid var(--border-subtle); padding-left:.3rem; }
+.reader-zoom-value { min-width:55px; font: .75rem "JetBrains Mono",monospace; color:var(--color-cyan); }
+.reader-active-page { margin-left:auto; margin-right:.65rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:.7rem; }
+.reader-ink-dock { min-height:50px; background:var(--surface); }
+.reader-ink-dock .ink-toolbar { display:flex!important; flex-wrap:nowrap!important; align-items:center; justify-content:flex-start; gap:.3rem!important; padding:3px .4rem!important; margin:0!important; height:50px; border-bottom:0; background:var(--surface); overflow-x:auto; overflow-y:hidden; scrollbar-width:none; }
+.reader-ink-dock .ink-toolbar::-webkit-scrollbar { display:none; }
+.reader-ink-dock .ink-toolbar > * { flex-shrink:0; }
+.reader-ink-dock .ink-toolbar button,.reader-ink-dock .ink-toolbar select { height:44px; padding:.4rem .55rem!important; font-size:.72rem; }
+.reader-tool-loading { display:flex; align-items:center; min-height:50px; padding:0 .75rem; font-size:.75rem; color:var(--text-muted); }
+.reader-more-menu { position:absolute; top:100%; right:.4rem; width:min(400px,calc(100vw - .8rem)); max-height:65dvh; overflow-y:auto; padding:1rem; background:var(--surface); color:var(--text-secondary); border:1px solid var(--border-subtle); border-radius:.8rem; box-shadow:0 12px 40px #0004; font-size:.8rem; line-height:1.7; }
+.reader-more-title { display:flex; justify-content:space-between; align-items:center; }
+.reader-more-title h2 { color:var(--text-primary); font-weight:600; }
+.reader-more-menu p { margin-top:.6rem; }
+.reader-more-menu .appearance-controls { margin-top:1rem; }
+.reader-help-note { color:var(--text-muted); font-size:.7rem; }
+.reader-workspace .reader-page-heading { min-height:25px; padding:.25rem .65rem; font-size:.65rem; background:var(--surface-muted); }
+.reader-workspace .reader-page-heading span,.reader-workspace .reader-page-heading strong { font-size:.65rem; }
+.reader-workspace .reader-under-pdf { width:100%; max-width:1200px; margin:auto; }
+.reader-workspace .paper-zoom-viewport { width:100%; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain; background:white; scrollbar-width:thin; }
+.reader-workspace .paper-zoom-spacer { position:relative; }
+.reader-workspace .paper-zoom-content { position:absolute; top:0; left:0; transform-origin:top left; background:white; }
+.reader-workspace .paper-ink-canvas,.reader-workspace .pdf-original-page { -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+@media (max-width:740px) { .reader-active-page { display:none; } .reader-compact-nav > .reader-dock-button:nth-last-child(2) { margin-left:auto; } .reader-document-name { font-size:.68rem; padding:0 .2rem; } .reader-question-step,.reader-fit-button { display:none; } .reader-question-controls { margin-right:0; } }
+@media (max-width:430px) { .reader-document-name { display:none; } .reader-compact-nav { gap:0; } .reader-question-controls select { min-width:74px; } .reader-zoom-controls { padding-left:0; } }
+@media print { .reader-dock { display:none!important; } .reader-workspace .reader-main { padding:0; } .reader-workspace .paper-zoom-viewport { overflow:visible!important; } }
+.reader-ink-dock button[aria-label="黑色筆跡"] span { outline:1px solid var(--text-muted); outline-offset:1px; }
