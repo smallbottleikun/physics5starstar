@@ -34,7 +34,9 @@ export default function TopicPage() {
       <button onClick={() => navigate('/')} className="flex items-center gap-2 whitespace-nowrap text-sm" style={{ color: 'var(--text-secondary)' }}><ArrowLeft size={16} /><span>All Topics</span><span className="hidden sm:inline">所有主題</span></button>
       <div className="flex items-center gap-2 sm:gap-3">
         <div className="topic-appearance"><AppearanceControls compact /></div>
-        <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex items-center gap-1 text-xs" style={{ color: 'var(--color-cyan)' }}>官方公式表 <ExternalLink size={12} /></a>
+        <a href="/papers" className="hidden md:inline-flex items-center gap-1 text-xs" style={{ color: 'var(--text-secondary)' }}>歷屆試卷</a>
+        <a href="/formula-library" target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex items-center gap-1 text-xs" style={{ color: 'var(--color-cyan)' }}>完整公式庫 <ExternalLink size={12} /></a>
+        <a href={OFFICIAL_FORMULA_SHEET_URL} target="_blank" rel="noopener noreferrer" className="hidden lg:inline-flex items-center gap-1 text-xs" style={{ color: 'var(--color-cyan)' }}>官方公式表 <ExternalLink size={12} /></a>
         <button onClick={() => setShowZh(v => !v)} aria-pressed={showZh} className="rounded-lg px-2.5 py-2 text-xs whitespace-nowrap" style={{ border: '1px solid var(--border-subtle)', background: 'var(--surface-subtle)', color: 'var(--text-primary)' }}>中文注釋 <span className="opacity-60">{showZh ? 'ON' : 'OFF'}</span></button>
       </div>
     </nav>
