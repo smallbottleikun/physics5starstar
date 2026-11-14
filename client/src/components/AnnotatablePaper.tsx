@@ -138,6 +138,7 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
   const lastPenRef = useRef<{ x: number; y: number; time: number } | null>(null);
   const metricsRef = useRef({ width: 0, height: 0 }); const frameRef = useRef<number | null>(null); const fullRedrawRef = useRef(true); const paintedPointsRef = useRef(0);
   const anchorFrameRef = useRef<number | null>(null); const pendingAnchorRef = useRef<ZoomAnchor | null>(null);
+  const touchScrollFrameRef = useRef<number | null>(null); const pendingTouchScrollRef = useRef({ x: 0, y: 0 });
   const loadedPageRef = useRef(pageLabel);
   const [storage] = useState(() => createDeferredInkStorage(writeStorage));
   const [preferences, setPreferences] = useState<Preferences>(initialPreferences);
@@ -176,6 +177,27 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
         paintStroke(context, gesture.stroke, width, height, paintedPointsRef.current);
         paintedPointsRef.current = gesture.stroke.points.length;
       }
+    });
+  }, []);
+  const paintFirstPointNow = useCallback((stroke: InkStroke) => {
+    const canvas = canvasRef.current; const { width, height } = metricsRef.current;
+    if (!canvas || width <= 0 || height <= 0 || stroke.kind === "ruler" || fullRedrawRef.current) return false;
+    const context = canvas.getContext("2d"); if (!context) return false;
+    context.save();
+    context.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
+    paintStroke(context, stroke, width, height, 0);
+    context.restore();
+    return true;
+  }, []);
+  const scheduleTouchScroll = useCallback((deltaX: number, deltaY: number) => {
+    pendingTouchScrollRef.current.x += deltaX; pendingTouchScrollRef.current.y += deltaY;
+    if (touchScrollFrameRef.current !== null) return;
+    touchScrollFrameRef.current = window.requestAnimationFrame(() => {
+      touchScrollFrameRef.current = null;
+      const delta = pendingTouchScrollRef.current;
+      pendingTouchScrollRef.current = { x: 0, y: 0 };
+      if (viewportRef.current && delta.x) viewportRef.current.scrollLeft += delta.x;
+      if (delta.y) window.scrollBy({ left: 0, top: delta.y, behavior: "instant" });
     });
   }, []);
   const refreshCounts = useCallback(() => { setStrokeCount(strokesRef.current.length); setUndoCount(historyRef.current.length); }, []);
@@ -288,6 +310,7 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       observer?.disconnect(); visibilityObserver?.disconnect(); window.removeEventListener("resize", measure); window.removeEventListener("orientationchange", measure);
       if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current); frameRef.current = null;
       if (anchorFrameRef.current !== null) window.cancelAnimationFrame(anchorFrameRef.current); anchorFrameRef.current = null; pendingAnchorRef.current = null;
+      if (touchScrollFrameRef.current !== null) window.cancelAnimationFrame(touchScrollFrameRef.current); touchScrollFrameRef.current = null; pendingTouchScrollRef.current = { x: 0, y: 0 };
       const touchIds = Array.from(touchesRef.current.keys()); touchesRef.current.clear(); pinchRef.current = null;
       touchIds.forEach(id => releasePointer(canvas, id));
     };
@@ -385,7 +408,8 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
     activeRef.current = { pointerId: native.pointerId, pointerType: native.pointerType, tool: prefs.tool, stroke, before: strokesRef.current, lastPoint: point, changed: false };
     paintedPointsRef.current = 0;
     // Schedule the very first dot independently of pointer capture success.
-    if (prefs.tool === "eraser") eraseBetween(point, point, rect); else schedulePaint();
+    if (prefs.tool === "eraser") eraseBetween(point, point, rect);
+    else { if (paintFirstPointNow(stroke)) paintedPointsRef.current = 1; schedulePaint(); }
     capturePointer(canvas, native.pointerId);
   };
   const handlePointerMove = (native: PointerEvent) => {
@@ -408,8 +432,7 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       }
       pinchRef.current = null;
       if (fingers.length === 1 && !activeRef.current) {
-        if (viewportRef.current) viewportRef.current.scrollLeft += previous.x - touch.x;
-        window.scrollBy({ left: 0, top: previous.y - touch.y, behavior: "instant" });
+        scheduleTouchScroll(previous.x - touch.x, previous.y - touch.y);
       }
       return;
     }
@@ -497,8 +520,9 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       document.removeEventListener("visibilitychange", visibility);
       flush();
       if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current); frameRef.current = null;
+      if (touchScrollFrameRef.current !== null) window.cancelAnimationFrame(touchScrollFrameRef.current); touchScrollFrameRef.current = null; pendingTouchScrollRef.current = { x: 0, y: 0 };
     };
-  }, [finishGesture, storage]);
+  }, [finishGesture, scheduleTouchScroll, storage]);
   useEffect(() => { if (!active) finishGesture(); }, [active, finishGesture]);
   const chooseTool = (next: InkTool) => changePreferences({ tool: next });
   const undo = () => {

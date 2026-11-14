@@ -392,6 +392,7 @@ describe("actual native annotation handlers", () => {
     expect(h.canvas.setPointerCapture).not.toHaveBeenCalled();
     h.emit("pointerdown", { pointerId: 1, pointerType: "touch" });
     h.emit("pointermove", { pointerId: 1, pointerType: "touch", clientX: 180, clientY: 140 });
+    h.paint();
     expect(h.viewport.scrollLeft).toBe(-20); expect(h.win.scrollBy).toHaveBeenCalled();
     h.emit("pointerdown", { pointerId: 2, pointerType: "touch", clientX: 300 });
     h.emit("pointermove", { pointerId: 2, pointerType: "touch", clientX: 360 });

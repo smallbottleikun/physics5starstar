@@ -77,3 +77,11 @@
 - [x] 新版頁碼使用獨立筆跡鍵；按原掃描半頁的精確區域搬移舊筆跡，保留舊資料，已清空的新頁不會再次搬入。
 - [x] 僅接受 pen 事件書寫／擦筆跡；touch 只可平移與縮放，mouse/空 pointerType 不可產生或擦除筆跡；相同 pointerId 的非 pen 事件不會終止 Pencil 書寫。
 - [x] 69 項測試、TypeScript、正式建置及差異格式檢查全部通過；iPad 畫面確認每頁一張單頁原卷，瀏覽器模擬手指／滑鼠新增 0 筆、擦除 0 筆，Pencil 首笔新增 1 筆。實體 Apple Pencil 手感仍需使用者試用；網頁以 pointerType=pen 辨識觸控筆。
+
+
+## Pencil 首筆與 PDF 滑動流暢度修正（2026-11-14）
+
+- [x] Pencil pointerdown 立即繪出首點；動畫重繪不重複繪製，避免首筆視覺上被吞。
+- [x] 一指 PDF 滑動位移按 requestAnimationFrame 合併，避免每個 pointermove 直接改動 scroll 造成掉幀。
+- [x] 離開頁面時取消待處理滑動動畫，避免殘留滾動。
+- [x] TypeScript、69 項回歸測試、正式建置及瀏覽器實測通過；實際模擬 Pencil 首筆新增 1 筆，手指滑動於下一幀更新頁面。
