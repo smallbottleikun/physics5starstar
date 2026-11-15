@@ -88,7 +88,7 @@ function AnswerBelow({ solution, visible, referenceOnly, partLabels }: { solutio
 function McAnswer({ yearId, question, answer }: { yearId: string; question: number; answer: string }) {
   return <article className="reader-mc-answer-card">
     <div className="reader-mc-answer-top"><span>MC Q{question}</span><strong>{answer}</strong></div>
-    <details><summary>少量講解 · 為甚麼？</summary><p>{quickMcReason(yearId, question, answer)}</p></details>
+    <details><summary>解題思路 · 為甚麼選這個答案？</summary><div className="reader-mc-reasoning"><p><strong>Step 1 · 找關鍵概念：</strong>先圈出題目給出的物理情境、已知量和限制條件。</p><p><strong>Step 2 · 套用原理：</strong>{quickMcReason(yearId, question, answer)}</p><p><strong>Step 3 · 核對選項：</strong>檢查單位、方向、數值量級及題目要求，排除不符合的選項。</p></div></details>
   </article>;
 }
 
@@ -101,7 +101,7 @@ export default function ExamReader() {
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null);
   const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
-  const [showAnswers, setShowAnswers] = useState(true);
+  const [showAnswers, setShowAnswers] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(1);
   const [zoom, setZoom] = useState(1);
   const [activePage, setActivePage] = useState<number | null>(null);
@@ -122,7 +122,7 @@ export default function ExamReader() {
   }, [sourceUrl, retry]);
 
   useEffect(() => {
-    setSelectedQuestion(1); setShowAnswers(true); setZoom(1); setMoreOpen(false);
+    setSelectedQuestion(1); setShowAnswers(false); setZoom(1); setMoreOpen(false);
     setActivePage(year?.pages[section][0]?.page ?? null);
     window.scrollTo({ top: 0 });
   }, [params?.year, params?.section]);

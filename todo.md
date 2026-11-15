@@ -94,3 +94,11 @@
 - [x] 加入 2025–26 SQ Q1–Q10 的逐小問資料：先列 Original answer／原版答案，再列中文翻譯、My reasoning／解題思路及使用公式。
 - [x] 保留手指只導航／縮放、pointer capture、pointercancel 與 capture 失敗 fallback。
 - [x] `pnpm check` 通過；4 個測試檔共 72 項測試通過；`pnpm build` 通過。
+
+
+## UI 還原、PDF 預覽預設與 MC 解題思路（2026-11-15）
+
+- [x] 從上一個正常 checkpoint 還原完整 `index.css`，修復首頁、主題卡片、日夜模式、閱讀器及答案卡樣式。
+- [x] PDF 閱讀器進入時預設只顯示原卷預覽；答案保持收起，按「顯示答案」後才展開。
+- [x] 選擇題答案卡加入三步解題思路：找關鍵概念、套用物理原理、核對單位／方向／量級；2024–25 保留逐題提示。
+- [x] 首頁、2024–25 SQ 預覽路由、TypeScript、72 項測試及正式建置已驗證。
