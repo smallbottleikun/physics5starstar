@@ -10,6 +10,7 @@ import { clampPaperZoom, MIN_PAPER_ZOOM, MAX_PAPER_ZOOM } from "../components/pa
 import { usePaperFullscreen } from "../components/usePaperFullscreen";
 import { readerYears, getReaderSolution, questionPage, pageQuestionNumbers, readerPageLabel, legacyPageInkRegion, type PaperSection, type ReaderSolution } from "../exam-reader-data";
 import { getAnswerParts } from "../exam-answer-parts";
+import { getExamPartGuides } from "../exam-part-guides";
 
 GlobalWorkerOptions.workerSrc = workerUrl;
 
@@ -52,6 +53,7 @@ function AnswerBelow({ solution, visible, referenceOnly, partLabels }: { solutio
   const [open, setOpen] = useState(visible);
   useEffect(() => setOpen(visible), [visible]);
   const parts = useMemo(() => getAnswerParts(solution, partLabels), [solution, partLabels]);
+  const guidedParts = useMemo(() => getExamPartGuides(solution), [solution]);
   const reasoning = <div className="reader-answer-reasoning">
     <div className="reader-sq-explanation"><h4>為甚麼這樣做？</h4><p className="reader-preserve-lines">{solution.explanationZh}</p><details className="reader-english"><summary>English reasoning · 英文作答思路</summary><p className="mt-2 reader-preserve-lines">{solution.explanation}</p></details></div>
     <div><h4>用甚麼公式？</h4><div className="reader-formulas">{solution.formulas.map((formula, i) => <code key={i}>{formula}</code>)}</div></div>
@@ -65,8 +67,14 @@ function AnswerBelow({ solution, visible, referenceOnly, partLabels }: { solutio
     </button>
     {open && <div className="reader-answer-content">
       <div className="reader-source-note">{referenceOnly ? "自行解題的參考答案 · 非學校官方答案" : "對照學校答案的溫習解說 · 中文解釋由網站補充"}</div>
-      <div className="reader-sq-part-grid" aria-label={`SQ Q${solution.question} 各小問答案`}>
-        {parts.map((part, index) => <article className="reader-sq-part" key={`${part.label}-${index}`}>
+      <div className={`reader-sq-part-grid ${guidedParts ? "reader-guided-part-grid" : ""}`} aria-label={`SQ Q${solution.question} 各小問答案`}>
+        {guidedParts ? guidedParts.map((part, index) => <article className="reader-sq-part" key={`${part.label}-${index}`}>
+          <span className="reader-sq-part-label">{part.label}</span>
+          <h4>Original answer · 原版答案</h4><p className="reader-preserve-lines">{part.original}</p>
+          <h4>中文答案／概念翻譯</h4><p className="reader-preserve-lines">{part.originalZh}</p>
+          <div className="reader-part-reasoning-block"><h4>My reasoning · 解題思路</h4><p className="reader-preserve-lines">{part.reasoningZh}</p><details className="reader-english"><summary>English reasoning · 英文思路</summary><p className="mt-2 reader-preserve-lines">{part.reasoning}</p></details></div>
+          <div className="reader-part-formulas"><h4>Formula · 使用公式</h4><div className="reader-formulas">{part.formulas.map((formula: string, formulaIndex: number) => <code key={formulaIndex}>{formula}</code>)}</div></div>
+        </article>) : parts.map((part, index) => <article className="reader-sq-part" key={`${part.label}-${index}`}>
           <span className="reader-sq-part-label">{part.label}</span>
           <h4>Answer · 答案</h4><p className="reader-preserve-lines">{part.answer}</p>
           <h4>中文答案／概念翻譯</h4><p className="reader-preserve-lines">{part.answerZh}</p>

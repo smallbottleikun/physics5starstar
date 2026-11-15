@@ -2,6 +2,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from
 import type { CSSProperties, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { BookOpen, Ellipsis, Eraser, Highlighter, Pencil, Ruler, Trash2, Undo2 } from "lucide-react";
+import { getStroke } from "perfect-freehand";
 import { anchorScrollDelta, broadcastPaperPreferences, canvasBitmapSize, clampPaperZoom, paperCoordinateAt, pinchGeometry, subscribePaperPreferences } from "./paper-zoom";
 import type { PaperPosition } from "./paper-zoom";
 import { createDeferredInkStorage, inkStartDecision, isInkMove, isPenButtonDown, isPenContact, takeInkSession, touchMayNavigate } from "./ink-input";
@@ -94,6 +95,31 @@ function strokeWidth(stroke: InkStroke, pressure: number, pageWidth: number) {
   const multiplier = stroke.kind === "highlighter" ? 2.4 : stroke.kind === "ruler" ? 0.9 : 1;
   return stroke.width * pageWidth * multiplier * (0.45 + pressure * 1.1);
 }
+function fillFreehandStroke(context: CanvasRenderingContext2D, stroke: InkStroke, width: number, height: number) {
+  if (stroke.points.length === 1) {
+    const first = stroke.points[0];
+    context.beginPath(); context.arc(first.x * width, first.y * height, strokeWidth(stroke, first.pressure, width) / 2, 0, Math.PI * 2); context.fill();
+    return;
+  }
+  const input = stroke.points.map(point => [point.x * width, point.y * height, point.pressure] as [number, number, number]);
+  const outline = getStroke(input, {
+    size: Math.max(1.5, stroke.width * width),
+    thinning: 0.35,
+    smoothing: 0.55,
+    streamline: 0.35,
+    simulatePressure: false,
+    last: true,
+  });
+  if (outline.length < 3) {
+    const first = stroke.points[0];
+    context.beginPath(); context.arc(first.x * width, first.y * height, strokeWidth(stroke, first.pressure, width) / 2, 0, Math.PI * 2); context.fill();
+    return;
+  }
+  context.beginPath();
+  context.moveTo(outline[0][0], outline[0][1]);
+  for (const [x, y] of outline.slice(1)) context.lineTo(x, y);
+  if (typeof context.closePath === "function") context.closePath(); context.fill();
+}
 function paintStroke(context: CanvasRenderingContext2D, stroke: InkStroke, width: number, height: number, alreadyPainted = 0) {
   if (!stroke.points.length) return;
   context.save();
@@ -117,6 +143,10 @@ function paintStroke(context: CanvasRenderingContext2D, stroke: InkStroke, width
     for (const point of stroke.points.slice(1)) context.lineTo(point.x * width, point.y * height);
     context.stroke(); context.restore(); return;
   }
+  if (stroke.points.length > 0 && stroke.kind === "pen") {
+    fillFreehandStroke(context, stroke, width, height);
+    context.restore(); return;
+  }
   if (alreadyPainted === 0) {
     const first = stroke.points[0]; context.beginPath(); context.arc(first.x * width, first.y * height, strokeWidth(stroke, first.pressure, width) / 2, 0, Math.PI * 2); context.fill();
   }
@@ -127,7 +157,7 @@ function paintStroke(context: CanvasRenderingContext2D, stroke: InkStroke, width
   }
   context.restore();
 }
-function capturePointer(canvas: HTMLCanvasElement, pointerId: number) { try { canvas.setPointerCapture(pointerId); } catch { /* Unsupported or already released. */ } }
+function capturePointer(canvas: HTMLCanvasElement, pointerId: number) { try { canvas.setPointerCapture(pointerId); return true; } catch { return false; } }
 function releasePointer(canvas: HTMLCanvasElement | null, pointerId: number) { try { if (canvas?.hasPointerCapture(pointerId)) canvas.releasePointerCapture(pointerId); } catch { /* Already released. */ } }
 function hasCapture(canvas: HTMLCanvasElement, pointerId: number) { try { return canvas.hasPointerCapture(pointerId); } catch { return false; } }
 
@@ -169,12 +199,12 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
       if (!canvas || width <= 0 || height <= 0) return;
       const context = canvas.getContext("2d"); if (!context) return;
       const gesture = activeRef.current;
-      const redraw = fullRedrawRef.current || gesture?.tool === "ruler" || gesture?.tool === "highlighter";
+      const redraw = fullRedrawRef.current || gesture?.tool === "pen" || gesture?.tool === "ruler" || gesture?.tool === "highlighter";
       if (redraw) { context.setTransform(1, 0, 0, 1, 0, 0); context.clearRect(0, 0, canvas.width, canvas.height); }
       context.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
       if (redraw) { strokesRef.current.forEach(stroke => paintStroke(context, stroke, width, height)); paintedPointsRef.current = 0; fullRedrawRef.current = false; }
       if (gesture && gesture.tool !== "eraser") {
-        paintStroke(context, gesture.stroke, width, height, paintedPointsRef.current);
+        paintStroke(context, gesture.stroke, width, height, 0);
         paintedPointsRef.current = gesture.stroke.points.length;
       }
     });
@@ -409,9 +439,14 @@ export function AnnotatablePaper({ children, pageLabel, zoom: zoomProp, onZoomCh
     paintedPointsRef.current = 0;
     // Capture before painting so a synchronous first-dot draw cannot race the
     // browser's leave/capture events. The dot still paints even if capture fails.
-    capturePointer(canvas, native.pointerId);
+    const captured = capturePointer(canvas, native.pointerId);
     if (prefs.tool === "eraser") eraseBetween(point, point, rect);
-    else { if (paintFirstPointNow(stroke)) paintedPointsRef.current = 1; schedulePaint(); }
+    else {
+      const paintedImmediately = paintFirstPointNow(stroke);
+      if (paintedImmediately) paintedPointsRef.current = 1;
+      else schedulePaint();
+      if (!captured) schedulePaint();
+    }
   };
   const handlePointerMove = (native: PointerEvent) => {
     if (native.pointerType === "touch") {

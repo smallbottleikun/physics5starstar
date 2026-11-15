@@ -85,3 +85,12 @@
 - [x] 一指 PDF 滑動位移按 requestAnimationFrame 合併，避免每個 pointermove 直接改動 scroll 造成掉幀。
 - [x] 離開頁面時取消待處理滑動動畫，避免殘留滾動。
 - [x] TypeScript、69 項回歸測試、正式建置及瀏覽器實測通過；實際模擬 Pencil 首筆新增 1 筆，手指滑動於下一幀更新頁面。
+
+
+## 開源筆跡與逐小問解題（2026-11-15）
+
+- [x] 核實並採用 MIT 開源 `perfect-freehand`；保留原生 Pointer Events 以限制只有 Apple Pencil 可書寫。
+- [x] Apple Pencil 筆劃使用實際 pressure、smoothing、streamline 和 thinning 渲染；單點首筆仍即時繪出。
+- [x] 加入 2025–26 SQ Q1–Q10 的逐小問資料：先列 Original answer／原版答案，再列中文翻譯、My reasoning／解題思路及使用公式。
+- [x] 保留手指只導航／縮放、pointer capture、pointercancel 與 capture 失敗 fallback。
+- [x] `pnpm check` 通過；4 個測試檔共 72 項測試通過；`pnpm build` 通過。
