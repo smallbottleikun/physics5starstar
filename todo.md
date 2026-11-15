@@ -102,3 +102,12 @@
 - [x] PDF 閱讀器進入時預設只顯示原卷預覽；答案保持收起，按「顯示答案」後才展開。
 - [x] 選擇題答案卡加入三步解題思路：找關鍵概念、套用物理原理、核對單位／方向／量級；2024–25 保留逐題提示。
 - [x] 首頁、2024–25 SQ 預覽路由、TypeScript、72 項測試及正式建置已驗證。
+
+
+## 2025–26 完整答案步驟與 marking scheme（2026-11-15）
+
+- [x] Q1–Q10 按原題小問順序整合完整 Original answer、中文翻譯、Full working、公式、My reasoning、常見錯誤及 marking points。
+- [x] Q1–Q5、Q7–Q10 的得分點逐項對照官方 marking scheme PDF；每個小問顯示 marks 及 M/A 得分要求。
+- [x] Q6 官方答案 PDF 確認缺頁，頁面以備註清楚標示「未核定官方 M/A」，不把重建內容冒充官方答案。
+- [x] Q1–Q10 的 marking JSON 由 registry 載入；瀏覽器實測 Q1/Q2 顯示完整得分點及步驟。
+- [x] TypeScript、72 項回歸測試及正式建置通過。

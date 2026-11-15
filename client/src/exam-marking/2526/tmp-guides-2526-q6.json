@@ -1,0 +1,152 @@
+{
+  "question": 6,
+  "yearId": "2526",
+  "section": "B",
+  "title": "Mirage and total internal reflection",
+  "titleZh": "海市蜃樓與全內反射",
+  "status": "needs_review",
+  "statusReason": "題卷原文已核對；官方 marking scheme PDF（6 頁）在第 5 題後直接列第 7 題，沒有第 6 題，因此未能從官方 PDF 核對 Q6 的逐項 M/A 得分點。以下數值、公式和作答邏輯依題卷資料及現有 Q6 解答草稿重建，不能視為已獲官方 marking scheme 確認。",
+  "sourceVerification": {
+    "questionSource": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "answerTextSource": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "questionChecked": "題卷第 7–8 頁：Q6(a) 1 分、Q6(b)(i) 3 分、Q6(b)(ii) 2 分；題幹數值包括 n1 = 1.000261、n4 = 1.000221、h = 1.5 m，以及 alpha + theta1 = 90 degrees。",
+    "pdfChecked": "pdftotext -layout 抽取及 PDF 頁面影像核對顯示 marking scheme 只列 Q1–Q5、Q7–Q10，缺少 Q6。"
+  },
+  "subquestions": [
+    {
+      "label": "(a)",
+      "marks": 1,
+      "original": "One essential condition is a sufficiently large temperature gradient between the hot air near the road and the cooler air above over a short height; because the refractive-index changes are small, the light must also travel along a sufficiently long path for the deviations to accumulate and form a visible mirage.",
+      "originalZh": "一項必要條件是：在很短的垂直高度內，靠近路面的熱空氣與上方較冷空氣之間要有足夠大的溫度梯度；由於折射率差異很小，光線亦必須沿足夠長的路徑傳播，使微小偏折累積成可見的海市蜃樓。",
+      "markingPoints": [
+        {
+          "code": "M/A not available",
+          "point": "官方 marking scheme PDF 沒有列出 Q6，故不能核定官方 M/A 分拆。按題卷 1 分，本答案須指出題幹所述至少一項必要條件：短距離內足夠大的溫度梯度，或足夠長的光跑路徑。",
+          "verified": false
+        }
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "formula": "n varies with temperature",
+          "substitution": "Hot air near the road and cooler air above have different temperatures, hence different refractive indices.",
+          "unit": "—",
+          "answer": "A refractive-index gradient is required."
+        },
+        {
+          "step": 2,
+          "formula": "Accumulated angular deviation requires a long path",
+          "substitution": "The deviation at each boundary is tiny, so the light must travel a sufficiently long distance; a sufficiently large temperature gradient must occur over a short height.",
+          "unit": "—",
+          "answer": "Essential condition: sufficiently large temperature gradient over a short height and/or sufficiently long light path."
+        }
+      ],
+      "reasoningZh": "不同溫度的空氣有不同折射率，光線穿過多層空氣時會逐層偏折。單層造成的偏折很小，因此需要短距離內有足夠大的溫度梯度，並讓光線行經足夠長的路徑，偏折才會累積至可觀察。題目要求 ONE condition，寫出其中一項即可。",
+      "reasoning": "Air layers at different temperatures have different refractive indices, so a ray is deviated at successive boundaries. Each deviation is very small; a sufficiently large temperature gradient over a short height and a sufficiently long ray path allow the deviations to accumulate into an observable mirage. Since the question asks for ONE condition, either stated condition is sufficient in principle.",
+      "formulas": [
+        "n varies with temperature",
+        "Small deviations accumulate over a sufficiently long path"
+      ],
+      "commonMistakes": [
+        "只寫『有溫差』而沒有指出要有足夠大的溫度梯度或足夠長的光路。",
+        "把海市蜃樓的成因寫成反射，而沒有提及不同溫度空氣層造成的折射率差異。",
+        "把『光線必須由光密射向光疏』當作本小問唯一答案；這是全內反射條件，並非題幹要求的唯一 essential condition。"
+      ]
+    },
+    {
+      "label": "(b)(i)",
+      "marks": 3,
+      "original": "Applying Snell's law successively at the parallel boundaries gives n1 sin theta1 = n4 sin theta4. For total internal reflection just to occur at R, theta4 = 90 degrees. Hence sin theta1 = n4/n1 = 1.000221/1.000261, and theta1 = sin^-1(1.000221/1.000261) = 89.49 degrees (approximately).",
+      "originalZh": "在互相平行的各個空氣層界面逐次使用斯涅耳定律，可得 n1 sin theta1 = n4 sin theta4。要在 R 剛好發生全內反射，取 theta4 = 90 degrees。因此 sin theta1 = n4/n1 = 1.000221/1.000261，theta1 = sin^-1(1.000221/1.000261) = 89.49 degrees（約）。",
+      "markingPoints": [
+        {
+          "code": "M/A not available",
+          "point": "官方 marking scheme PDF 沒有列出 Q6，故不能核定 3 分的官方 M/A 分拆。合理的作答要點應包括：以斯涅耳定律處理平行界面並消去中間角度；正確使用 theta4 = 90 degrees 的臨界條件；代入 n1、n4 求 theta1 約 89.49 degrees。",
+          "verified": false
+        }
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "formula": "n1 sin(theta1) = n2 sin(theta2)",
+          "substitution": "At each parallel boundary, apply Snell's law. Since the boundaries are parallel, the intermediate angles cancel successively.",
+          "unit": "angles in degrees",
+          "answer": "n1 sin(theta1) = n4 sin(theta4)"
+        },
+        {
+          "step": 2,
+          "formula": "theta4 = 90 degrees",
+          "substitution": "For total internal reflection just to occur at R, the refracted ray is along the boundary, so sin(theta4) = sin(90 degrees) = 1.",
+          "unit": "degrees",
+          "answer": "n1 sin(theta1) = n4"
+        },
+        {
+          "step": 3,
+          "formula": "sin(theta1) = n4/n1",
+          "substitution": "sin(theta1) = 1.000221 / 1.000261 = 0.9999600124",
+          "unit": "dimensionless",
+          "answer": "theta1 = sin^-1(1.000221/1.000261) = 89.4876 degrees approximately = 89.49 degrees"
+        }
+      ],
+      "reasoningZh": "光線依次通過互相平行的空氣層界面。每一個界面都滿足 n sin theta 守恆；由於界面平行，中間的 theta2、theta3 會逐步消去，最後只剩 n1 sin theta1 = n4 sin theta4。R 是剛好全內反射的臨界情況，所以折射角 theta4 = 90 degrees。代入兩個折射率後，求得 theta1 接近 90 degrees。",
+      "reasoning": "The ray crosses parallel interfaces, so Snell's law applies at every boundary. The intermediate angles cancel, leaving the invariant n sin theta between the first and fourth layers. At the limiting ray R, the refracted ray travels along the boundary, so theta4 is 90 degrees. Substitution then gives the first-layer incidence angle.",
+      "formulas": [
+        "n1 sin(theta1) = n4 sin(theta4)",
+        "theta4 = 90 degrees",
+        "sin(theta1) = n4/n1",
+        "theta1 = sin^-1(n4/n1)"
+      ],
+      "commonMistakes": [
+        "把 theta4 = 90 degrees 當成入射角，而沒有按圖把它作為臨界時的折射角。",
+        "忘記界面平行，因此錯誤保留或錯誤處理中間角度。",
+        "把 n1/n4 而不是 n4/n1 代入 sin(theta1)。",
+        "計算器使用 radian 模式，導致角度數值錯誤。",
+        "只寫最後 theta1 數值，沒有寫出 n1 sin(theta1) = n4 sin(theta4) 的推導。"
+      ]
+    },
+    {
+      "label": "(b)(ii)",
+      "marks": 2,
+      "original": "Since alpha + theta1 = 90 degrees, alpha = 90 degrees - 89.49 degrees = 0.5124 degrees. From the geometry in Figure 6.2, tan alpha = h/L. Therefore L = h/tan alpha = 1.5/tan(0.5124 degrees) = 1.68 x 10^2 m, approximately 168 m.",
+      "originalZh": "由 alpha + theta1 = 90 degrees，alpha = 90 degrees - 89.49 degrees = 0.5124 degrees。由圖 6.2 的幾何關係，tan alpha = h/L。因此 L = h/tan alpha = 1.5/tan(0.5124 degrees) = 1.68 x 10^2 m，約為 168 m。",
+      "markingPoints": [
+        {
+          "code": "M/A not available",
+          "point": "官方 marking scheme PDF 沒有列出 Q6，故不能核定 2 分的官方 M/A 分拆。合理的作答要點應包括：由 alpha + theta1 = 90 degrees 求 alpha；由圖的直角三角形使用 tan alpha = h/L；正確代入 h = 1.5 m 得 L 約 168 m。",
+          "verified": false
+        }
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "formula": "alpha + theta1 = 90 degrees",
+          "substitution": "alpha = 90 degrees - 89.4876 degrees",
+          "unit": "degrees",
+          "answer": "alpha = 0.5124 degrees"
+        },
+        {
+          "step": 2,
+          "formula": "tan(alpha) = h/L",
+          "substitution": "L = h/tan(alpha) = 1.5 m / tan(0.5124039 degrees)",
+          "unit": "m",
+          "answer": "L = 167.72195 m approximately = 1.68 x 10^2 m = 168 m"
+        }
+      ],
+      "reasoningZh": "theta1 與 alpha 是互餘角，所以先用題目給出的關係求出很小的 alpha。圖 6.2 中 h 是對 alpha 的對邊、L 是鄰邊，因此 tan alpha = h/L，而不是 h 乘 tan alpha。由於 alpha 很小，L 應是遠大於 1.5 m 的長距離，計算結果約 168 m。",
+      "reasoning": "First use the stated complementary-angle relation to find the small angle alpha. In Figure 6.2, h is opposite alpha and L is adjacent, so tan(alpha) = h/L. Rearranging gives L = h/tan(alpha), which is much larger than h because alpha is small.",
+      "formulas": [
+        "alpha = 90 degrees - theta1",
+        "tan(alpha) = h/L",
+        "L = h/tan(alpha)"
+      ],
+      "commonMistakes": [
+        "把 alpha = theta1，忽略題目明示 alpha + theta1 = 90 degrees。",
+        "把幾何式寫成 tan(alpha) = L/h，令距離結果過小。",
+        "忘記先把 alpha 轉成角度並在計算器使用 degree 模式。",
+        "只寫 168 m，沒有展示 alpha 的求法和代入 tan(alpha) = h/L。",
+        "把 1.68 x 10^2 m 寫成 1.68 x 10^-2 m。"
+      ]
+    }
+  ]
+}

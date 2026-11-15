@@ -586,3 +586,23 @@ html[data-reading-scale="large"] { font-size: 18px; }
 .reader-mc-reasoning { display: grid; gap: .55rem; line-height: 1.65; }
 .reader-mc-reasoning p { margin: 0; }
 .reader-mc-reasoning strong { color: var(--color-cyan); }
+.reader-detailed-marking { display: grid; gap: 1rem; }
+.reader-detailed-part { border: 1px solid color-mix(in srgb, var(--color-cyan) 32%, var(--border)); border-radius: .9rem; padding: 1.2rem 1.35rem; background: var(--surface); }
+.reader-part-heading { display:flex; justify-content:space-between; align-items:center; gap:.75rem; }
+.reader-part-mark { color: var(--text-muted); font-size:.78rem; font-family: var(--font-mono, monospace); }
+.reader-marking-points { margin-top:1rem; padding:.85rem 1rem; border-left:3px solid var(--color-cyan); background: color-mix(in srgb, var(--color-cyan) 7%, var(--surface)); }
+.reader-marking-points h4 { margin:0 0 .45rem; }
+.reader-marking-points ul,.reader-common-mistakes ul { margin:.35rem 0 0 1.15rem; display:grid; gap:.3rem; }
+.reader-marking-points li.is-unverified { color: var(--color-orange); }
+.reader-detailed-steps { margin-top:1rem; }
+.reader-detailed-steps ol { margin:.55rem 0 0 1.4rem; display:grid; gap:.8rem; }
+.reader-detailed-steps li { padding-left:.25rem; }
+.reader-detailed-steps strong { display:block; color:var(--text-primary); }
+.reader-detailed-steps code { display:block; margin-top:.32rem; white-space:pre-wrap; color:var(--color-orange); }
+.reader-step-unit { display:block; color:var(--text-muted); font-size:.78rem; margin-top:.25rem; }
+.reader-detailed-steps p { margin:.35rem 0 0; }
+.reader-marking-warning { padding:.9rem 1rem; border:1px solid color-mix(in srgb, var(--color-orange) 50%, var(--border)); background:color-mix(in srgb, var(--color-orange) 9%, var(--surface)); border-radius:.65rem; }
+.reader-marking-warning p { margin-top:.35rem; line-height:1.65; }
+.reader-common-mistakes { margin-top:1rem; border-top:1px solid var(--border); padding-top:.75rem; }
+.reader-common-mistakes summary { cursor:pointer; color:var(--text-secondary); font-weight:600; }
+@media (max-width: 640px) { .reader-detailed-part { padding:1rem; } .reader-part-heading { align-items:flex-start; } }

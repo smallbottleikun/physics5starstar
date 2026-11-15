@@ -1,0 +1,113 @@
+{
+  "question": 1,
+  "yearId": "2526",
+  "title": "Heating soup and vegetables",
+  "titleZh": "加熱湯與蔬菜",
+  "status": "complete",
+  "sourceVerification": {
+    "questionPaper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "verifiedPdfPages": "PDF 第 1 頁；Q1 marking scheme 與文字答案一致"
+  },
+  "parts": [
+    {
+      "label": "(a)",
+      "marks": 2,
+      "original": "By Pt = mcΔT, 1000t = 3 × 4200 × (100 − 20), hence t = 1010 s. It takes 1010 s to heat the soup.",
+      "originalZh": "由 Pt = mcΔT，1000t = 3 × 4200 × (100 − 20)，所以 t = 1010 s。加熱湯需要 1010 s。",
+      "markingPoints": [
+        "1M：正確使用 Pt = mcΔT，並代入 1000t = 3 × 4200 × (100 − 20)。",
+        "1A：得到 t = 1010 s（按官方答案取 3 位有效數字）。"
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "formula": "Q = mcΔT",
+          "substitution": "Q = 3 × 4200 × (100 − 20)",
+          "working": "Q = 1,008,000 J"
+        },
+        {
+          "step": 2,
+          "formula": "Pt = Q，因此 t = Q/P",
+          "substitution": "1000t = 1,008,000",
+          "working": "t = 1008 s ≈ 1010 s"
+        }
+      ],
+      "reasoningZh": "爐的功率是每秒輸入的能量，因此在沒有能量損失時，爐輸入的能量 Pt 等於湯吸收的熱能 mcΔT。湯的溫差是 100 − 20 = 80°C。",
+      "reasoning": "The stove power is the rate of energy transfer. With no energy loss, the energy supplied, Pt, equals the heat gained by the soup, mcΔT. The temperature rise is 100 − 20 = 80 °C.",
+      "formulas": ["Q = mcΔT", "Pt = mcΔT", "t = mcΔT/P"],
+      "commonMistakes": [
+        "把 1000 W 當成能量而不是功率，漏寫時間 t。",
+        "把溫差誤用為 100°C，而不是 100 − 20 = 80°C。",
+        "忘記功率的單位 W = J s⁻¹，導致時間單位錯誤。"
+      ]
+    },
+    {
+      "label": "(b)(i)",
+      "marks": 2,
+      "original": "Energy gained by vegetable = energy lost by soup + energy from stove. 0.5 × 3000(T₁ − 15) = 3 × 4200(100 − T₁) + 1000 × 2, hence T₁ = 91.1 °C.",
+      "originalZh": "蔬菜吸收的能量 = 湯失去的能量 + 爐提供的能量。0.5 × 3000(T₁ − 15) = 3 × 4200(100 − T₁) + 1000 × 2，所以 T₁ = 91.1°C。",
+      "markingPoints": [
+        "1M：正確列出能量關係，0.5 × 3000(T₁ − 15) = 3 × 4200(100 − T₁) + 1000 × 2；包括 2 s 內爐提供的能量。",
+        "1A：解得 T₁ = 91.1°C。"
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "formula": "蔬菜吸熱 = 湯放熱 + 爐供熱",
+          "substitution": "0.5 × 3000(T₁ − 15) = 3 × 4200(100 − T₁) + 1000 × 2",
+          "working": "1500(T₁ − 15) = 12600(100 − T₁) + 2000"
+        },
+        {
+          "step": 2,
+          "formula": "整理並解 T₁",
+          "substitution": "1500T₁ − 22500 = 1,260,000 − 12600T₁ + 2000",
+          "working": "14100T₁ = 1,284,500；T₁ = 91.099...°C ≈ 91.1°C"
+        }
+      ],
+      "reasoningZh": "蔬菜由 15°C 升至 T₁，吸收熱能；湯由 100°C 降至 T₁，放出熱能；同時爐在 2 s 內再供給 1000 × 2 J。按官方 marking scheme，蔬菜吸熱等於湯放熱加爐供熱。",
+      "reasoning": "The vegetable warms from 15 °C to T₁ and gains energy. The soup cools from 100 °C to T₁ and loses energy, while the stove supplies 1000 × 2 J during the 2 s interval. Following the official marking scheme, vegetable energy gained equals soup energy lost plus stove energy supplied.",
+      "formulas": ["Q = mcΔT", "Q_vegetable gained = Q_soup lost + Pt", "0.5 × 3000(T₁ − 15) = 3 × 4200(100 − T₁) + 1000 × 2"],
+      "commonMistakes": [
+        "漏掉爐在 2 s 內提供的 1000 × 2 J。",
+        "把湯的溫差寫成 T₁ − 100，卻沒有同步處理能量方向。",
+        "把蔬菜和湯的最後溫度寫成不同溫度；題目指定兩者在 2 s 後達到同一 T₁。"
+      ]
+    },
+    {
+      "label": "(b)(ii)",
+      "marks": 2,
+      "original": "The energy from the stove is used to heat the vegetable from 15 °C to 100 °C. By Pt = mcΔT, 1000t = 0.5 × 3000 × (100 − 15), hence t = 128 s.",
+      "originalZh": "爐提供的能量用於把蔬菜由 15°C 加熱至 100°C。由 Pt = mcΔT，1000t = 0.5 × 3000 × (100 − 15)，所以 t = 128 s。",
+      "markingPoints": [
+        "1M：正確使用 Pt = mcΔT，並代入 1000t = 0.5 × 3000 × (100 − 15)。",
+        "1A：得到 t = 128 s。"
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "formula": "Pt = mcΔT",
+          "substitution": "1000t = 0.5 × 3000 × (100 − 15)",
+          "working": "1000t = 127,500 J"
+        },
+        {
+          "step": 2,
+          "formula": "t = mcΔT/P",
+          "substitution": "t = (0.5 × 3000 × 85)/1000",
+          "working": "t = 127.5 s ≈ 128 s"
+        }
+      ],
+      "reasoningZh": "依照官方 marking scheme，此小問計算由加入蔬菜後至湯再次達到 100°C 的總時間：爐的供熱等於蔬菜由 15°C 升至 100°C 所需的熱能，因此 t = 127.5 s ≈ 128 s。這裡的 128 s 是由加入蔬菜一刻起計的總時間；若另問達到 T₁ 後的額外時間，則是 128 − 2 ≈ 126 s，但這不是官方此小問要求的答案。",
+      "reasoning": "Following the official marking scheme, this is the total time from adding the vegetable until the soup reaches 100 °C again. The stove energy is set equal to the energy needed to heat the vegetable from 15 °C to 100 °C, giving 127.5 s ≈ 128 s. Thus 128 s is measured from the instant the vegetable is added; if the extra time after the stated 2 s equilibration were requested separately, it would be about 126 s, but that is not the official answer to this sub-question.",
+      "formulas": ["Q = mcΔT", "Pt = mcΔT", "t = 0.5 × 3000 × (100 − 15)/1000"],
+      "commonMistakes": [
+        "把答案寫成 2 s，誤以為題目只問達到 T₁ 的時間；題目問再次達到 100°C。",
+        "把 128 s 誤標成達到 T₁ 後的額外時間；按官方答案，128 s 是由加入蔬菜一刻起計。",
+        "只計算湯的熱容而忽略官方答案所用的蔬菜由 15°C 至 100°C 的能量計算。",
+        "忘記把 127.5 s 按官方答案取近似為 128 s。"
+      ]
+    }
+  ],
+  "summary": "Q1 共 6 分：(a) t = 1010 s；(b)(i) T₁ = 91.1°C；(b)(ii) 按官方 marking scheme，加入蔬菜後 128 s 再達 100°C。每小問均核對題卷、官方答案文字及 marking scheme PDF，並列出 1M + 1A 得分點。"
+}

@@ -1,0 +1,84 @@
+{
+  "question": 3,
+  "status": "verified",
+  "source": {
+    "paper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "pdfVerification": "以 pdftotext -layout 抽取官方 PDF；Q3 位於 marking scheme PDF 第 2 頁，內容與答案文字一致。"
+  },
+  "parts": [
+    {
+      "label": "(a)(i)",
+      "marks": 2,
+      "original": "Free-body diagram: draw the weight mg vertically downward, the normal force R perpendicular to the inclined surface, and the friction f up the wedge (up the slope). Award 1A for one correct force with its correct name; award the second 1A when all three forces are correct.",
+      "originalZh": "自由體圖應包括：垂直向下的重力 mg、垂直於斜面的支持力 R，以及沿斜面向上的摩擦力 f。正確畫出一個力並寫上正確名稱得 1A；三個力全部正確得另一個 1A。",
+      "markingPoints": [
+        "1A：至少一個力的方向及名稱正確（重力 mg、支持力 R 或摩擦力 f）。",
+        "1A：三個力全部正確：mg 垂直向下；R 垂直斜面；f 沿斜面向上。"
+      ],
+      "steps": [
+        "以玩具車為研究物體，只畫作用在玩具車上的外力。",
+        "由地球作用的重量畫成 mg，方向垂直向下。",
+        "由楔塊接觸面作用的支持力畫成 R，方向垂直於斜面、離開斜面。",
+        "玩具車有沿斜面向下滑的趨勢，因此靜摩擦力 f 沿斜面向上。圖中應清楚標示 mg、R、f。"
+      ],
+      "reasoningZh": "未施加 1 N 水平力時，玩具車受重力、楔塊的法向支持力及靜摩擦力。重力可分解出沿斜面向下的分量 mg sin 30°，所以為保持靜止，摩擦力必須沿斜面向上；支持力一定垂直接觸面。",
+      "reasoning": "Before the horizontal force is applied, the car is at rest on the inclined surface. Its weight has a component down the slope, so static friction acts up the slope to prevent slipping. The normal reaction is perpendicular to the surface.",
+      "formulas": ["W=mg", "W_parallel=mg sinθ", "R is perpendicular to the contact surface"],
+      "commonMistakes": [
+        "把摩擦力畫成水平，而不是沿斜面。",
+        "把支持力畫成垂直向上，而不是垂直斜面。",
+        "漏畫重力，或把摩擦力方向畫成向下斜面。",
+        "把作用在楔塊上的 1 N 外力畫進玩具車的自由體圖。"
+      ]
+    },
+    {
+      "label": "(a)(ii)",
+      "marks": 2,
+      "original": "Friction = mg sin 30° = 0.1 × 9.81 sin 30° = 0.491 N. Normal force = mg cos 30° = 0.1 × 9.81 cos 30° = 0.850 N.",
+      "originalZh": "摩擦力 = mg sin 30° = 0.1 × 9.81 sin 30° = 0.491 N；支持力 = mg cos 30° = 0.1 × 9.81 cos 30° = 0.850 N。",
+      "markingPoints": [
+        "1A：摩擦力 f = mg sin 30° = 0.491 N。",
+        "1A：支持力 R = mg cos 30° = 0.850 N。"
+      ],
+      "steps": [
+        "玩具車靜止，沿斜面方向合力為零：f = mg sin θ。",
+        "代入 m = 100 g = 0.100 kg、g = 9.81 m s⁻²、θ = 30°：f = (0.100)(9.81)sin 30° = 0.491 N。",
+        "垂直斜面方向合力為零：R = mg cos θ。",
+        "代入數值：R = (0.100)(9.81)cos 30° = 0.850 N。"
+      ],
+      "reasoningZh": "玩具車沒有加速度，所以沿斜面及垂直斜面方向都必須達到力平衡。重力沿斜面分量由摩擦力平衡，重力垂直斜面分量由支持力平衡。",
+      "reasoning": "The car is in equilibrium. Resolve its weight into components parallel and perpendicular to the 30° slope. Friction balances the parallel component, while the normal reaction balances the perpendicular component.",
+      "formulas": ["ΣF_parallel=0", "f=mg sinθ", "ΣF_perpendicular=0", "R=mg cosθ"],
+      "commonMistakes": [
+        "忘記把 100 g 換成 0.100 kg。",
+        "把 sin 和 cos 對調，寫成 f = mg cosθ 或 R = mg sinθ。",
+        "只寫最後數字而沒有沿斜面／垂直斜面的平衡關係。",
+        "答案沒有單位 N。"
+      ]
+    },
+    {
+      "label": "(b)",
+      "marks": 1,
+      "original": "Up the wedge.",
+      "originalZh": "玩具車會沿楔塊向上移動（up the wedge）。",
+      "markingPoints": [
+        "1A：指出玩具車會向上斜面／up the wedge 移動。"
+      ],
+      "steps": [
+        "水平力增加時，楔塊向右的加速度增加。",
+        "玩具車因慣性傾向保持原來的水平運動狀態，不能立即跟隨楔塊向右加速。",
+        "相對於向右加速的楔塊，玩具車沿斜面向上移動；因此答案是 up the wedge。"
+      ],
+      "reasoningZh": "楔塊受向右水平力後向右加速，玩具車因慣性傾向保持原有運動狀態。相對於向右移動的楔塊，玩具車會沿斜面向上，而不是向下。官方答案明確為 ‘Up the wedge’。",
+      "reasoning": "As the horizontal force increases, the wedge accelerates to the right. Due to inertia, the car tends to lag behind the wedge. Relative to the wedge, the car therefore moves up the slope, so it slips up the wedge.",
+      "formulas": ["F=ma", "inertia"],
+      "commonMistakes": [
+        "以為重力必然令玩具車向下，因此答 down the wedge；忽略楔塊的水平加速。",
+        "混淆玩具車相對楔塊的方向與相對地面的運動方向。",
+        "只回答‘向左’或‘向右’，沒有按題目要求回答沿楔塊向上或向下。"
+      ]
+    }
+  ]
+}

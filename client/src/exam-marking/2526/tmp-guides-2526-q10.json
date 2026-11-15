@@ -1,0 +1,183 @@
+{
+  "question": 10,
+  "status": "verified",
+  "source": {
+    "questionPaper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "pdfPageChecked": 6
+  },
+  "title": "Plane transmission grating",
+  "questionText": "Parallel monochromatic light is incident normally on a plane transmission grating of 3000 lines per cm. A metre rule is positioned 2 m from the grating and parallel to its plane. Bright lines are observed at the 9 cm, 45 cm and 81 cm marks of the ruler.",
+  "questionTextZh": "平行單色光垂直入射到每厘米有 3000 條刻線的平面透射光柵。一把米尺放置在離光柵 2 m、且與光柵平面平行的位置。在米尺的 9 cm、45 cm 及 81 cm 刻度處觀察到明紋。",
+  "parts": [
+    {
+      "label": "(a)",
+      "marks": 1,
+      "original": "Grating spacing = 0.01/3000 = 3.33 × 10⁻⁶ m.",
+      "originalZh": "光柵間距 = 0.01/3000 = 3.33 × 10⁻⁶ m。",
+      "markingPoints": [
+        {
+          "code": "1A",
+          "point": "Correctly convert 1 cm to 0.01 m and take the reciprocal of 3000 lines per cm: d = 0.01/3000 = 3.33 × 10⁻⁶ m."
+        }
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "work": "3000 lines cm⁻¹ = 3000 lines per 0.01 m."
+        },
+        {
+          "step": 2,
+          "formula": "d = 0.01/3000",
+          "substitution": "d = 0.01 m ÷ 3000",
+          "answer": "d = 3.33 × 10⁻⁶ m"
+        }
+      ],
+      "reasoningZh": "光柵間距是相鄰刻線之間的距離，因此等於每厘米的長度除以每厘米的刻線數。先把 1 cm 化成 0.01 m，再取 3000 的倒數。",
+      "reasoning": "The grating spacing is the distance between adjacent lines. Divide the length of 1 cm, expressed as 0.01 m, by the 3000 lines in that length.",
+      "formulas": [
+        "d = length/number of lines",
+        "d = 0.01/3000"
+      ],
+      "commonMistakes": [
+        "Using 3000 m⁻¹ instead of converting 3000 lines cm⁻¹ to lines m⁻¹.",
+        "Writing 0.01 × 3000 instead of dividing by the line density.",
+        "Omitting the unit m or giving the spacing as 3.33 × 10⁻⁶ cm rather than m."
+      ]
+    },
+    {
+      "label": "(b)",
+      "marks": 2,
+      "original": "The bright line at the 45 cm mark is the 0th-order bright fringe. The bright lines at the 9 cm and 81 cm marks are the 1st-order bright fringes.",
+      "originalZh": "45 cm 刻度處的明線是零級明紋；9 cm 及 81 cm 刻度處的明線是一级明紋。",
+      "markingPoints": [
+        {
+          "code": "1A",
+          "point": "Identify the bright line at 45 cm as the 0th-order bright fringe."
+        },
+        {
+          "code": "1A",
+          "point": "Identify the bright lines at 9 cm and 81 cm as the 1st-order bright fringes."
+        }
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "work": "The central bright fringe is at the midpoint of the symmetric positions: (9 + 81)/2 = 45 cm."
+        },
+        {
+          "step": 2,
+          "answer": "45 cm → n = 0; 9 cm and 81 cm → n = ±1, i.e. first-order bright fringes."
+        }
+      ],
+      "reasoningZh": "9 cm 與 81 cm 關於 45 cm 對稱，而且兩者距離中央都是 36 cm，因此 45 cm 是中央零級明紋，兩側的明紋是同一級次；按題目給出的相鄰明紋判定為一級。",
+      "reasoning": "The positions 9 cm and 81 cm are symmetric about 45 cm, each being 36 cm from the centre. Therefore 45 cm is the central (zero-order) bright fringe, while the two symmetric side fringes are first order.",
+      "formulas": [
+        "central position = (9 + 81)/2 = 45 cm",
+        "n = 0 at the central bright fringe"
+      ],
+      "commonMistakes": [
+        "Calling the 45 cm line first order merely because it is a bright line.",
+        "Assigning different orders to the symmetric 9 cm and 81 cm lines.",
+        "Using the ruler mark itself as the distance from the central maximum without subtracting 45 cm."
+      ]
+    },
+    {
+      "label": "(c)",
+      "marks": 3,
+      "original": "For the 1st-order fringe, sin θ = (0.45 − 0.09)/√[(0.45 − 0.09)² + 2²] = 0.1772. By d sin θ = nλ, wavelength = d sin θ/n = (3.33 × 10⁻⁶ × 0.1772)/1 = 590 nm.",
+      "originalZh": "對一級明紋，sin θ = (0.45 − 0.09)/√[(0.45 − 0.09)² + 2²] = 0.1772。由 d sin θ = nλ，波長 = d sin θ/n = (3.33 × 10⁻⁶ × 0.1772)/1 = 590 nm。",
+      "markingPoints": [
+        {
+          "code": "1M",
+          "point": "Use the correct geometry for the first-order fringe: x = 0.45 − 0.09 = 0.36 m and sin θ = x/√(x² + 2²) = 0.1772."
+        },
+        {
+          "code": "1M",
+          "point": "Use the grating equation d sin θ = nλ."
+        },
+        {
+          "code": "1A",
+          "point": "Obtain λ = 590 nm (equivalently 5.90 × 10⁻⁷ m), with correct unit."
+        }
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "work": "Use either first-order line. The separation from the central line is x = 45 cm − 9 cm = 36 cm = 0.36 m."
+        },
+        {
+          "step": 2,
+          "formula": "sin θ = x/√(x² + D²)",
+          "substitution": "sin θ = 0.36/√(0.36² + 2²)",
+          "answer": "sin θ = 0.1772"
+        },
+        {
+          "step": 3,
+          "formula": "d sin θ = nλ",
+          "substitution": "λ = d sin θ/n = (3.33 × 10⁻⁶ m)(0.1772)/1",
+          "answer": "λ = 5.90 × 10⁻⁷ m = 590 nm"
+        }
+      ],
+      "reasoningZh": "由中央明紋到一級明紋的水平距離是 0.36 m，而光柵至米尺的垂直距離是 2 m。由直角三角形求 sin θ，再將一級 n = 1 和光柵間距代入光柵方程 d sin θ = nλ。",
+      "reasoning": "For a first-order fringe, the transverse displacement from the central line is 0.36 m and the grating-to-rule distance is 2 m. Use the right-triangle geometry to find sin θ, then apply d sin θ = nλ with n = 1.",
+      "formulas": [
+        "x = 0.45 − 0.09 = 0.36 m",
+        "sin θ = x/√(x² + D²)",
+        "d sin θ = nλ",
+        "λ = d sin θ/n"
+      ],
+      "commonMistakes": [
+        "Using 0.09 m as x instead of the displacement from the central 45 cm line, 0.36 m.",
+        "Using tan θ = x/D as though the question asked for tan θ, without converting to sin θ for the grating equation.",
+        "Using n = 0 for the 45 cm central fringe; the wavelength calculation must use the first-order fringe.",
+        "Forgetting to convert 36 cm to 0.36 m or 590 nm to 5.90 × 10⁻⁷ m."
+      ]
+    },
+    {
+      "label": "(d)",
+      "marks": 2,
+      "original": "n_max ≤ d/λ = (3.33 × 10⁻⁶)/(590 × 10⁻⁹) = 5.64. The maximum order is 5.",
+      "originalZh": "n_max ≤ d/λ = (3.33 × 10⁻⁶)/(590 × 10⁻⁹) = 5.64，因此最高級次為 5。",
+      "markingPoints": [
+        {
+          "code": "1M",
+          "point": "Use the condition for a physically possible diffraction order, n_max ≤ d/λ, and calculate d/λ = 5.64."
+        },
+        {
+          "code": "1A",
+          "point": "Take the greatest integer not exceeding 5.64: maximum order = 5."
+        }
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "work": "Since |sin θ| cannot exceed 1, d sin θ = nλ requires nλ ≤ d."
+        },
+        {
+          "step": 2,
+          "formula": "n_max ≤ d/λ",
+          "substitution": "n_max ≤ (3.33 × 10⁻⁶)/(590 × 10⁻⁹) = 5.64"
+        },
+        {
+          "step": 3,
+          "answer": "The maximum whole-number order is n_max = 5."
+        }
+      ],
+      "reasoningZh": "由光柵方程及 sin θ ≤ 1，可知 nλ ≤ d，因此 n 不可大於 d/λ = 5.64。級次必須是整數，所以取不超過 5.64 的最大整數 5，而不是四捨五入成 6。",
+      "reasoning": "Because sin θ cannot be greater than 1, the grating equation requires nλ ≤ d. Thus n ≤ d/λ = 5.64. Diffraction order is an integer, so the greatest allowed order is 5, not 6.",
+      "formulas": [
+        "d sin θ = nλ",
+        "sin θ ≤ 1",
+        "n_max ≤ d/λ"
+      ],
+      "commonMistakes": [
+        "Rounding 5.64 up to 6; the order must satisfy nλ ≤ d, so it is floored to 5.",
+        "Mixing nm and m in d/λ.",
+        "Writing n_max = d/λ = 5.64 as the final order without selecting the greatest integer."
+      ]
+    }
+  ],
+  "summary": "Q10 verified against the original question text and official marking scheme PDF page 6. Answers: (a) d = 3.33 × 10⁻⁶ m; (b) 45 cm is 0th order and 9 cm/81 cm are 1st order; (c) λ = 590 nm; (d) maximum order = 5. Total = 8 marks."
+}
