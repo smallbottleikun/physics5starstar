@@ -1,0 +1,108 @@
+{
+  "question": 9,
+  "sourceVerification": {
+    "paper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "pdfPage": 5,
+    "note": "已用 pdftotext -layout 核對官方 PDF 第 5 頁；Q9 題幹、答案、M/A 分點與官方答案文字一致。"
+  },
+  "questionText": "There are two identical boats A and B in a lake. The mass of each boat is 200 kg. At first B is empty and at rest. James in A sails towards B at 0.3 m s−1. The mass of James is 50 kg. (a) Suppose A collides with B and the boats stick together. (i) Find the speed of the boats after collision. (ii) Find the loss in kinetic energy in the collision. (b) Suppose there are 10 wooden blocks in A, each of them is 5 kg. To avoid collision, James can throw the wooden blocks into B. The blocks fly horizontally to B at 4 m s−1. Find the minimum number of wooden blocks James should throw into B.",
+  "status": "verified",
+  "parts": [
+    {
+      "label": "(a)(i)",
+      "marks": 2,
+      "original": "By conservation of momentum, m_Au_A + m_Bu_B = (m_A + m_B)v. (200 + 50) × 0.3 + 200 × 0 = (200 + 50 + 200)v. Therefore v = 0.1667 m s−1 ≈ 0.167 m s−1. The speed of the boats after collision is 0.167 m s−1.",
+      "originalZh": "根據動量守恆，m_Au_A + m_Bu_B = (m_A + m_B)v。代入：(200 + 50) × 0.3 + 200 × 0 = (200 + 50 + 200)v，得 v = 0.1667 m s⁻¹ ≈ 0.167 m s⁻¹。因此碰撞後兩船的速率為 0.167 m s⁻¹。",
+      "markingPoints": [
+        "1M：正確使用動量守恆，列出 m_Au_A + m_Bu_B = (m_A + m_B)v，並把 James 與 A 的質量合為 250 kg。",
+        "1A：代入數值並得到 v = 0.1667 m s⁻¹ ≈ 0.167 m s⁻¹（方向沿 A 原本前進方向）。"
+      ],
+      "steps": [
+        "取 A（連同 James）原本前進方向為正方向。碰撞前 A+James 的質量為 200 + 50 = 250 kg，B 的質量為 200 kg。",
+        "碰撞前總動量：p_before = (250 kg)(0.3 m s⁻¹) + (200 kg)(0) = 75 kg m s⁻¹。",
+        "碰撞後兩船黏在一起，總質量為 250 + 200 = 450 kg；由動量守恆，(250)(0.3) + (200)(0) = (450)v。",
+        "v = 75/450 = 0.1667 m s⁻¹ ≈ 0.167 m s⁻¹。"
+      ],
+      "reasoningZh": "兩船黏在一起是完全非彈性碰撞；雖然動能不守恆，但在外力衝量可忽略的水平方向，總動量守恆。A 船必須連同 James 一起計算質量。",
+      "reasoning": "The boats stick together, so they have one common final velocity. Apply conservation of horizontal momentum, treating boat A and James as one body of mass 250 kg.",
+      "formulas": [
+        "p = mv",
+        "m_Au_A + m_Bu_B = (m_A + m_B)v"
+      ],
+      "commonMistakes": [
+        "漏計 James 的 50 kg，只用 200 kg 作為 A 的碰撞質量。",
+        "把 B 的初速度誤寫成 0.3 m s⁻¹；題目明確指 B 起初靜止。",
+        "碰撞後沒有把兩船質量相加，或把黏在一起誤當成兩個不同速度。",
+        "忘記寫單位 m s⁻¹，或把動量方程當成動能守恆方程。"
+      ]
+    },
+    {
+      "label": "(a)(ii)",
+      "marks": 2,
+      "original": "Loss in kinetic energy = (1/2 m_Au_A² + 1/2 m_Bu_B²) − 1/2(m_A + m_B)v². = (1/2 × 250 × 0.3² + 1/2 × 200 × 0²) − 1/2(250 + 200) × 0.1667² = 5.00 J.",
+      "originalZh": "動能損失 =（碰撞前總動能）−（碰撞後總動能）= (½m_Au_A² + ½m_Bu_B²) − ½(m_A + m_B)v²。代入：(½ × 250 × 0.3² + ½ × 200 × 0²) − ½(250 + 200) × 0.1667² = 5.00 J。",
+      "markingPoints": [
+        "1M：正確列出動能損失 = 碰撞前總動能 − 碰撞後總動能，並使用 250 kg、200 kg 及 (250 + 200) kg。",
+        "1A：正確代入碰撞前後速度並得到動能損失 5.00 J。"
+      ],
+      "steps": [
+        "碰撞前 A+James 的動能：KE_before,A = ½(250 kg)(0.3 m s⁻¹)² = 11.25 J。",
+        "B 起初靜止，所以 KE_before,B = ½(200 kg)(0)² = 0 J；KE_before,total = 11.25 J。",
+        "碰撞後總質量為 450 kg，使用 (a)(i) 的 v = 0.1667 m s⁻¹：KE_after = ½(450 kg)(0.1667 m s⁻¹)² ≈ 6.25 J。",
+        "動能損失 = KE_before,total − KE_after = 11.25 − 6.25 = 5.00 J。"
+      ],
+      "reasoningZh": "完全非彈性碰撞中，動量守恆但一部分動能轉化為形變、聲音及內能。因此要分別計算碰撞前和碰撞後的總動能，再以前者減後者；不能直接假定動能守恆。",
+      "reasoning": "Kinetic energy is not conserved in this sticking collision. Calculate the total kinetic energy before and after the collision, then subtract the final value from the initial value.",
+      "formulas": [
+        "KE = ½mv²",
+        "Loss in KE = KE_before − KE_after"
+      ],
+      "commonMistakes": [
+        "誤用動能守恆，直接令碰撞前後動能相等。",
+        "只計算 A 船而漏計 James，或漏計碰撞後兩船的總質量。",
+        "把『動能損失』寫成 KE_after − KE_before，導致負值。",
+        "使用未四捨五入且不一致的速度，或忘記 J 單位。"
+      ]
+    },
+    {
+      "label": "(b)",
+      "marks": 4,
+      "original": "To avoid collision, the speed of B should be at least equal to that of A, i.e. v_A = v_B = v. Let M be the mass of the blocks thrown into B. By conservation of momentum, (200 + 50 + 10 × 5) × 0.3 + 0 = (200 + 50 + 10 × 5 − M)v + (200 + M)v, giving v = 0.18 m s−1. Consider B and the blocks thrown to B. By conservation of momentum, M × 4 + 200 × 0 = (M + 200) × 0.18, giving M = 9.42 kg. Therefore, at least 2 wooden blocks should be thrown to B.",
+      "originalZh": "為避免相撞，B 的速率至少要等於 A 的速率，即 v_A = v_B = v。設拋入 B 的木塊總質量為 M。對整個系統使用動量守恆：(200 + 50 + 10 × 5) × 0.3 + 0 = (200 + 50 + 10 × 5 − M)v + (200 + M)v，得 v = 0.18 m s⁻¹。再考慮 B 船及拋入 B 的木塊：由動量守恆，M × 4 + 200 × 0 = (M + 200) × 0.18，得 M = 9.42 kg。因此至少應拋出 2 塊木塊。",
+      "markingPoints": [
+        "1M：指出避免碰撞的臨界條件是兩船最後速率相等，即 v_A = v_B = v。",
+        "1M：令 M 為拋入 B 的木塊總質量，對整個系統使用動量守恆，列出 (200 + 50 + 10 × 5) × 0.3 = (200 + 50 + 10 × 5 − M)v + (200 + M)v，並求得 v = 0.18 m s⁻¹。",
+        "1M：只考慮 B 船及拋入木塊，使用 M × 4 + 200 × 0 = (M + 200) × 0.18，求得 M = 9.42 kg。",
+        "1A：每塊木塊 5 kg，所以所需塊數為 9.42/5 = 1.884，必須向上取整；最少為 2 塊。"
+      ],
+      "steps": [
+        "A 原有船、James 和 10 塊木塊的總質量為 200 + 50 + 10(5) = 300 kg；B 的質量為 200 kg。木塊被拋出後，A 一側剩下質量 300 − M kg，B 一側變成 200 + M kg。",
+        "臨界不相撞情況是兩船最後速度剛好相同：v_A = v_B = v。對整個系統列動量守恆：300(0.3) + 200(0) = (300 − M)v + (200 + M)v。",
+        "化簡得 90 = 500v，所以 v = 0.18 m s⁻¹。這一步的 M 會消去，因為只是把系統內的質量由 A 轉移到 B。",
+        "對 B 船和拋入 B 的木塊單獨列動量守恆。按照官方答案，木塊以 4 m s⁻¹ 飛向 B，而 B 初速為 0：M(4) + 200(0) = (M + 200)(0.18)。",
+        "4M = 0.18M + 36，故 3.82M = 36，M = 9.42 kg。",
+        "每塊木塊質量為 5 kg，因此所需數目 N 滿足 5N ≥ 9.42；N ≥ 1.884。木塊數必須是整數，故至少 N = 2 塊。"
+      ],
+      "reasoningZh": "要避免碰撞，臨界情況是拋出木塊後兩船速度相同；若 B 速度低於 A，仍會追上而相撞。先把整個系統視為封閉系統，求共同臨界速度；再把 B 船和飛入 B 的木塊視為另一個系統，求需要轉移的最少木塊質量。最後因木塊只能逐塊拋出，要向上取整。",
+      "reasoning": "The limiting no-collision condition is that the two boats have equal final speeds. First conserve momentum for the complete system to find that common speed. Then conserve momentum for boat B plus the blocks thrown into it to find the required total block mass, and round up to a whole number of blocks.",
+      "formulas": [
+        "v_A = v_B = v (limiting condition)",
+        "p_before = p_after",
+        "(200 + 50 + 10×5)(0.3) = (200 + 50 + 10×5 − M)v + (200 + M)v",
+        "M(4) + 200(0) = (M + 200)(0.18)",
+        "N = ceiling(M/5)"
+      ],
+      "commonMistakes": [
+        "把避免碰撞的條件寫成 B 必須停下來；官方解法的臨界條件是兩船最後速率相等。",
+        "對整個系統列動量守恆時，漏掉 10 塊木塊的總質量 10 × 5 = 50 kg。",
+        "忘記 A 拋出木塊後質量是 300 − M，而 B 接收後質量是 200 + M。",
+        "第二次列式時把 B 初始動量寫成 200 × 0.3；題目說 B 起初靜止。",
+        "求得 9.42 kg 後四捨五入為 1 塊；因為是最少數量且每塊只有 5 kg，必須向上取整至 2 塊。",
+        "混淆木塊相對於誰的 4 m s⁻¹；本教材保留官方 marking scheme 的 M × 4 = (M + 200) × 0.18 計算邏輯。"
+      ]
+    }
+  ],
+  "summary": "Q9 已根據原卷及官方 marking scheme PDF 第 5 頁核對完成： (a)(i) 2 分，v = 0.167 m s⁻¹；(a)(ii) 2 分，動能損失 = 5.00 J；(b) 4 分，所需木塊總質量 M = 9.42 kg，故至少 2 塊。"
+}

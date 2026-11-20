@@ -1,0 +1,100 @@
+{
+  "question": 2,
+  "status": "complete",
+  "sourceChecked": {
+    "questionPaper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "pdfVerification": "The official marking-scheme PDF was extracted with pdftotext and visually rendered for checking. Q2 matches the supplied marking-scheme text."
+  },
+  "items": [
+    {
+      "label": "(a)",
+      "marks": 2,
+      "original": "By pV = nRT, n = pV/(RT) = [100 × 1000 × (0.1 + 0.3)]/(8.31 × 300) = 16.045 mol ≈ 16.0 mol. There are 16.0 mol of nitrogen.",
+      "originalZh": "由 pV = nRT，n = pV/(RT) = [100 × 1000 × (0.1 + 0.3)]/(8.31 × 300) = 16.045 mol ≈ 16.0 mol。因此兩個容器內共有 16.0 mol 氮氣。",
+      "markingPoints": [
+        "1M：正確使用 pV = nRT，並以兩容器總體積 0.1 + 0.3 = 0.4 m³ 計算總莫耳數。",
+        "1A：得到 n = 16.045 mol，並合理取近似為 16.0 mol；答案附正確單位。"
+      ],
+      "steps": [
+        "初始時 A、B 的壓力及溫度相同，因此總氣體可用總體積 V_total = 0.1 + 0.3 = 0.4 m³ 代入理想氣體方程。",
+        "pV = nRT",
+        "n = pV/(RT) = [(100 kPa)(1000 Pa/kPa)(0.4 m³)]/[(8.31 J mol⁻¹ K⁻¹)(300 K)]",
+        "n = 16.045 mol ≈ 16.0 mol。"
+      ],
+      "reasoningZh": "兩個容器最初均為 300 K、100 kPa，且由毛細管連接；求總莫耳數時可把 A、B 的體積相加。注意壓力必須由 100 kPa 轉為 100 000 Pa，體積使用 m³，才能與 R = 8.31 J mol⁻¹ K⁻¹ 配合。",
+      "reasoning": "Initially both vessels contain nitrogen at the same pressure and temperature, so the total amount can be found using the total volume. Convert 100 kPa to 100 000 Pa before using R in SI units.",
+      "formulas": [
+        "pV = nRT",
+        "n = pV/(RT)",
+        "V_total = V_A + V_B"
+      ],
+      "commonMistakes": [
+        "只使用 A 或 B 的體積，而不是總體積 0.4 m³。",
+        "把 100 kPa 直接當作 100 Pa，忘記 kPa 至 Pa 的換算。",
+        "漏寫 mol 單位，或把總莫耳數誤當成其中一個容器的莫耳數。"
+      ]
+    },
+    {
+      "label": "(b)",
+      "marks": 3,
+      "original": "Since the pressure in both vessels is the same, n_A/n_B = (V_A T_B)/(T_A V_B) = (0.1 × 400)/(200 × 0.3) = 2/3. n_A = 16.045 × 2/(2 + 3) = 6.418 mol ≈ 6.42 mol. n_B = 16.045 − 6.418 = 9.627 mol ≈ 9.63 mol. There are 6.42 mol in A and 9.63 mol in B.",
+      "originalZh": "由於兩個容器的壓力相同，n_A/n_B = (V_A T_B)/(T_A V_B) = (0.1 × 400)/(200 × 0.3) = 2/3。n_A = 16.045 × 2/(2 + 3) = 6.418 mol ≈ 6.42 mol；n_B = 16.045 − 6.418 = 9.627 mol ≈ 9.63 mol。因此 A 內有 6.42 mol，B 內有 9.63 mol。",
+      "markingPoints": [
+        "1M：利用平衡後兩容器壓力相同，正確建立 n_A/n_B = V_A T_B/(T_A V_B) = 2/3。",
+        "1A：由總莫耳數及 2:3 比例求得 n_A = 6.418 mol ≈ 6.42 mol。",
+        "1A：以總莫耳數扣除 n_A，求得 n_B = 9.627 mol ≈ 9.63 mol。"
+      ],
+      "steps": [
+        "平衡後兩容器相連，所以共同壓力為 p_f。分別對 A、B 使用 pV = nRT：n_A = p_f V_A/(R T_A)，n_B = p_f V_B/(R T_B)。",
+        "相除以消去共同壓力及 R：n_A/n_B = (V_A/T_A)/(V_B/T_B) = V_A T_B/(T_A V_B)。",
+        "n_A/n_B = [(0.1 m³)(400 K)]/[(200 K)(0.3 m³)] = 2/3。",
+        "總莫耳數 n_A + n_B = 16.045 mol，因此 n_A = 16.045 × 2/(2 + 3) = 6.418 mol ≈ 6.42 mol。",
+        "n_B = 16.045 − 6.418 = 9.627 mol ≈ 9.63 mol。"
+      ],
+      "reasoningZh": "最終兩容器透過毛細管相通，因此壓力相同，但溫度及體積不同，不能按體積比例直接分配。由 n = pV/(RT)，在共同壓力下 n 與 V/T 成正比，得到 A:B = 2:3；再用(a)的總莫耳數分配。",
+      "reasoning": "At the final equilibrium the connected vessels have a common pressure, but their temperatures and volumes differ. Since n = pV/(RT), the amounts are proportional to V/T at the common pressure. Thus the ratio is 2:3, and the total amount from part (a) is divided in that ratio.",
+      "formulas": [
+        "p_f V_A = n_A R T_A",
+        "p_f V_B = n_B R T_B",
+        "n_A/n_B = V_A T_B/(T_A V_B)",
+        "n_A + n_B = n_total"
+      ],
+      "commonMistakes": [
+        "錯誤地按體積比例 1:3 分配，忽略 A、B 的最終溫度不同。",
+        "把比例寫成 n_A/n_B = V_A T_A/(V_B T_B)，溫度位置倒轉。",
+        "忘記 n_A + n_B 必須等於 16.045 mol，或四捨五入過早造成不一致。",
+        "把 200 K 和 400 K 誤當成攝氏溫度使用。"
+      ]
+    },
+    {
+      "label": "(c)",
+      "marks": 2,
+      "original": "Initial number of moles of gas in A = pV/(RT) = (100 × 1000 × 0.1)/(8.31 × 300) = 4.011 mol. Number of moles of gas passing through the tube = 6.418 − 4.011 = 2.407 mol ≈ 2.41 mol. Thus 2.41 mol of nitrogen passes from B to A.",
+      "originalZh": "A 內初始氣體的莫耳數 = pV/(RT) = (100 × 1000 × 0.1)/(8.31 × 300) = 4.011 mol。經毛細管通過的氣體莫耳數 = 6.418 − 4.011 = 2.407 mol ≈ 2.41 mol。因此有 2.41 mol 氮氣由 B 流向 A。",
+      "markingPoints": [
+        "1M：正確以 pV/(RT) 計算 A 內初始氣體的莫耳數，得 4.011 mol。",
+        "1A：用 A 的最終莫耳數減初始莫耳數，得 2.407 mol ≈ 2.41 mol，並指出流向為 B 至 A。"
+      ],
+      "steps": [
+        "先求 A 初始時的莫耳數：n_initial,A = pV_A/(RT_initial)。",
+        "n_initial,A = [(100 kPa)(1000 Pa/kPa)(0.1 m³)]/[(8.31 J mol⁻¹ K⁻¹)(300 K)] = 4.011 mol。",
+        "A 最終有 n_final,A = 6.418 mol，因此通過毛細管進入 A 的莫耳數為 Δn_A = n_final,A − n_initial,A。",
+        "Δn_A = 6.418 − 4.011 = 2.407 mol ≈ 2.41 mol。A 的莫耳數增加，所以氮氣流向是由 B 至 A。"
+      ],
+      "reasoningZh": "A 最終的氮氣量比初始多，增加的部分必然是經毛細管由 B 流入。要先用初始狀態的 p、V、T 求 A 原有的 4.011 mol，再與(b)的最終 6.418 mol 比較。",
+      "reasoning": "The amount in A increases during the process, so the increase must have crossed the capillary from B to A. Calculate the initial amount in A, subtract it from the final amount in A, and use the positive difference to identify the direction.",
+      "formulas": [
+        "n_initial,A = pV_A/(RT_initial)",
+        "n_passed = n_final,A − n_initial,A"
+      ],
+      "commonMistakes": [
+        "直接用 A 的最終莫耳數當作通過毛細管的量，沒有扣除 A 原有的 4.011 mol。",
+        "用總莫耳數或 B 的最終莫耳數計算通過量。",
+        "只寫 2.41 mol 而沒有說明流向；正確流向是 B → A。",
+        "把增加量寫成負值，或因四捨五入造成 6.42 − 4.01 = 2.41 以外的不一致。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "yearId": "2425",
+  "question": 2,
+  "title": "Ideal gases in two identical insulated containers",
+  "titleZh": "兩個相同絕熱容器內的理想氣體",
+  "answer": "(a) The final equilibrium temperature is 345.946 K, i.e. 72.796 °C (about 72.8 °C). For each rigid container, V is constant, so n1 = P1V/(RT1) and n2 = P2V/(RT2). Since the containers are insulated and rigid, there is no heat transfer to the surroundings and no external work; conservation of internal energy gives (n1+n2)RTf = n1RT1+n2RT2. Hence Tf = (P1+P2)/(P1/T1+P2/T2) = 345.946 K. (b) The final pressure is 250 kPa. The total volume is 2V, and the total amount of gas is unchanged. Using the ideal-gas equation, Pf(2V) = (n1+n2)RTf = P1V+P2V, so Pf = (200+300)/2 = 250 kPa.",
+  "answerZh": "(a) 最終平衡溫度為 345.946 K，即 72.796 °C（約 72.8 °C）。每個剛性容器的體積 V 不變，因此 n1 = P1V/(RT1)，n2 = P2V/(RT2)。由於容器絕熱且剛性，氣體與外界沒有熱傳遞，也沒有對外做功；由內能守恆，(n1+n2)RTf = n1RT1+n2RT2。因此 Tf = (P1+P2)/(P1/T1+P2/T2) = 345.946 K。(b) 最終氣壓為 250 kPa。總容積為 2V，而氣體總量不變。由理想氣體方程，Pf(2V) = (n1+n2)RTf = P1V+P2V，所以 Pf = (200+300)/2 = 250 kPa。",
+  "formulas": [
+    "T1 = 20 + 273.15 = 293.15 K; T2 = 120 + 273.15 = 393.15 K",
+    "n1 = P1V/(RT1), n2 = P2V/(RT2)",
+    "(n1+n2)RTf = n1RT1+n2RT2",
+    "Tf = (P1+P2)/(P1/T1+P2/T2)",
+    "Pf(2V) = P1V+P2V; Pf = (P1+P2)/2"
+  ],
+  "explanation": "The containers are identical, rigid and insulated. Rigid means each container volume remains V; insulated means no heat enters or leaves; and no boundary work is done. For an ideal gas, internal energy depends only on temperature and is proportional to nT, so the final temperature must be the mole-weighted average of the two initial temperatures. The mole numbers are not equal because n is proportional to P/T, so a simple arithmetic average of 20 °C and 120 °C is not justified. Once the valve opens, the gas occupies 2V, and conservation of total moles plus the ideal-gas equation gives the final pressure.",
+  "explanationZh": "兩個容器相同、剛性且絕熱。剛性表示每個容器的體積始終為 V；絕熱表示沒有熱量與外界交換；同時沒有邊界功。理想氣體的內能只取決於溫度，並與 nT 成正比，因此最終溫度是按物質的量加權的溫度平均值。由於 n 與 P/T 成正比，兩邊的氣體物質的量並不相同，所以不能簡單取 20 °C 和 120 °C 的算術平均值。閥門開啟後，氣體佔據 2V；結合氣體總物質的量守恆和理想氣體方程即可求得最終壓力。",
+  "steps": [
+    {
+      "label": "1. Convert temperatures",
+      "en": "Use absolute temperature: T1 = 20 + 273.15 = 293.15 K and T2 = 120 + 273.15 = 393.15 K.",
+      "zh": "換算絕對溫度：T1 = 20 + 273.15 = 293.15 K，T2 = 120 + 273.15 = 393.15 K。"
+    },
+    {
+      "label": "2. Apply energy conservation",
+      "en": "For insulated rigid containers, (n1+n2)RTf = n1RT1+n2RT2, with n1 = P1V/(RT1) and n2 = P2V/(RT2).",
+      "zh": "對於絕熱剛性容器，(n1+n2)RTf = n1RT1+n2RT2，其中 n1 = P1V/(RT1)，n2 = P2V/(RT2)。"
+    },
+    {
+      "label": "3. Calculate final temperature",
+      "en": "Tf = (200+300)/(200/293.15 + 300/393.15) = 345.946 K = 72.796 °C ≈ 72.8 °C.",
+      "zh": "Tf = (200+300)/(200/293.15 + 300/393.15) = 345.946 K = 72.796 °C ≈ 72.8 °C。"
+    },
+    {
+      "label": "4. Calculate final pressure",
+      "en": "The final volume is 2V: Pf(2V) = P1V+P2V, so Pf = (200+300)/2 = 250 kPa.",
+      "zh": "最終體積為 2V：Pf(2V) = P1V+P2V，因此 Pf = (200+300)/2 = 250 kPa。"
+    }
+  ],
+  "sourceNotes": "The original scanned question page 6 was used. No 2425 school marking scheme was supplied; this is an independent solution from ideal-gas and internal-energy conservation. The handwritten student workings visible on the scan were not treated as authoritative. Pressures were kept in the same kPa units because only ratios and a pressure average are used; temperatures were converted to kelvin for the energy calculation."
+}

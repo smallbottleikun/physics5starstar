@@ -1,0 +1,43 @@
+{
+  "yearId": "2425",
+  "question": 7,
+  "title": "Radio signals for controlling and transmitting images from a drone",
+  "titleZh": "以無線電訊號控制無人機及傳送影像",
+  "answer": "(a) Radio waves have relatively long wavelengths, so they can diffract around obstacles and maintain communication over a relatively long range. This makes them suitable for controlling the drone even when there is not a completely unobstructed straight-line path. (b) Using c = fλ, for the 2.4 GHz control signal: λ = (3.00 × 10^8)/(2.4 × 10^9) = 0.125 m. For the 5.8 GHz image-transmission signal: λ = (3.00 × 10^8)/(5.8 × 10^9) = 0.0517 m (approximately 5.17 cm). (c) Different frequencies allow separate channels for drone control and image transmission, reducing mutual interference and allowing both signals to operate at the same time.",
+  "answerZh": "(a) 無線電波的波長相對較長，因此能繞射越過障礙物，並在較遠距離維持通訊。即使無人機與操作者之間沒有完全暢通的直線路徑，仍適合用來控制無人機。(b) 使用 c = fλ：對於 2.4 GHz 的控制訊號，λ = (3.00 × 10^8)/(2.4 × 10^9) = 0.125 m。對於 5.8 GHz 的影像傳送訊號，λ = (3.00 × 10^8)/(5.8 × 10^9) = 0.0517 m（約 5.17 cm）。(c) 使用不同頻率可為無人機控制及影像傳送分配不同頻道，減少彼此幹擾，讓兩種訊號能同時運作。",
+  "formulas": [
+    "c = fλ",
+    "λ = c/f",
+    "1 GHz = 10^9 Hz"
+  ],
+  "explanation": "Radio waves are electromagnetic waves with relatively long wavelengths. Long wavelengths diffract more around obstacles, which helps preserve a control link over distance. The wavelength is found from the wave-speed relation c = fλ, using c = 3.00 × 10^8 m s^-1 and converting GHz to Hz. Assigning different frequencies to different functions separates the communication channels and reduces interference.",
+  "explanationZh": "無線電波是波長相對較長的電磁波。長波長較容易繞射越過障礙物，有助於在一定距離維持控制連線。波長由波速關係式 c = fλ 求得，並使用 c = 3.00 × 10^8 m s^-1 及把 GHz 轉換為 Hz。為不同功能分配不同頻率可分隔通訊頻道，從而減少幹擾。",
+  "steps": [
+    {
+      "label": "(a) Radio-wave suitability",
+      "en": "State that radio waves have relatively long wavelengths; they diffract around obstacles and therefore support longer-range control communication.",
+      "zh": "指出無線電波的波長相對較長；它們能繞射越過障礙物，因此適合較遠距離的控制通訊。"
+    },
+    {
+      "label": "(b) Convert frequencies",
+      "en": "Convert 2.4 GHz and 5.8 GHz to 2.4 × 10^9 Hz and 5.8 × 10^9 Hz.",
+      "zh": "把 2.4 GHz 及 5.8 GHz 分別換算為 2.4 × 10^9 Hz 及 5.8 × 10^9 Hz。"
+    },
+    {
+      "label": "(b) Control wavelength",
+      "en": "λ_control = (3.00 × 10^8)/(2.4 × 10^9) = 0.125 m.",
+      "zh": "λ_控制 = (3.00 × 10^8)/(2.4 × 10^9) = 0.125 m。"
+    },
+    {
+      "label": "(b) Image wavelength",
+      "en": "λ_image = (3.00 × 10^8)/(5.8 × 10^9) = 0.0517 m, or about 5.17 cm.",
+      "zh": "λ_影像 = (3.00 × 10^8)/(5.8 × 10^9) = 0.0517 m，即約 5.17 cm。"
+    },
+    {
+      "label": "(c) Frequency separation",
+      "en": "Use different frequencies as separate channels, so the control and image signals can be transmitted simultaneously with less interference.",
+      "zh": "使用不同頻率作為不同頻道，使控制訊號和影像訊號可以同時傳送而較少互相干擾。"
+    }
+  ],
+  "sourceNotes": "Source: 5x1_2425_SQ_MCQ.pdf, scanned page 9, Section B Q7. The printed passage gives 2.4 GHz for controlling the drone and 5.8 GHz for transmitting images. No 2425 school marking scheme was supplied; this is a physics-based self-reference. Handwritten student answers on the scan were ignored as authority. Numerical wavelengths were calculated independently with Python using c = 3.00 × 10^8 m s^-1. No illegible numerical data remain; the question wording and frequencies were verified from a high-resolution render of page 9."
+}

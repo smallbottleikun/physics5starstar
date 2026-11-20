@@ -1,0 +1,38 @@
+{
+  "yearId": "2425",
+  "question": 5,
+  "title": "Bullet embedded in a cart: inelastic collision and friction",
+  "titleZh": "子彈嵌入手推車：非彈性碰撞與摩擦力",
+  "answer": "(a) It is a perfectly inelastic collision because the bullet becomes embedded in the plasticine and both objects move together afterwards. (b) Take the forward direction as positive. Conservation of horizontal momentum gives m_b u + m_c(0) = (m_b + m_c)v. With m_b = 0.4 g = 0.0004 kg, m_c = 60 g = 0.060 kg and v = 0.1 m s^-1, u = [(0.0004 + 0.060)(0.1)]/0.0004 = 15.1 m s^-1. (c) After the collision, the combined cart, plasticine and bullet have mass 0.0604 kg and kinetic energy K = 1/2(0.0604)(0.1)^2 = 3.02 x 10^-4 J. Friction does work Fd until the cart stops, so 0.01d = 3.02 x 10^-4. Therefore d = 0.0302 m, or 3.02 cm.",
+  "answerZh": "(a) 這是完全非彈性碰撞，因為子彈嵌入橡皮泥內，碰撞後兩者一起運動。(b) 取向前為正方向。水平方向動量守恆：m_b u + m_c(0) = (m_b + m_c)v。m_b = 0.4 g = 0.0004 kg，m_c = 60 g = 0.060 kg，v = 0.1 m s^-1，因此 u = [(0.0004 + 0.060)(0.1)]/0.0004 = 15.1 m s^-1。(c) 碰撞後手推車、橡皮泥和子彈的總質量為 0.0604 kg，動能 K = 1/2(0.0604)(0.1)^2 = 3.02 x 10^-4 J。手推車停止前，摩擦力所作的功為 Fd，所以 0.01d = 3.02 x 10^-4。故 d = 0.0302 m，即 3.02 cm。",
+  "formulas": [
+    "m_b u + m_c v_c = (m_b + m_c)v",
+    "K = 1/2 (m_b + m_c) v^2",
+    "F d = K"
+  ],
+  "explanation": "Embedding means the bullet and cart share one final velocity, so this is perfectly inelastic. Horizontal momentum is conserved during the short collision; the external friction impulse is neglected for that collision calculation. Afterward, friction removes all of the combined body's kinetic energy. Equating friction work to the initial post-collision kinetic energy gives the stopping distance.",
+  "explanationZh": "子彈嵌入橡皮泥後，子彈與手推車具有相同的共同速度，因此是完全非彈性碰撞。在短暫碰撞期間，忽略表面摩擦力的外力衝量，可應用水平方向動量守恆。碰撞後，摩擦力把共同物體的全部動能消耗掉；令摩擦力所作的功等於碰撞後動能，便可求出停止距離。",
+  "steps": [
+    {
+      "label": "1. Identify collision",
+      "en": "The bullet is embedded and the two bodies move together, so the collision is perfectly inelastic.",
+      "zh": "子彈嵌入橡皮泥，兩個物體一起運動，因此是完全非彈性碰撞。"
+    },
+    {
+      "label": "2. Apply momentum conservation",
+      "en": "0.0004u + 0.060(0) = 0.0604(0.1), so u = 15.1 m s^-1.",
+      "zh": "0.0004u + 0.060(0) = 0.0604(0.1)，所以 u = 15.1 m s^-1。"
+    },
+    {
+      "label": "3. Find post-collision kinetic energy",
+      "en": "K = 1/2(0.0604)(0.1)^2 = 3.02 x 10^-4 J.",
+      "zh": "K = 1/2(0.0604)(0.1)^2 = 3.02 x 10^-4 J。"
+    },
+    {
+      "label": "4. Equate friction work to kinetic energy",
+      "en": "0.01d = 3.02 x 10^-4, hence d = 0.0302 m = 3.02 cm.",
+      "zh": "0.01d = 3.02 x 10^-4，因此 d = 0.0302 m = 3.02 cm。"
+    }
+  ],
+  "sourceNotes": "Source: 5x1_2425_SQ_MCQ.pdf, scanned page 8, Section B Q5. The original printed values were verified from a high-resolution render: post-collision speed 0.1 m s^-1, cart with plasticine 60 g, bullet 0.4 g, and friction 0.01 N. No 2425 school marking scheme was supplied; this is a self-derived solution from conservation of momentum and work-energy. Handwritten student answers were ignored as authority. The collision calculation treats the brief collision as isolated horizontally, as standard for this question; friction is then applied to the post-collision motion."
+}

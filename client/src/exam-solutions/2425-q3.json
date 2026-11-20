@@ -1,0 +1,45 @@
+{
+  "yearId": "2425",
+  "question": 3,
+  "title": "Pendulum, light gate and conservation of energy",
+  "titleZh": "單擺、光閘與能量守恆",
+  "answer": "(a) Measure the diameter D of the bob in the direction of motion. If the light gate is blocked for time Δt, the speed of the bob as it passes the gate is v = D/Δt (or use the bob's effective blocking length if its shape is not spherical). The timer starts when the bob first blocks the beam and stops when it has completely passed. (b) Release the bob from rest at a measured height h above the light gate/lowest point. Measure its blocking time Δt at the lowest point and calculate v = D/Δt. Calculate the initial gravitational potential energy E_P = mgh and the kinetic energy at the lowest point E_K = 1/2 mv². Repeat for several release heights and compare E_P with E_K, or plot v² against h; conservation predicts v² = 2gh, so a graph should be approximately a straight line through the origin with gradient 2g. Alternatively, observe that the bob rises on the other side to nearly its original height. Small discrepancies are explained by air resistance, pivot friction and measurement uncertainty; use a low-friction setup and repeat readings.",
+  "answerZh": "(a) 量度擺球沿運動方向的直徑 D。若光閘被遮擋的時間為 Δt，擺球透過光閘時的速率為 v = D/Δt（若擺球不是球形，則使用實際遮光的有效長度）。計時器在擺球開始遮光時啟動，並在擺球完全透過後停止。(b) 將擺球由高於光閘／最低點 h 的位置由靜止釋放。在最低點用光閘量度遮光時間 Δt，並計算 v = D/Δt。計算初始重力勢能 E_P = mgh 及最低點的動能 E_K = 1/2 mv²。以數個不同的釋放高度重複實驗，比較 E_P 與 E_K；或繪畫 v² 對 h 的影象。根據能量守恆，v² = 2gh，因此影象應近似為透過原點的直線，斜率為 2g。另一方法是觀察擺球在另一側上升至接近原來的高度。少量差異可由空氣阻力、支點摩擦及量度不確定度解釋；應使用低摩擦裝置並重複讀數。",
+  "formulas": [
+    "v = D/Δt",
+    "E_P = mgh",
+    "E_K = 1/2 mv²",
+    "mgh = 1/2 mv²",
+    "v² = 2gh"
+  ],
+  "explanation": "The light gate gives the bob's instantaneous speed from a known blocking length divided by the measured blocking time. At release, the bob has gravitational potential energy relative to the lowest point; at the lowest point, that energy has become kinetic energy. Equating mgh and 1/2mv² tests conservation of mechanical energy. Repeating at different heights and plotting v² against h tests the predicted proportionality and gives a stronger verification than one reading.",
+  "explanationZh": "光閘以已知的遮光長度除以量得的遮光時間，求出擺球的瞬時速率。以最低點作為參考，擺球釋放時具有重力勢能；到達最低點時，這些能量轉化為動能。令 mgh 與 1/2mv² 相等即可檢驗機械能守恆。以不同高度重複實驗並繪畫 v² 對 h 的影象，可以檢驗預測的正比關係，比只作一次讀數更有力地驗證定律。",
+  "steps": [
+    {
+      "label": "1. Measure the blocking length / 量度遮光長度",
+      "en": "Measure the bob diameter D along its direction of motion.",
+      "zh": "量度擺球沿運動方向的直徑 D。"
+    },
+    {
+      "label": "2. Determine speed / 求速率",
+      "en": "Record the gate time Δt and substitute v = D/Δt; for example, if D = 0.020 m and Δt = 0.050 s, v = 0.020/0.050 = 0.40 m s⁻¹.",
+      "zh": "記錄光閘時間 Δt，代入 v = D/Δt；例如 D = 0.020 m、Δt = 0.050 s，則 v = 0.020/0.050 = 0.40 m s⁻¹。"
+    },
+    {
+      "label": "3. Measure energy at release / 量度釋放時的能量",
+      "en": "Measure the release height h above the lowest point and calculate E_P = mgh.",
+      "zh": "量度釋放點高於最低點的高度 h，並計算 E_P = mgh。"
+    },
+    {
+      "label": "4. Compare energies / 比較能量",
+      "en": "At the lowest point calculate E_K = 1/2mv² and compare it with mgh; equality supports conservation.",
+      "zh": "在最低點計算 E_K = 1/2mv²，並與 mgh 比較；兩者相等便支援能量守恆。"
+    },
+    {
+      "label": "5. Repeat and evaluate / 重複及評估",
+      "en": "Repeat for several h values and plot v² against h. A straight line through the origin with gradient 2g verifies v² = 2gh; losses cause a smaller gradient or small disagreement.",
+      "zh": "用數個 h 值重複並繪畫 v² 對 h 影象。透過原點且斜率為 2g 的直線可驗證 v² = 2gh；能量損耗會使斜率較小或造成輕微差異。"
+    }
+  ],
+  "sourceNotes": "Read from the original scanned page 7 of 5x1_2425_SQ_MCQ.pdf. Q3(a) and Q3(b) provide no numerical measurements, so no school-key numerical result exists or is claimed here; the worked 0.020 m and 0.050 s figures in step 2 are explicitly an illustrative substitution, not source data. The answer is a self-reference based on the printed apparatus and physics. Student handwriting was not used as authority."
+}

@@ -1,0 +1,103 @@
+{
+  "question": 4,
+  "status": "verified",
+  "sourceVerification": {
+    "questionPaper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "checkedUsing": "pdftotext -layout",
+    "questionSummary": "A 10 g ball rolls from rest at P, descends 18 cm to Q, leaves the track horizontally, and lands at R 13 cm below Q. Friction and air resistance are neglected."
+  },
+  "items": [
+    {
+      "label": "(a)",
+      "marks": 2,
+      "original": "Consider the motion from P to Q. Gain in KE = loss in PE. 1/2 mv^2 = mgh, hence v^2/2 = gh. v = sqrt(2gh) = sqrt((2)(9.81)(0.18)) = 1.88 m s^-1. The speed of the ball is 1.88 m s^-1 when it leaves the track.",
+      "originalZh": "考慮球由 P 到 Q 的運動。動能增加量等於重力勢能減少量：1/2 mv^2 = mgh，因此 v^2/2 = gh。代入 v = sqrt(2gh) = sqrt((2)(9.81)(0.18)) = 1.88 m s^-1。球離開軌道時的速率為 1.88 m s^-1。",
+      "markingPoints": [
+        "M1：指出由 P 到 Q 無摩擦，並正確使用機械能守恆／動能增加量等於重力勢能減少量，列出 1/2 mv^2 = mgh（或等價式）。",
+        "A1：代入垂直下降高度 h = 0.18 m 及 g = 9.81 m s^-2，得到 v = 1.88 m s^-1，並寫上正確單位。"
+      ],
+      "steps": [
+        "P 到 Q 沒有摩擦，故重力勢能的減少量全部轉為動能增加量。",
+        "1/2 mv^2 = mgh。球質量 m 可約去，得 v = sqrt(2gh)。",
+        "代入 h = 0.18 m、g = 9.81 m s^-2：v = sqrt(2 x 9.81 x 0.18) = 1.88 m s^-1。",
+        "因此球在 Q 離開軌道時的速率是 1.88 m s^-1。"
+      ],
+      "reasoningZh": "P 到 Q 的軌道無摩擦，所以機械能守恆。球下降 0.18 m 所失去的重力勢能等於獲得的動能；球的質量在方程式兩邊消去。",
+      "reasoning": "The track is frictionless from P to Q, so mechanical energy is conserved. The gravitational potential energy lost over the 0.18 m drop becomes kinetic energy, and the mass cancels from the equation.",
+      "formulas": [
+        "Delta KE = loss of PE",
+        "1/2 mv^2 = mgh",
+        "v = sqrt(2gh)"
+      ],
+      "commonMistakes": [
+        "把 18 cm 直接代入而沒有換算成 0.18 m。",
+        "忘記高度差是 P 與 Q 之間的垂直距離。",
+        "使用 h = 0.13 m（那是 Q 到 R 的高度），而不是 P 到 Q 的 0.18 m。",
+        "答案漏寫 m s^-1，或把速率誤寫成能量單位。"
+      ]
+    },
+    {
+      "label": "(b)",
+      "marks": 4,
+      "original": "Consider the vertical motion from Q to R. Take the downward direction as positive. s_y = u_y t + 1/2 a_y t^2. 0.13 = (0)t + 1/2(9.81)t^2, so t = 0.163 s. Consider the horizontal motion from Q to R. Distance travelled = u_x t = 1.88 x 0.163 = 0.306 m.",
+      "originalZh": "考慮由 Q 到 R 的垂直運動，取向下為正方向。s_y = u_y t + 1/2 a_y t^2；0.13 = (0)t + 1/2(9.81)t^2，所以 t = 0.163 s。再考慮由 Q 到 R 的水平運動：水平距離 = u_x t = 1.88 x 0.163 = 0.306 m。",
+      "markingPoints": [
+        "M1：正確處理垂直方向自由落體，列出 s_y = u_y t + 1/2 a_y t^2（或等價式），並使用 u_y = 0、a_y = 9.81 m s^-2、s_y = 0.13 m。",
+        "M1：由垂直方程求得飛行時間 t = 0.163 s。",
+        "M1：正確處理水平方向等速運動，列出水平距離 = u_x t，並使用 u_x = 1.88 m s^-1。",
+        "A1：求得水平距離 0.306 m，並寫上正確單位。"
+      ],
+      "steps": [
+        "球從 Q 水平離開，因此初始垂直速度 u_y = 0；垂直加速度 a_y = g = 9.81 m s^-2，垂直下降距離 s_y = 0.13 m。",
+        "取向下為正，使用 s_y = u_y t + 1/2 a_y t^2：0.13 = 0 x t + 1/2 x 9.81 x t^2。",
+        "解得 t = sqrt(2 x 0.13 / 9.81) = 0.163 s。",
+        "水平方向沒有加速度，故 u_x 保持為 Q 點離軌速度 1.88 m s^-1。",
+        "水平距離 x = u_x t = 1.88 x 0.163 = 0.306 m。"
+      ],
+      "reasoningZh": "離開 Q 後，球的水平和垂直運動可分開處理。垂直方向是初速為零的自由落體，先由 Q 到 R 的高度差求飛行時間；水平方向沒有加速度，因此距離等於水平初速乘以飛行時間。",
+      "reasoning": "After leaving Q, resolve the motion into independent vertical and horizontal components. The vertical component is a drop from rest through 0.13 m, which gives the time of flight. The horizontal component has no acceleration, so the range is the horizontal speed multiplied by this time.",
+      "formulas": [
+        "s_y = u_y t + 1/2 a_y t^2",
+        "u_y = 0, a_y = g",
+        "x = u_x t",
+        "u_x = v_Q"
+      ],
+      "commonMistakes": [
+        "把 0.13 m 當成斜向位移，直接用斜拋公式而沒有分解水平、垂直運動。",
+        "忘記球水平離開 Q，所以垂直初速 u_y = 0。",
+        "用 0.18 m 計算飛行時間；0.18 m 是 P 到 Q 的高度差，飛行段應用 0.13 m。",
+        "水平方向錯誤加入 g，或把水平距離算成 1/2 gt^2。",
+        "將 Q 點速度 1.88 m s^-1 誤當成垂直速度，而不是水平速度。"
+      ]
+    },
+    {
+      "label": "(c)",
+      "marks": 2,
+      "original": "The speed of the ball at Q is sqrt(2gh), which is independent of the mass of the ball. The motion of the ball moving freely in the air from Q to R only depends on its initial velocity and the acceleration, which does not change when a ball of a larger mass is used. Therefore, the result in (b) will not change.",
+      "originalZh": "球在 Q 的速率為 sqrt(2gh)，與球的質量無關。球由 Q 到 R 在空中自由運動，只取決於初速度及加速度；使用較大質量的球時，加速度不變。因此，(b) 的結果不會改變。",
+      "markingPoints": [
+        "A1：指出 v = sqrt(2gh)，所以球在 Q 的速率與質量無關（或清楚指出由能量守恆式中質量約去）。",
+        "A1：指出 Q 到 R 的自由飛行只由初速度及重力加速度決定，而重力加速度不因球的質量改變；因此 (b) 的水平距離／結果不變。"
+      ],
+      "steps": [
+        "由 (a) 的能量方程 v = sqrt(2gh)，可見球的質量 m 已消去，因此較大質量不會改變 Q 點的水平速率。",
+        "Q 到 R 的飛行時間由 t = sqrt(2 x 0.13 / g) 決定，也與質量無關。",
+        "水平距離 x = v_Q t；因 v_Q 和 t 都不變，所以 (b) 的結果仍為 0.306 m，不會改變。"
+      ],
+      "reasoningZh": "質量不會影響由相同高度差轉換所得的速率，因為 m 在能量守恆方程式中約掉。空中運動的加速度是 g，與物體質量無關；因此飛行時間及水平距離均保持不變。",
+      "reasoning": "The mass cancels in the energy-conservation expression for the speed at Q, so a larger mass gives the same horizontal launch speed. In flight, the acceleration is g and is independent of mass; therefore the time of flight and horizontal distance remain unchanged.",
+      "formulas": [
+        "v_Q = sqrt(2gh)",
+        "t = sqrt(2s_y/g)",
+        "x = v_Q t"
+      ],
+      "commonMistakes": [
+        "只寫『不變』而沒有解釋速度和重力加速度與質量無關。",
+        "錯誤認為較重球的重力較大，所以會更快到達 R；忽略其慣性質量也同時增加。",
+        "只說 Q 點速率不變，卻沒有說明飛行時間及水平距離因此不變。"
+      ]
+    }
+  ]
+}

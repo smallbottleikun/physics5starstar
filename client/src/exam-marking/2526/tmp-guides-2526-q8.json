@@ -1,0 +1,124 @@
+{
+  "question": 8,
+  "year": "2025-26",
+  "section": "B",
+  "totalMarks": 7,
+  "status": "complete",
+  "sourceVerification": {
+    "questionPaper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "verification": "已核對題卷第 10 頁 Q8 題幹及官方答案 PDF 第 5 頁的 Q8 marking scheme；官方答案列出 (a) 1A、(b)(i) 位置 1A及大小 1A、(b)(ii) 正確光線 1A及焦點位置 1A、(b)(iii) 由 O 頂端至 L 的光線 1A及由 L 至觀察者的光線 1A。"
+  },
+  "items": [
+    {
+      "label": "(a)",
+      "marks": 1,
+      "original": "Concave lens.",
+      "originalZh": "凹透鏡。",
+      "markingPoints": [
+        "1A：答出 concave lens（凹透鏡）。"
+      ],
+      "steps": [
+        "已知實物 O 經透鏡後形成正立（erect）而且放大率為 0.6 的像；放大率小於 1，故像是縮小的。",
+        "實物經凹透鏡必形成正立、縮小、虛像，因此透鏡 L 是凹透鏡。",
+        "答案：凹透鏡（concave lens）。"
+      ],
+      "reasoningZh": "凹透鏡對實物形成的像必定是正立、縮小及虛像。題目給出的像是正立，且 magnification = 0.6 < 1，表示縮小，所以 L 為凹透鏡。",
+      "reasoning": "A concave lens forms an upright and diminished virtual image for a real object. Since the given magnification is 0.6, the image is diminished, so L is a concave lens.",
+      "formulas": [
+        "m = h_i/h_o",
+        "0 < m = 0.6 < 1 \u21d2 diminished image"
+      ],
+      "commonMistakes": [
+        "只因為像是正立便答 convex lens；凸透鏡在物體位於焦點內時雖可形成正立像，但會放大，不會有 m = 0.6 的縮小像。",
+        "把 magnification = 0.6 誤解為放大 0.6 倍；它表示像高只有物高的 60%。",
+        "把凹透鏡誤寫成 concave mirror（凹面鏡）。"
+      ]
+    },
+    {
+      "label": "(b)(i)",
+      "marks": 2,
+      "original": "Draw the image of O as a virtual, erect and diminished image on the object side of the concave lens. The image is upright and has a height 0.6 times that of O, at the position shown in the marking-scheme diagram.",
+      "originalZh": "在凹透鏡的物方畫出 O 的正立、縮小虛像；像高為 O 的 0.6 倍，位置如官方答案圖所示。",
+      "markingPoints": [
+        "1A：正確的像的位置——像在透鏡 L 的左方（物方），即透鏡與物體 O 之間，為虛像位置。",
+        "1A：正確的像的大小——像正立，且高度為物體 O 的 0.6 倍（比 O 短）。"
+      ],
+      "steps": [
+        "因為 L 是凹透鏡，折射後的光線發散；把折射光線向後延長，延長線在透鏡左方相交，得到虛像。",
+        "在 O 與 L 之間畫一支向上的正立箭頭，標作 imag 或 I；不要把像畫在透鏡右方。",
+        "按照 m = h_i/h_o = 0.6，像高 h_i = 0.6h_o；因此像的箭頭高度應為 O 的 60%，即明顯較短。",
+        "官方圖示中的像位於 O 與 L 之間、在主軸上方，並保持正立。"
+      ],
+      "reasoningZh": "凹透鏡令平行於主軸的光線折射後發散，將折射光線反向延長會在物方相交，所以像是物方的虛像。正立表示箭頭向上；m = 0.6 表示像高只有物高的 60%，故像較短。",
+      "reasoning": "The rays emerging from a concave lens diverge. Their backward extensions meet on the object side, so the image is virtual and lies between O and L. It is upright and its height is 0.6h_o, so it must be smaller than O.",
+      "formulas": [
+        "m = h_i/h_o = 0.6",
+        "h_i = 0.6h_o"
+      ],
+      "commonMistakes": [
+        "把虛像畫在透鏡右方；凹透鏡的虛像在物方。",
+        "把像畫成倒立；題目已指明 image formed is erect。",
+        "像的高度畫成與 O 相同或比 O 大；m = 0.6 要求像高是 O 的 60%。",
+        "只標出一個箭頭而沒有清楚表示像的位置或正立方向。"
+      ]
+    },
+    {
+      "label": "(b)(ii)",
+      "marks": 2,
+      "original": "Draw a correct ray to locate the focus of L. A ray parallel to the principal axis is refracted by the concave lens so that it diverges as if it came from the virtual focus on the object side; extend the refracted ray backwards through F.",
+      "originalZh": "畫出正確光線以定位 L 的焦點：一條平行主軸入射的光線經凹透鏡後發散；將折射光線向後延長，通過物方的虛焦點 F。",
+      "markingPoints": [
+        "1A：畫出正確光線——例如由 O 頂端發出、平行主軸射向凹透鏡，經透鏡後向外發散的光線。",
+        "1A：焦點位置正確——將該折射光線向後延長，虛焦點 F 位於透鏡左方、主軸上，且官方圖示位置在物體 O 的左側。"
+      ],
+      "steps": [
+        "由 O 的頂端畫一條與主軸平行、向右射向透鏡 L 的入射光線。",
+        "光線通過凹透鏡後向上方發散（若入射線在主軸上方）；在透鏡右方畫出向上偏離主軸的折射光線。",
+        "把折射光線反向向左延長；延長線與主軸的交點就是虛焦點 F。",
+        "在透鏡左方主軸上標示 F；焦點必須在物方，且圖示中位於 O 的左側。"
+      ],
+      "reasoningZh": "凹透鏡的平行光線折射後會發散，折射光線的反向延長線看似由物方焦點 F 發出。因此焦點是虛焦點，位於透鏡左方主軸上；官方圖示以一條平行主軸光線及其反向延長線表示。",
+      "reasoning": "A ray parallel to the principal axis diverges after passing through a concave lens. The backward extension of the refracted ray passes through the virtual focus F on the object side of the lens.",
+      "formulas": [
+        "parallel incident ray \u2192 diverging ray after a concave lens",
+        "F is located at the intersection of the backward extension and the principal axis"
+      ],
+      "commonMistakes": [
+        "把焦點畫在透鏡右方；凹透鏡的焦點是物方虛焦點。",
+        "把平行光線折射後畫成會聚，這是凸透鏡的作圖規則。",
+        "只畫折射線而沒有把它向後延長，因此沒有清楚定位 F。",
+        "把 F 畫在主軸以外。"
+      ]
+    },
+    {
+      "label": "(b)(iii)",
+      "marks": 2,
+      "original": "Draw a ray from the head of O to L, then draw the emergent ray from L to the observer. The ray reaching the observer, when extended backwards, appears to come from the head of the virtual image.",
+      "originalZh": "由 O 的頂端畫一條光線射向 L，再畫出由 L 射向觀察者的出射光線；把到達觀察者的光線向後延長，應看似由虛像頂端發出。",
+      "markingPoints": [
+        "1A：正確畫出由 O 頂端射向透鏡 L 的光線。",
+        "1A：正確畫出由 L 射向右方觀察者的光線；該出射光線反向延長時應通過虛像的頂端。"
+      ],
+      "steps": [
+        "從物體 O 的頭部（頂端）向右畫一條入射光線，直至透鏡 L。",
+        "光線經凹透鏡後向觀察者方向射出；在透鏡右側畫出到達 observer 眼睛的出射光線。",
+        "調整出射光線方向，使其向左反向延長後通過 (b)(i) 所畫虛像的頂端；這樣觀察者便會把出射光線追溯至虛像頂端。",
+        "官方圖示的出射線由 L 向右上方到 observer；另有一條由物頂端到 L 的入射線，兩段必須連續接在透鏡處。"
+      ],
+      "reasoningZh": "觀察者看到的是由透鏡射出的光線。眼睛會把到來光線直線反向延長，因此要由 O 頂端畫入射線至 L，再由 L 畫出射線至觀察者；出射線的反向延長必須通過虛像頂端，才能表示觀察者看見該虛像。",
+      "reasoning": "The observer receives the ray emerging from the lens and traces it backwards in a straight line. Therefore draw an incident ray from the head of O to L and an emergent ray from L to the observer; the backward extension of the emergent ray should pass through the head of the virtual image.",
+      "formulas": [
+        "A virtual image is located by the backward extension of diverging emergent rays",
+        "ray path: head of O \u2192 L \u2192 observer"
+      ],
+      "commonMistakes": [
+        "只畫由 L 到 observer 的線，漏畫由 O 頂端到 L 的入射線。",
+        "把觀察者光線畫成由 observer 射向 L，沒有表示實際到達眼睛的出射方向。",
+        "出射光線的反向延長不通過虛像頂端，因而不能表示觀察者看到該像。",
+        "把光線畫成在凹透鏡後會聚，或在透鏡處突然不連續。"
+      ]
+    }
+  ]
+}

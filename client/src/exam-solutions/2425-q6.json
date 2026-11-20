@@ -1,0 +1,38 @@
+{
+  "yearId": "2425",
+  "question": 6,
+  "title": "Interference of sound from two loudspeakers",
+  "titleZh": "兩個揚聲器的聲音干涉",
+  "answer": "(a) The wavelength is λ = v/f = 330/300 = 1.10 m. (b) The path difference is |8.25 − 5.50| = 2.75 m = 2.5λ. Since the two identical loudspeakers are connected to the same signal generator, they emit in phase. A path difference of (n + 1/2)λ gives destructive interference, so Peter hears a soft sound (ideally minimum intensity). (c) If L1 is switched off, Peter hears a 300 Hz sound from L2. It is no longer cancelled by the out-of-phase wave from L1, so it is louder than the sound in part (b), although it is the sound from only one loudspeaker.",
+  "answerZh": "(a) 波長為 λ = v/f = 330/300 = 1.10 m。(b) 路程差為 |8.25 − 5.50| = 2.75 m = 2.5λ。兩個相同的揚聲器連線到同一個訊號發生器，因此同相發聲。當路程差為 (n + 1/2)λ 時會發生相消干涉，所以 Peter 聽到較弱的聲音（理想情況下聲強最小）。(c) 當 L1 關掉，Peter 會聽到來自 L2 的 300 Hz 聲音。它不再被 L1 所產生的反相聲波抵消，因此比(b)中的聲音響亮，但這只是單個揚聲器發出的聲音。",
+  "formulas": [
+    "lambda = v/f",
+    "path difference = |r1 - r2|",
+    "destructive interference: path difference = (n + 1/2) lambda"
+  ],
+  "explanation": "The wavelength follows from the wave-speed relation v = fλ. At Peter, the two waves have equal amplitude because the loudspeakers are identical and have the same output, while their travel distances differ by 2.75 m. This is 2.5 wavelengths, an odd half-wavelength difference, so the waves arrive 180° out of phase and interfere destructively. Switching off one source removes the cancellation, leaving a detectable single-speaker sound.",
+  "explanationZh": "波長由波速關係式 v = fλ 求得。在 Peter 處，兩個揚聲器相同且輸出相同，所以兩列聲波的振幅相等；但它們的傳播距離相差 2.75 m，即 2.5 個波長。這是半整數倍波長的路程差，故兩列波到達時相差 180°，產生相消干涉。關掉其中一個揚聲器後，抵消作用消失，只剩下一個揚聲器的可聽聲音。",
+  "steps": [
+    {
+      "label": "Wavelength",
+      "en": "Use λ = v/f = 330 m s⁻¹ / 300 Hz = 1.10 m.",
+      "zh": "使用 λ = v/f = 330 m s⁻¹ / 300 Hz = 1.10 m。"
+    },
+    {
+      "label": "Path difference",
+      "en": "The distances are 8.25 m and 5.50 m, so Δr = 8.25 − 5.50 = 2.75 m = 2.5λ.",
+      "zh": "距離為 8.25 m 和 5.50 m，所以 Δr = 8.25 − 5.50 = 2.75 m = 2.5λ。"
+    },
+    {
+      "label": "Interference",
+      "en": "Because the speakers are driven by the same generator, they are in phase. Since Δr = (2 + 1/2)λ, destructive interference occurs and the sound is soft.",
+      "zh": "由於揚聲器由同一訊號發生器驅動，兩者同相。因為 Δr = (2 + 1/2)λ，會發生相消干涉，聲音較弱。"
+    },
+    {
+      "label": "One speaker",
+      "en": "With L1 off, only L2 contributes; Peter hears a 300 Hz sound, louder than the cancelled result in part (b).",
+      "zh": "關掉 L1 後只剩 L2 發聲；Peter 聽到 300 Hz 的聲音，而且比(b)中被抵消後的聲音響亮。"
+    }
+  ],
+  "sourceNotes": "The original scanned question was read from page 8 of /home/ubuntu/paper-work-2425/physics/5x1_2425_SQ_MCQ.pdf. The printed values 300 Hz, 330 m s⁻¹, 8.25 m and 5.50 m were used; the speakers are shown connected to the same signal generator. No 2425 school marking scheme was supplied, and no handwritten student answer was treated as authoritative. Numerical calculations and the interference conclusion were checked independently with Python."
+}

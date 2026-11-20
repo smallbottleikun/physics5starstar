@@ -1,0 +1,106 @@
+{
+  "question": 5,
+  "status": "verified",
+  "title": "Finding the centre of gravity of an irregular cardboard sheet",
+  "marks": 5,
+  "sourceVerification": {
+    "questionPaper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "pdfPagesChecked": [3],
+    "note": "The question paper asks for a brief description with an illustration and an explanation. The official PDF marking scheme shows five separate 1A points and a labelled setup containing the corkboard, pin, cardboard sheet, string and mass holder."
+  },
+  "parts": [
+    {
+      "label": "(a)",
+      "marks": 5,
+      "original": "Hang the cardboard sheet on the pin so that it is free to rotate. (1A) Mark a vertical line on the sheet with the help of the string and the mass holder as shown. (1A) The setup should show the corkboard, pin, cardboard sheet, string and mass holder, with the string hanging vertically from the pin and the mass holder at its lower end. (1A) Repeat the above steps by pinning the sheet through different holes. The lines drawn should intersect at one point. (1A) Since the sheet is in equilibrium, its c.g. must be on the vertical line through the pin. Therefore, the point of intersection of the lines indicates the location of the c.g. (1A)",
+      "originalZh": "把紙板掛在釘上，使它可以自由轉動。(1A) 如圖利用繩子和重物架在紙板上畫出一條鉛垂線。(1A) 裝置圖應顯示軟木板、釘、紙板、繩子和重物架；繩子由釘的位置垂直向下懸掛，重物架在繩子的下端。(1A) 把紙板再從不同的孔掛起，重複上述步驟；所畫的鉛垂線應在同一點相交。(1A) 由於紙板處於平衡狀態，其重心必在通過懸掛釘的鉛垂線上。因此，多條鉛垂線的交點就是紙板重心的位置。(1A)",
+      "markingPoints": [
+        {
+          "code": "1A-1",
+          "type": "A",
+          "point": "Hang the cardboard sheet on the pin so that it is free to rotate.",
+          "pointZh": "把紙板掛在釘上，使紙板可以自由轉動。"
+        },
+        {
+          "code": "1A-2",
+          "type": "A",
+          "point": "Use the string and mass holder to mark a vertical line on the suspended cardboard sheet.",
+          "pointZh": "利用繩子和重物架在懸掛的紙板上畫出鉛垂線。"
+        },
+        {
+          "code": "1A-3",
+          "type": "A",
+          "point": "The illustration/setup is correct: corkboard supports a pin; the cardboard sheet is suspended from the pin; a string hangs vertically from the pin and the mass holder is attached at its lower end.",
+          "pointZh": "圖示／裝置正確：軟木板支承釘；紙板懸掛在釘上；繩子由釘垂直向下，重物架連接在繩子下端。"
+        },
+        {
+          "code": "1A-4",
+          "type": "A",
+          "point": "Repeat the procedure with the sheet pinned through different holes; the drawn vertical lines intersect at one point.",
+          "pointZh": "把紙板從不同的孔掛起並重複程序；所畫的鉛垂線在一點相交。"
+        },
+        {
+          "code": "1A-5",
+          "type": "A",
+          "point": "In equilibrium, the centre of gravity must lie on the vertical line through the pin; hence the intersection of the lines locates the centre of gravity.",
+          "pointZh": "紙板平衡時，重心必在通過釘的鉛垂線上；因此各線的交點就是重心位置。"
+        }
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "action": "Fix the pin to the corkboard and hang the irregular cardboard sheet through one of its drilled holes. Ensure that the sheet is free to rotate and comes to rest.",
+          "actionZh": "把釘固定在軟木板上，將不規則紙板的一個孔掛在釘上；確保紙板可以自由轉動並靜止下來。",
+          "formula": "Στ = 0 (rotational equilibrium)",
+          "substitution": "No numerical substitution is required.",
+          "unit": "Not applicable.",
+          "answer": "The sheet is suspended and free to rotate."
+        },
+        {
+          "step": 2,
+          "action": "Tie or hang the string with the mass holder from the pin so that the string settles vertically. Draw the vertical line on the cardboard along the string.",
+          "actionZh": "把帶有重物架的繩子掛在釘上，使繩子穩定成鉛垂線；沿繩子在紙板上畫線。",
+          "formula": "A plumb line gives the vertical direction.",
+          "substitution": "No numerical substitution is required.",
+          "unit": "Not applicable.",
+          "answer": "One vertical line through the suspension point is marked on the cardboard."
+        },
+        {
+          "step": 3,
+          "action": "Repeat Steps 1–2 using different drilled holes in the cardboard and draw each corresponding vertical line.",
+          "actionZh": "用紙板上不同的孔重複步驟 1–2，畫出每一條相應的鉛垂線。",
+          "formula": "Each suspension point gives a line containing the centre of gravity.",
+          "substitution": "No numerical substitution is required.",
+          "unit": "Not applicable.",
+          "answer": "The lines intersect at one point (allowing for line thickness/experimental uncertainty)."
+        },
+        {
+          "step": 4,
+          "action": "Identify and mark the intersection of the drawn vertical lines.",
+          "actionZh": "找出並標記所畫鉛垂線的交點。",
+          "formula": "The centre of gravity lies on every suspension plumb line.",
+          "substitution": "No numerical substitution is required.",
+          "unit": "Not applicable.",
+          "answer": "The intersection point is the centre of gravity (c.g.) of the cardboard."
+        }
+      ],
+      "reasoningZh": "紙板懸掛後若達到轉動平衡，重力的作用線必須通過懸掛點，否則重力會對釘產生力矩而使紙板繼續轉動。因此，紙板的重心必在由釘向下的鉛垂線上。從不同孔懸掛紙板時，每一次都會得到一條包含同一重心的鉛垂線；這些線的交點便確定重心位置。重物架的作用是令繩子保持鉛垂，從而提供畫線的垂直方向。",
+      "reasoning": "When the cardboard is suspended and has come to rest, it is in rotational equilibrium. The line of action of its weight must pass through the pin; otherwise the weight would exert a torque about the pin and the sheet would rotate. Therefore, the centre of gravity lies on the vertical plumb line through every suspension point. Suspending the sheet from different holes gives several plumb lines containing the same centre of gravity, so their intersection locates the centre of gravity. The mass holder makes the string hang vertically and provides a reliable direction for drawing each line.",
+      "formulas": [
+        "Στ = 0 (rotational equilibrium)",
+        "The line of action of the weight passes through the centre of gravity.",
+        "The centre of gravity lies on the vertical plumb line through the suspension point."
+      ],
+      "commonMistakes": [
+        "畫出懸掛裝置但沒有顯示繩子必須垂直向下，或沒有標示重物架。",
+        "只用一個孔畫一條線；單一鉛垂線只能指出重心在該線上，不能確定一個位置。",
+        "把紙板的幾何中心、孔的位置或任意估計點當作重心；不規則紙板的重心未必在幾何中心。",
+        "沒有從不同的孔重複懸掛和畫線，或沒有指出各線應相交於一點。",
+        "只寫『交點是重心』而沒有解釋平衡時重心必在懸掛點的鉛垂線上。",
+        "把畫出的線誤稱為水平線，或把繩子畫成不垂直於地面。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "yearId": "2425",
+  "question": 10,
+  "title": "Transmission grating: wavelengths of violet and red light",
+  "titleZh": "透射光柵：紫光及紅光的波長",
+  "answer": "Original question: A beam consisting of red and violet lights is normally incident on a transmission grating that has ruling of 500 lines per mm. The figure shows the bright fringes of the first two orders. The angular separation between the first-order fringe at W and the 0th-order fringe is 11.5°. The angular separation between the first-order fringe at X and the second-order fringe at Y is 4.5°. (a) What is the colour of fringe W? (b) Find the wavelength of the violet light. (c) Find the wavelength of the red light. (d) Find the maximum order of fringe of the red light.\n\n(a) W is violet. Violet has the shorter wavelength, so its first-order fringe is closer to the central (zero-order) fringe.\n(b) Grating spacing d = 1/(500 mm^-1) = 2.00 x 10^-6 m. Since W is first-order violet, sin(11.5°) = lambda_v/d, so lambda_v = 3.987 x 10^-7 m = 399 nm.\n(c) Let theta_X be the first-order red angle. Y is the second-order violet fringe, so 2 lambda_v = d sin(theta_Y), while lambda_v = d sin(11.5°). Hence sin(theta_Y) = 2 sin(11.5°), giving theta_Y = 23.499°. From the diagram theta_Y - theta_X = 4.5°, so theta_X = 18.999°. Therefore lambda_r = d sin(theta_X) = 6.511 x 10^-7 m = 651 nm.\n(d) The maximum order satisfies m lambda_r <= d. Thus m_max = floor(d/lambda_r) = floor(3.0717) = 3.",
+  "answerZh": "原題：一束由紅光和紫光組成的光垂直入射於透射光柵，光柵每毫米有 500 條刻線。圖中顯示首兩級的明紋。W 的一級明紋與零級明紋的角分隔為 11.5°；X 的一級明紋與 Y 的二級明紋的角分隔為 4.5°。(a) W 是甚麼顏色？(b) 求紫光波長。(c) 求紅光波長。(d) 求紅光明紋的最高階次。\n\n(a) W 是紫光。紫光波長較短，因此其一級明紋較接近中央（零級）明紋。\n(b) 光柵間距 d = 1/(500 mm^-1) = 2.00 x 10^-6 m。W 是紫光一級明紋，所以 sin(11.5°) = lambda_v/d，故 lambda_v = 3.987 x 10^-7 m = 399 nm。\n(c) 設 X 的一級紅光角為 theta_X。Y 是紫光二級明紋，因此 2 lambda_v = d sin(theta_Y)，而 lambda_v = d sin(11.5°)。所以 sin(theta_Y) = 2 sin(11.5°)，得 theta_Y = 23.499°。由圖 theta_Y - theta_X = 4.5°，故 theta_X = 18.999°。因此 lambda_r = d sin(theta_X) = 6.511 x 10^-7 m = 651 nm。\n(d) 最高階次須滿足 m lambda_r <= d。因此 m_max = floor(d/lambda_r) = floor(3.0717) = 3。",
+  "formulas": [
+    "d = 1/(500 lines mm^-1) = 2.00 x 10^-6 m",
+    "d sin(theta) = m lambda",
+    "lambda_v = d sin(11.5 degrees)",
+    "sin(theta_Y) = 2 sin(11.5 degrees)",
+    "theta_X = theta_Y - 4.5 degrees",
+    "m_max = floor(d/lambda_r)"
+  ],
+  "explanation": "For normal incidence, constructive interference from a transmission grating obeys d sin(theta) = m lambda. At the same order, the shorter-wavelength violet light has the smaller angle, so W is violet and X is red. Y is the second-order violet fringe; using its angle relation determines X's angle and hence the red wavelength. A possible order exists only when m lambda is no larger than the grating spacing.",
+  "explanationZh": "垂直入射時，透射光柵的建設性干涉條件為 d sin(theta) = m lambda。同一級次中，波長較短的紫光偏折角較小，因此 W 是紫光而 X 是紅光。Y 是紫光二級明紋；利用其角度關係可求出 X 的角度，再求紅光波長。只有當 m lambda 不大於光柵間距時，該級次才存在。",
+  "steps": [
+    {
+      "label": "1. Identify W / 判定 W",
+      "en": "Violet has the shorter wavelength, so its first-order fringe is nearer zero order: W is violet.",
+      "zh": "紫光波長較短，其一級明紋較接近零級，因此 W 是紫光。"
+    },
+    {
+      "label": "2. Find violet wavelength / 求紫光波長",
+      "en": "d = 1/(500 x 10^3) = 2.00 x 10^-6 m; lambda_v = d sin(11.5°) = 3.987 x 10^-7 m = 399 nm.",
+      "zh": "d = 1/(500 x 10^3) = 2.00 x 10^-6 m；lambda_v = d sin(11.5°) = 3.987 x 10^-7 m = 399 nm。"
+    },
+    {
+      "label": "3. Find red angle / 求紅光角度",
+      "en": "For Y, sin(theta_Y) = 2 sin(11.5°), so theta_Y = 23.499°. Hence theta_X = 23.499° - 4.5° = 18.999°.",
+      "zh": "對 Y，sin(theta_Y) = 2 sin(11.5°)，所以 theta_Y = 23.499°。故 theta_X = 23.499° - 4.5° = 18.999°。"
+    },
+    {
+      "label": "4. Find red wavelength / 求紅光波長",
+      "en": "lambda_r = d sin(18.999°) = 6.511 x 10^-7 m = 651 nm.",
+      "zh": "lambda_r = d sin(18.999°) = 6.511 x 10^-7 m = 651 nm。"
+    },
+    {
+      "label": "5. Maximum order / 最高級次",
+      "en": "m_max = floor(2.00 x 10^-6 / 6.511 x 10^-7) = floor(3.0717) = 3.",
+      "zh": "m_max = floor(2.00 x 10^-6 / 6.511 x 10^-7) = floor(3.0717) = 3。"
+    }
+  ],
+  "sourceNotes": "Source is the supplied 2425 question-paper page 11, read visually. No 2425 school marking scheme was supplied; this is a self-derived solution from the original diagram and grating physics. The visible diagram assigns W as first-order violet, X as first-order red, Y as second-order violet, and Z as second-order red; these assignments were followed rather than relying on handwritten answers or legacy claims. Numerical values were verified with Python calculations and rounded suitably."
+}

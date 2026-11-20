@@ -1,0 +1,109 @@
+{
+  "question": 7,
+  "status": "complete",
+  "sourceCheck": {
+    "questionPaper": "/home/ubuntu/paper-work/physics/5x1_2526_B_SQ.txt",
+    "markingSchemeText": "/home/ubuntu/paper-work/physics/5x1_2526_ans.txt",
+    "markingSchemePdf": "/home/ubuntu/paper-work-2425/physics/5x1_2526_ans.pdf",
+    "verifiedScope": "Question 7 on the question paper and page 4 of the official marking scheme PDF; all four subparts are present and the PDF/text answers agree."
+  },
+  "items": [
+    {
+      "label": "(a)",
+      "marks": 2,
+      "original": "Gravitational force = GMm/r² = ((6.67 × 10⁻¹¹)(5.97 × 10²⁴)(7.34 × 10²²))/(3.84 × 10⁸)² = 1.98 × 10²⁰ N.",
+      "originalZh": "萬有引力 = GMm/r² = ((6.67 × 10⁻¹¹)(5.97 × 10²⁴)(7.34 × 10²²))/(3.84 × 10⁸)² = 1.98 × 10²⁰ N。",
+      "markingPoints": [
+        "M（1 分）：寫出萬有引力公式 F = GMm/r²。",
+        "A（1 分）：正確代入 G、地球質量、月球質量及距離，並得 F = 1.98 × 10²⁰ N。"
+      ],
+      "steps": [
+        "使用牛頓萬有引力定律：F = GMm/r²。",
+        "代入 G = 6.67 × 10⁻¹¹ N m² kg⁻²、M = 5.97 × 10²⁴ kg、m = 7.34 × 10²² kg、r = 3.84 × 10⁸ m。",
+        "F = ((6.67 × 10⁻¹¹)(5.97 × 10²⁴)(7.34 × 10²²))/(3.84 × 10⁸)² N。",
+        "F = 1.98 × 10²⁰ N。"
+      ],
+      "reasoningZh": "地球與月球可視為相距 r 的兩個質點，兩者之間的引力大小由 F = GMm/r² 決定。距離必須平方，所有質量和距離均以 SI 單位代入。",
+      "reasoning": "Treat the Earth and Moon as two masses separated by r. Their mutual gravitational force is given by Newton's law F = GMm/r²; square the separation and use SI units.",
+      "formulas": ["F = GMm/r²"],
+      "commonMistakes": [
+        "忘記將 r 平方，或把 3.84 × 10⁸ m 誤當成直徑。",
+        "漏寫萬有引力常數 G，或指數運算錯誤。",
+        "答案沒有力的單位 N。"
+      ]
+    },
+    {
+      "label": "(b)(i)",
+      "marks": 3,
+      "original": "The centripetal force is provided by the gravitational force. GMm/r² = mv²/r; v = √(GM/r) = √[((6.67 × 10⁻¹¹)(5.97 × 10²⁴))/(3.84 × 10⁸)] = 1020 m s⁻¹. The orbital speed of the Moon is 1020 m s⁻¹.",
+      "originalZh": "向心力由萬有引力提供。GMm/r² = mv²/r；v = √(GM/r) = √[((6.67 × 10⁻¹¹)(5.97 × 10²⁴))/(3.84 × 10⁸)] = 1020 m s⁻¹。月球的軌道速率為 1020 m s⁻¹。",
+      "markingPoints": [
+        "M（1 分）：指出向心力由地球對月球的萬有引力提供，並列 GMm/r² = mv²/r。",
+        "M（1 分）：由上式整理出 v = √(GM/r)（或等價正確式）。",
+        "A（1 分）：正確代入數值並得 v = 1020 m s⁻¹。"
+      ],
+      "steps": [
+        "月球作半徑 r 的圓周運動，向心力由地球的引力提供。",
+        "列式：GMm/r² = mv²/r。",
+        "約去月球質量 m，整理：v² = GM/r，因此 v = √(GM/r)。",
+        "代入：v = √[((6.67 × 10⁻¹¹)(5.97 × 10²⁴))/(3.84 × 10⁸)] m s⁻¹。",
+        "v = 1020 m s⁻¹。"
+      ],
+      "reasoningZh": "固定半徑的圓形軌道需要向心力 mv²/r；題目假設沒有其他提供向心力的因素，所以由地球與月球間的萬有引力提供。令兩者相等後可約去月球質量。",
+      "reasoning": "For a circular orbit of radius r, the required centripetal force is mv²/r. Under the stated model, Earth's gravitational force supplies it. Equating the two forces allows the Moon's mass to cancel.",
+      "formulas": ["F_c = mv²/r", "GMm/r² = mv²/r", "v = √(GM/r)"],
+      "commonMistakes": [
+        "把向心力當作另一種額外的力，而沒有寫成由萬有引力提供。",
+        "使用地球和月球的總質量計算軌道速率；官方模型是以地球質量 M 為主。",
+        "約去 m 或開平方時出錯，或漏寫 m s⁻¹。"
+      ]
+    },
+    {
+      "label": "(b)(ii)",
+      "marks": 2,
+      "original": "Orbital period = 2πr/v = 2π(3.84 × 10⁸)/1020 = 2.37 × 10⁶ s = (2.37 × 10⁶)/(60 × 60 × 24) = 27.4 days.",
+      "originalZh": "軌道週期 = 2πr/v = 2π(3.84 × 10⁸)/1020 = 2.37 × 10⁶ s = (2.37 × 10⁶)/(60 × 60 × 24) = 27.4 days。",
+      "markingPoints": [
+        "M（1 分）：使用一周軌道長度 2πr 除以速率，即 T = 2πr/v，並正確代入。",
+        "A（1 分）：將秒換算成日，得 T = 27.4 days。"
+      ],
+      "steps": [
+        "月球一周走過的路程是圓周長 2πr。",
+        "週期 T = 路程/速率 = 2πr/v。",
+        "代入 r = 3.84 × 10⁸ m、v = 1020 m s⁻¹：T = 2π(3.84 × 10⁸)/1020 = 2.37 × 10⁶ s。",
+        "1 day = 60 × 60 × 24 s，所以 T = (2.37 × 10⁶)/(60 × 60 × 24) = 27.4 days。"
+      ],
+      "reasoningZh": "圓周運動的週期等於一周路程除以切線速率。先以秒求得 T，再用一天有 60 × 60 × 24 秒換算成題目要求的日。",
+      "reasoning": "The period is the circumference of the orbit divided by the orbital speed. First calculate it in seconds, then convert using 1 day = 60 × 60 × 24 s.",
+      "formulas": ["circumference = 2πr", "T = 2πr/v", "1 day = 86400 s"],
+      "commonMistakes": [
+        "用直徑 2r 代替圓周長 2πr。",
+        "只給出秒而沒有按題目要求換算成 days。",
+        "把 2πr/v 誤寫成 v/(2πr)。"
+      ]
+    },
+    {
+      "label": "(c)",
+      "marks": 1,
+      "original": "The magnitude of the gravitational field strength due to the Earth at where the Moon locates is larger.",
+      "originalZh": "在月球所在位置，地球造成的引力場強度較大。",
+      "markingPoints": [
+        "A（1 分）：指出月球位置的地球引力場強度較大。"
+      ],
+      "steps": [
+        "用引力場強度公式 g = GM/r² 比較兩者。",
+        "在月球位置由地球造成的場強：g_E = GM_E/r²；在地球位置由月球造成的場強：g_M = GM_M/r²。兩者的 r 都是題目給定的地月距離，因此比較主要由質量 M 決定。",
+        "由 M_E = 5.97 × 10²⁴ kg 大於 M_M = 7.34 × 10²² kg，故 g_E > g_M。"
+      ],
+      "reasoningZh": "引力場強度為 g = GM/r²。題目比較的是地球在月球位置造成的場強與月球在地球位置造成的場強；兩者使用相同的地月距離 r，但地球質量遠大於月球，所以前者較大。",
+      "reasoning": "Use g = GM/r². For the two requested fields, the separation is the same Earth–Moon distance, while Earth's mass is much greater than the Moon's. Therefore the field due to Earth at the Moon is larger.",
+      "formulas": ["g = GM/r²", "g_E/g_M = M_E/M_M > 1"],
+      "commonMistakes": [
+        "誤以為兩者必相等，因為牛頓第三定律只表示兩物體互相作用的力大小相等，不表示兩處的場強相等。",
+        "只比較質量而沒有說明兩者使用相同距離，或把場強和力混淆。",
+        "把題目問的『場強』回答成 (a) 的引力 F。"
+      ]
+    }
+  ],
+  "summary": "Q7 已按原題順序完成 (a)、(b)(i)、(b)(ii)、(c)，合共 8 分。內容以題卷與官方 marking scheme PDF（第 4 頁）核對；每小問均包含官方原版答案邏輯、中文翻譯、逐步公式及代入、逐項 M/A 得分點、雙語 reasoning、公式與常見錯誤。"
+}

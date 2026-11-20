@@ -1,0 +1,25 @@
+{
+  "yearId": "2526",
+  "question": 1,
+  "title": "Heating soup and vegetables",
+  "titleZh": "湯與蔬菜的加熱及混合",
+  "answer": "(a) 1008 s, rounded to 1010 s (3 s.f.).\n(b)(i) T₁ = 91.099 °C ≈ 91.1 °C.\n(b)(ii) The soup reaches 100 °C again 127.5 s ≈ 128 s after the vegetables are added. This is 125.5 s after the stated 2 s mixing period.",
+  "answerZh": "(a) 所需時間 1008 s，以三位有效數字表示為 1010 s。\n(b)(i) 共同溫度 T₁ ≈ 91.1 °C。\n(b)(ii) 從加入蔬菜的一刻起計，127.5 s（約 128 s）後湯再次達到 100 °C；若從混合完成、達到 T₁ 時開始計，則還需 125.5 s。",
+  "formulas": [
+    "Q = mcΔT; t = Q/P",
+    "Energy gained by vegetables = energy lost by soup + stove input",
+    "0.5(3000)(T₁−15) = 3(4200)(100−T₁) + 1000(2)",
+    "Q_remaining = [3(4200)+0.5(3000)](100−T₁)",
+    "t_since_addition = 0.5(3000)(100−15)/1000"
+  ],
+  "explanation": "For mixing, the vegetables gain energy from BOTH the cooling soup and the stove. The soup's energy loss is not a positive energy gain of the system. Once equilibrium is reached, BOTH soup and vegetables must be reheated. Alternatively, compare the whole system immediately before addition and when it returns to 100 °C: the soup has no net energy change, so the total stove input equals the vegetables' net gain from 15 to 100 °C. This shortcut gives the total time since addition, not the additional time since T₁.",
+  "explanationZh": "混合時，蔬菜同時吸收湯放出的熱能和爐子輸入的熱能，因此必須寫成「蔬菜吸熱＝湯放熱＋爐子供熱」。兩者達到 91.1 °C 後，再升至 100 °C 時，湯及蔬菜都要吸熱，不能只加熱蔬菜。另一個簡便方法是比較加入蔬菜前與整體回到 100 °C 後：湯的初、末溫度相同，所以湯的淨能量變化為零；爐子的總供熱等於蔬菜由 15 °C 升至 100 °C 的淨吸熱。這個方法求到的是加入蔬菜後的總時間。",
+  "steps": [
+    { "label": "(a) 加熱湯", "en": "Q = 3×4200×80 = 1,008,000 J; t = Q/1000 = 1008 s ≈ 1010 s.", "zh": "先用 Q=mcΔT，得 Q=3×4200×80=1,008,000 J；再除以 1000 W，得 1008 s≈1010 s。" },
+    { "label": "(b)(i) 列出混合能量方程", "en": "0.5×3000×(T₁−15) = 3×4200×(100−T₁)+2000.", "zh": "蔬菜吸收的熱能等於湯放出的熱能加上爐子 2 s 內提供的 2000 J：0.5×3000×(T₁−15)=3×4200×(100−T₁)+2000。" },
+    { "label": "(b)(i) 解共同溫度", "en": "14100T₁ = 1,284,500, so T₁ = 91.099 °C.", "zh": "整理方程得 14100T₁=1,284,500，所以 T₁=91.099 °C≈91.1 °C。" },
+    { "label": "(b)(ii) 由加入蔬菜一刻起計", "en": "1000t = 0.5×3000×(100−15), giving 127.5 s ≈ 128 s.", "zh": "整個過程中湯的初末溫度均為 100 °C；爐子淨供熱為蔬菜由 15 °C 升至 100 °C 所需熱能。因此 1000t=0.5×3000×85，得 127.5 s≈128 s。" },
+    { "label": "分清總時間與額外加熱時間", "en": "After equilibration, further time = 127.5−2 = 125.5 s; both soup and vegetables absorb heat.", "zh": "達到共同溫度後的額外時間是 127.5−2=125.5 s。這段時間湯和蔬菜同時吸熱。" }
+  ],
+  "sourceNotes": "數值對照附件中的 2025–26 學校答案；解說另列出兩種計時起點，避免把約 128 s 誤解為達到 T₁ 後的額外時間。"
+}

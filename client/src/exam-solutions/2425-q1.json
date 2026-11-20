@@ -1,0 +1,39 @@
+{
+  "yearId": "2425",
+  "question": 1,
+  "title": "Jumping-bead model of gas laws",
+  "titleZh": "跳動小珠氣體定律模型",
+  "answer": "(a)(i) Reduce the motor speed so that the beads have lower average kinetic energy (lower temperature). To keep the pressure constant, lower the polystyrene disc so the volume decreases in proportion to the temperature decrease. (a)(ii) Keep the motor speed unchanged (constant temperature), then push the polystyrene disc down to reduce the volume; the beads collide with the disc more frequently per unit area, so the pressure increases. (b) Keep the cylinder and polystyrene disc fixed so that the volume is constant. Vary the motor speed to vary the beads' average kinetic energy/temperature. A faster motor makes the beads hit the disc more often and/or with greater momentum change, producing a larger upward force (pressure); a slower motor produces a smaller force. Thus increasing the model temperature increases pressure at constant volume, demonstrating p/T = constant (or p ∝ T in kelvin).",
+  "answerZh": "(a)(i) 降低馬達轉速，使小珠的平均動能降低（溫度降低）。為保持壓力不變，應將聚苯乙烯圓片向下移，使體積按溫度的減少而減少。(a)(ii) 保持馬達轉速不變（溫度不變），然後把聚苯乙烯圓片向下壓以減少體積；小珠每單位面積撞擊圓片的次數增加，因此壓力上升。(b) 固定圓筒及聚苯乙烯圓片，使體積保持不變。改變馬達轉速以改變小珠的平均動能／溫度。馬達轉得更快時，小珠更頻密地撞擊圓片，及／或每次碰撞的動量改變更大，因而產生較大的向上力（壓力）；馬達轉慢則力較小。因此，在定容下提高模型溫度會提高壓力，示範 p/T = 常數（或 p ∝ T，其中 T 必須用開爾文溫度）。",
+  "formulas": [
+    "pV = nRT",
+    "At constant p: V/T = constant",
+    "At constant T: pV = constant",
+    "At constant V: p/T = constant, so p ∝ T (T in kelvin)"
+  ],
+  "explanation": "The beads represent gas molecules, their random motion represents thermal motion, and the force from their collisions with the disc represents gas pressure. Motor speed changes the beads' average kinetic energy and therefore the model temperature. Moving the disc changes the volume. The ideal-gas equation gives the required constraint in each case: at fixed pressure, a temperature decrease requires a volume decrease; at fixed temperature, a volume decrease raises pressure; at fixed volume, greater molecular kinetic energy and collision momentum transfer raise pressure.",
+  "explanationZh": "小珠代表氣體分子；小珠的隨機運動代表熱運動，而小珠撞擊圓片所產生的力代表氣體壓力。馬達轉速改變小珠的平均動能，因此改變模型溫度；移動圓片則改變體積。理想氣體方程式給出各情況的約束：定壓時，溫度降低必須配合體積降低；定溫時，體積降低會使壓力升高；定容時，分子動能及碰撞時的動量傳遞增加，會使壓力升高。",
+  "steps": [
+    {
+      "label": "Model mapping",
+      "en": "Beads are molecules, motor speed controls average kinetic energy/temperature, and collisions with the disc produce pressure.",
+      "zh": "小珠代表分子；馬達轉速控制平均動能／溫度；撞擊圓片產生壓力。"
+    },
+    {
+      "label": "Constant pressure",
+      "en": "For pV = nRT with p fixed, V/T is constant: reduce motor speed and lower the disc so both T and V decrease.",
+      "zh": "由 pV = nRT，在 p 不變時 V/T 為常數：降低馬達轉速並把圓片下移，使 T 和 V 一同降低。"
+    },
+    {
+      "label": "Constant temperature",
+      "en": "Keep motor speed fixed and push the disc down; V decreases, so collisions per unit area increase and p rises.",
+      "zh": "保持馬達轉速不變並把圓片下壓；V 減少，所以每單位面積的碰撞增加，p 上升。"
+    },
+    {
+      "label": "Pressure law",
+      "en": "Fix the disc (constant V), vary motor speed, and compare the upward force: faster beads give higher pressure. Hence p/T is constant.",
+      "zh": "固定圓片（定容），改變馬達轉速並比較向上力：小珠越快，壓力越大。因此 p/T 為常數。"
+    }
+  ],
+  "sourceNotes": "Question wording and the jumping-bead diagram were read from the supplied original question PDF, page 6 only. No handwritten student answers were used as authority. No 2425 school marking scheme was supplied; this is an independent physics-based solution using the ideal-gas relationships. The model demonstrates the laws qualitatively rather than providing calibrated numerical pressure or temperature readings."
+}

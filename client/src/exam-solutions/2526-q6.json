@@ -1,0 +1,39 @@
+{
+  "yearId": "2526",
+  "question": 6,
+  "title": "Mirage and total internal reflection",
+  "titleZh": "海市蜃樓與全內反射",
+  "answer": "(a) One essential condition is a sufficiently large temperature gradient over a short vertical distance, so that the refractive index changes through the air layers; the light must also travel a sufficiently long path. (b)(i) Applying Snell's law successively at the parallel boundaries gives n1 sin θ1 = n4 sin θ4. At the limiting condition for total internal reflection, θ4 = 90°, so sin θ1 = n4/n1 = 1.000221/1.000261. Therefore θ1 = 89.49° (approximately). (b)(ii) α + θ1 = 90°, hence α = 0.5124°. From the geometry in Figure 6.2, tan α = h/L, so L = h/tan α = 1.5/tan(0.5124°) = 1.68 × 10^2 m, approximately 168 m.",
+  "answerZh": "(a) 一個必要條件是：在很短的垂直距離內有足夠大的溫度梯度，使空氣各層的折射率有所改變；光線亦必須沿足夠長的路徑傳播。(b)(i) 由於各介面彼此平行，連續使用斯涅耳定律可得 n1 sin θ1 = n4 sin θ4。在剛好發生全內反射的極限情況，θ4 = 90°，因此 sin θ1 = n4/n1 = 1.000221/1.000261。所以 θ1 = 89.49°（約值）。(b)(ii) α + θ1 = 90°，故 α = 0.5124°。由圖 6.2 的幾何關係，tan α = h/L，所以 L = h/tan α = 1.5/tan(0.5124°) = 1.68 × 10^2 m，即約 168 m。",
+  "formulas": [
+    "n1 sin(theta1) = n4 sin(theta4)",
+    "theta4 = 90 degrees, so sin(theta1) = n4/n1",
+    "alpha + theta1 = 90 degrees",
+    "tan(alpha) = h/L, so L = h/tan(alpha)"
+  ],
+  "explanation": "The air layers have different refractive indices, so Snell's law applies at each boundary. Because the boundaries are parallel, the intermediate angles cancel, leaving n1 sin θ1 = n4 sin θ4. At the limiting ray R, the refracted ray is along the boundary (θ4 = 90°), which defines the total-internal-reflection condition. The small complementary angle α is then related to the vertical height h and horizontal distance L by right-triangle trigonometry.",
+  "explanationZh": "不同溫度的空氣層具有不同折射率，因此每個介面都可使用斯涅耳定律。由於各介面互相平行，中間各角度會逐步消去，最後得到 n1 sin θ1 = n4 sin θ4。在臨界光線 R 的情況，折射光線沿介面傳播（θ4 = 90°），這就是全內反射的臨界條件。之後利用 θ1 與 α 互餘，以及由 h、L 和 α 組成的直角三角形求出距離 L。",
+  "steps": [
+    {
+      "label": "Condition",
+      "en": "Require a large temperature/refractive-index gradient over a short height and a sufficiently long light path.",
+      "zh": "需要在短距離內有很大的溫度／折射率梯度，以及足夠長的光跑路徑。"
+    },
+    {
+      "label": "Snell's law",
+      "en": "For the parallel slabs, n1 sin θ1 = n4 sin θ4. With θ4 = 90°, sin θ1 = 1.000221/1.000261.",
+      "zh": "對平行薄層，n1 sin θ1 = n4 sin θ4。當 θ4 = 90° 時，sin θ1 = 1.000221/1.000261。"
+    },
+    {
+      "label": "Critical angle",
+      "en": "θ1 = sin⁻¹(1.000221/1.000261) = 89.49°; hence α = 90° − 89.49° = 0.5124°.",
+      "zh": "θ1 = sin⁻¹(1.000221/1.000261) = 89.49°；因此 α = 90° − 89.49° = 0.5124°。"
+    },
+    {
+      "label": "Distance",
+      "en": "Using tan α = h/L, L = 1.5/tan(0.5124°) = 167.7 m ≈ 168 m.",
+      "zh": "利用 tan α = h/L，L = 1.5/tan(0.5124°) = 167.7 m，約為 168 m。"
+    }
+  ],
+  "sourceNotes": "Question wording and diagrams were read from the supplied original question PDF pages 7–8 only. Numerical values were calculated independently with Python from n1 = 1.000261, n4 = 1.000221 and h = 1.5 m; no handwritten student answer was used as authority. The result is consistent with the supplied 2526 question context; no uncertainty in the printed numerical data was identified."
+}
