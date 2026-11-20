@@ -18,6 +18,11 @@ export interface LessonBlock {
     captionZh: string;
     badge?: string;
   };
+  pdf?: {
+    src: string;
+    title: string;
+    titleZh: string;
+  };
 }
 export interface LessonSection {
   id: string;

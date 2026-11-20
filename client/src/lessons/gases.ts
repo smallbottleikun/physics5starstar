@@ -325,13 +325,10 @@ export const lessonBundle: LessonBundle = {
         {
           en: 'Must-know visual: this kinetic-theory exercise tests RMS speed, gravitational escape and why light molecules escape more easily. Treat it as a model for explanation questions: define the quantity, choose the correct energy or motion law, and explain the molecular-mass effect.',
           zh: '必考圖解：這道 kinetic theory 練習同時考均方根速率、重力逃逸，以及為何較輕的分子較容易逃離大氣。文字解說題要先定義所求物理量，再選正確的能量或運動定律，最後解釋分子質量的影響。',
-          image: {
-            src: '/manus-storage/kinetic-theory-must-know_3e71be57.jpg',
-            alt: 'Kinetic theory exercise asking for RMS speed, maximum height and atmospheric escape',
-            altZh: '考查均方根速率、最高高度及大氣逃逸的分子運動論題目截圖',
-            caption: 'Must-know heat / kinetic theory question',
-            captionZh: '必考熱學／分子運動論題目',
-            badge: 'MUST-KNOW · 必考'
+          pdf: {
+            src: '/manus-storage/kinetic-theory-q5-text.pdf',
+            title: 'Text-only PDF · Kinetic theory Q5',
+            titleZh: '純文字 PDF · 分子運動論第 5 題'
           }
         },
         {

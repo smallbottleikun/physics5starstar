@@ -7,6 +7,14 @@ export function LessonSections({ lesson, showZh }: { lesson: LessonBundle; showZ
     {lesson.sections.map((section, i) => <details key={section.id} id={`lesson-${section.id}`} className="lesson-fold lesson-anchor" open={i === 0}>
       <summary><span><span className="lesson-section-index">{String(i + 1).padStart(2, '0')}</span>{section.title}{showZh && <span className="block lesson-zh ml-9">{section.titleZh}</span>}</span></summary>
       <div className="lesson-fold-body space-y-5">{section.blocks.map((block, j) => <div key={j}>
+        {block.pdf && <figure className="lesson-pdf-card">
+          <div className="lesson-pdf-heading"><strong>{block.pdf.title}</strong>{showZh && <span className="lesson-zh">{block.pdf.titleZh}</span>}</div>
+          <object data={block.pdf.src} type="application/pdf" aria-label={showZh ? block.pdf.titleZh : block.pdf.title}>
+            <p className="lesson-en">This browser cannot preview the PDF inline.</p>
+            {showZh && <p className="lesson-zh">此瀏覽器不能直接預覽 PDF。</p>}
+          </object>
+          <div className="lesson-pdf-actions"><a href={block.pdf.src} target="_blank" rel="noopener noreferrer">Open PDF ↗</a><a href={block.pdf.src} download>Download PDF ↓</a></div>
+        </figure>}
         {block.image && <figure className="lesson-image-card">
           {block.image.badge && <span className="lesson-image-badge">{block.image.badge}</span>}
           <img src={block.image.src} alt={showZh ? `${block.image.alt}；${block.image.altZh}` : block.image.alt} loading="lazy" />
