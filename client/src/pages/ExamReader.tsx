@@ -11,7 +11,7 @@ import { usePaperFullscreen } from "../components/usePaperFullscreen";
 import { readerYears, getReaderSolution, questionPage, pageQuestionNumbers, readerPageLabel, legacyPageInkRegion, type PaperSection, type ReaderSolution } from "../exam-reader-data";
 import { getAnswerParts } from "../exam-answer-parts";
 import { getExamPartGuides } from "../exam-part-guides";
-import { getDetailedMarkingGuide, getMarkingParts, type DetailedMarkingGuide, type DetailedMarkingPart, type MarkingPoint } from "../exam-marking-guides";
+import { getDetailedMarkingGuide, getMarkingParts, type DetailedMarkingGuide, type DetailedMarkingPart, type MarkingPoint, type PartVisual } from "../exam-marking-guides";
 
 GlobalWorkerOptions.workerSrc = workerUrl;
 
@@ -58,17 +58,33 @@ function MarkingPoints({ points }: { points: MarkingPoint[] }) {
 }
 
 const QUESTION_VISUALS: Record<string, { src: string; alt: string; caption: string }> = {
-  "2526-3": { src: "/manus-storage/inclined-plane-q3_9e6f74dc.png", alt: "Inclined-plane question diagram", caption: "Question diagram / 題目圖：斜面受力題" },
+  "2324-3": { src: "/manus-storage/inclined-plane-q3_9e6f74dc.png", alt: "Inclined-plane question diagram", caption: "Question diagram / 題目圖：斜面受力題" },
+  "2324-8": { src: "/manus-storage/lens-q8_eaeda845.png", alt: "Concave-lens question diagram", caption: "Question diagram / 題目圖：透鏡光線圖" },
+  "2324-10": { src: "/manus-storage/diffraction-grating-q10_13989d6b.png", alt: "Diffraction-grating question diagram", caption: "Question diagram / 題目圖：光柵圖樣題" },
   "2526-5": { src: "/manus-storage/centre-of-gravity-q5_0f226c1a.png", alt: "Centre-of-gravity experiment question", caption: "Question diagram / 題目圖：重心實驗作圖題" },
-  "2526-8": { src: "/manus-storage/lens-q8_eaeda845.png", alt: "Concave-lens ray diagram question", caption: "Question diagram / 題目圖：透鏡光線圖" },
-  "2526-10": { src: "/manus-storage/diffraction-grating-q10_13989d6b.png", alt: "Diffraction-grating screen pattern question", caption: "Question diagram / 題目圖：光柵圖樣作圖題" },
+};
+const PART_ANSWER_VISUALS: Record<string, PartVisual> = {
+  "2324-3-(a)": { src: "/manus-storage/answer-2324-q3-free-body.png", alt: "Official 2023–24 Q3 free-body diagram", caption: "Official answer diagram / 官方答案圖：Q3(a) 斜面自由體圖" },
+  "2324-6-(a)": { src: "/manus-storage/answer-2324-q6-centre-of-gravity.png", alt: "Official 2023–24 Q6 centre-of-gravity construction", caption: "Official answer diagram / 官方答案圖：Q6 重心鉛垂線作圖" },
+  "2324-8-(b)": { src: "/manus-storage/answer-2324-q8-lens-image.png", alt: "Official 2023–24 Q8 lens image diagram", caption: "Official answer diagram / 官方答案圖：Q8(b) 凹透鏡成像" },
+  "2324-8-(c)": { src: "/manus-storage/answer-2324-q8-lens-focus.png", alt: "Official 2023–24 Q8 lens focus construction", caption: "Official answer diagram / 官方答案圖：Q8(c) 焦點定位" },
+  "2324-9-(c)": { src: "/manus-storage/answer-2324-q9-waveform.png", alt: "Official 2023–24 Q9 travelling and stationary wave answer", caption: "Official answer diagram / 官方答案圖：Q9(c) 波形及粒子位置" },
+  "2324-10-(b)(ii)": { src: "/manus-storage/answer-2324-q10-diffraction-pattern.png", alt: "Official 2023–24 Q10 diffraction pattern answer", caption: "Official answer diagram / 官方答案圖：Q10(b)(ii) 光柵亮紋圖樣" },
+  "2526-3-(a)(i)": { src: "/manus-storage/answer-2526-q3-free-body.png", alt: "Official 2025–26 Q3 free-body diagram", caption: "Official answer diagram / 官方答案圖：Q3(a)(i) 斜面自由體圖" },
+  "2526-5-(a)": { src: "/manus-storage/answer-2526-q5-centre-of-gravity.png", alt: "Official 2025–26 Q5 centre-of-gravity construction", caption: "Official answer diagram / 官方答案圖：Q5 重心鉛垂線作圖" },
+  "2526-8-(b)": { src: "/manus-storage/answer-2526-q8-concave-lens.png", alt: "Official 2025–26 Q8 concave-lens ray diagram", caption: "Official answer diagram / 官方答案圖：Q8 凹透鏡完整光線圖" },
 };
 
-function DetailedMarkingPartCard({ part }: { part: DetailedMarkingPart }) {
+function AnswerVisual({ visual }: { visual: PartVisual }) {
+  return <figure className="reader-answer-visual reader-part-answer-visual"><img src={visual.src} alt={visual.alt} loading="lazy" /><figcaption>{visual.caption}<span>Official answer diagram / 官方答案圖：先核對方向、位置、比例及標示，再查看文字得分點。</span></figcaption></figure>;
+}
+
+function DetailedMarkingPartCard({ part, visual }: { part: DetailedMarkingPart; visual?: PartVisual }) {
   return <article className="reader-sq-part reader-detailed-part">
     <div className="reader-part-heading"><span className="reader-sq-part-label">{part.label}</span><span className="reader-part-mark">{part.marks} marks</span></div>
     <h4>Original answer · 原版答案</h4><p className="reader-preserve-lines">{part.original}</p>
     <h4>中文答案／概念翻譯</h4><p className="reader-preserve-lines">{part.originalZh}</p>
+    {(part.visual ?? visual) && <AnswerVisual visual={(part.visual ?? visual)!} />}
     <MarkingPoints points={part.markingPoints} />
     <div className="reader-detailed-steps"><h4>Full working · 完整答案步驟</h4><ol>{part.steps.map(step => <li key={step.step}><strong>Step {step.step} · {step.formula}</strong><code>{step.substitution}</code>{step.working && <code>{step.working}</code>}{step.unit && <span className="reader-step-unit">Unit: {step.unit}</span>}{step.answer && <p>{step.answer}</p>}</li>)}</ol></div>
     <div className="reader-part-reasoning-block"><h4>My reasoning · 解題思路</h4><p className="reader-preserve-lines">{part.reasoningZh}</p><details className="reader-english"><summary>English reasoning · 英文思路</summary><p className="mt-2 reader-preserve-lines">{part.reasoning}</p></details></div>
@@ -84,7 +100,7 @@ function DetailedMarkingContent({ guide }: { guide: DetailedMarkingGuide }) {
     {guide.status !== "complete" && guide.statusReason && <div className="reader-marking-warning"><strong>Marking scheme note · 官方答案備註</strong><p>{guide.statusReason}</p></div>}
     <div className="reader-source-note">{guide.status === "complete" ? "已逐項對照官方答案 PDF 的 marking scheme" : "以下為按題卷重建的參考得分點；官方 marking scheme 缺頁，未核定部分已明確標示"}</div>
     {visual && <figure className="reader-answer-visual"><img src={visual.src} alt={visual.alt} loading="lazy" /><figcaption>{visual.caption}<span>Use the diagram to check the required construction or force direction. · 用圖核對作圖步驟或力的方向。</span></figcaption></figure>}
-    {parts.map((part, index) => <DetailedMarkingPartCard part={part} key={`${part.label}-${index}`} />)}
+    {parts.map((part, index) => <DetailedMarkingPartCard part={part} visual={PART_ANSWER_VISUALS[`${guide.yearId}-${guide.question}-${part.label}`]} key={`${part.label}-${index}`} />)}
   </div>;
 }
 
@@ -112,6 +128,7 @@ function AnswerBelow({ solution, visible, referenceOnly, partLabels }: { solutio
           <span className="reader-sq-part-label">{part.label}</span>
           <h4>Original answer · 原版答案</h4><p className="reader-preserve-lines">{part.original}</p>
           <h4>中文答案／概念翻譯</h4><p className="reader-preserve-lines">{part.originalZh}</p>
+          {(part.visual ?? PART_ANSWER_VISUALS[`${solution.yearId}-${solution.question}-${part.label}`]) && <AnswerVisual visual={(part.visual ?? PART_ANSWER_VISUALS[`${solution.yearId}-${solution.question}-${part.label}`])!} />}
           <div className="reader-part-reasoning-block"><h4>My reasoning · 解題思路</h4><p className="reader-preserve-lines">{part.reasoningZh}</p><details className="reader-english"><summary>English reasoning · 英文思路</summary><p className="mt-2 reader-preserve-lines">{part.reasoning}</p></details></div>
           <div className="reader-part-formulas"><h4>Formula · 使用公式</h4><div className="reader-formulas">{part.formulas.map((formula: string, formulaIndex: number) => <code key={formulaIndex}>{formula}</code>)}</div></div>
         </article>) : parts.map((part, index) => <article className="reader-sq-part" key={`${part.label}-${index}`}>

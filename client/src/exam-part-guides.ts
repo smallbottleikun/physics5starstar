@@ -1,4 +1,5 @@
 import type { ReaderSolution } from "./exam-reader-data";
+import type { PartVisual } from "./exam-marking-guides";
 
 export type ExamPartGuide = {
   label: string;
@@ -7,6 +8,7 @@ export type ExamPartGuide = {
   reasoning: string;
   reasoningZh: string;
   formulas: string[];
+  visual?: PartVisual;
 };
 
 export const examPartGuides: Record<string, ExamPartGuide[]> = {

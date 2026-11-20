@@ -7,6 +7,7 @@ export type MarkingStep = {
   answer?: string;
 };
 export type MarkingPoint = string | { code: string; point: string; verified?: boolean };
+export type PartVisual = { src: string; alt: string; caption: string };
 export type DetailedMarkingPart = {
   label: string;
   marks: number;
@@ -18,6 +19,7 @@ export type DetailedMarkingPart = {
   reasoning: string;
   formulas: string[];
   commonMistakes: string[];
+  visual?: PartVisual;
 };
 export type DetailedMarkingGuide = {
   question: number;
