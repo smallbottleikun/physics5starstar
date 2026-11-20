@@ -202,11 +202,23 @@ function vitePluginStorageProxy(): Plugin {
     },
   };
 }
-
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+function vitePluginGithubPagesStoragePaths(): Plugin {
+  const prefix = "/dse-f4physics-revision";
+  return {
+    name: "github-pages-storage-paths",
+    transform(code, id) {
+      if (!id.includes("/client/src/") || !code.includes("/manus-storage/")) return null;
+      return code
+        .replaceAll('"/manus-storage/', `"${prefix}/manus-storage/`)
+        .replaceAll("'/manus-storage/", `'${prefix}/manus-storage/`);
+    },
+  };
+}
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy(), ...(process.env.GITHUB_ACTIONS ? [vitePluginGithubPagesStoragePaths()] : [])];
 
 export default defineConfig({
   plugins,
+  base: process.env.GITHUB_ACTIONS ? "/dse-f4physics-revision/" : "/",
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
