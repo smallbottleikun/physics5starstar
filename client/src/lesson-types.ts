@@ -10,6 +10,14 @@ export interface LessonBlock {
   en: string;
   zh: string;
   latex?: string;
+  image?: {
+    src: string;
+    alt: string;
+    altZh: string;
+    caption: string;
+    captionZh: string;
+    badge?: string;
+  };
 }
 export interface LessonSection {
   id: string;

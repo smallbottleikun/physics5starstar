@@ -320,6 +320,38 @@ export const lessonBundle: LessonBundle = {
   formulas,
   sections: [
     {
+      id: 'gases-must-know', title: '0. Must-know heat concepts', titleZh: '0. 必考熱學概念',
+      blocks: [
+        {
+          en: 'Must-know visual: this kinetic-theory exercise tests RMS speed, gravitational escape and why light molecules escape more easily. Treat it as a model for explanation questions: define the quantity, choose the correct energy or motion law, and explain the molecular-mass effect.',
+          zh: '必考圖解：這道 kinetic theory 練習同時考均方根速率、重力逃逸，以及為何較輕的分子較容易逃離大氣。文字解說題要先定義所求物理量，再選正確的能量或運動定律，最後解釋分子質量的影響。',
+          image: {
+            src: '/manus-storage/kinetic-theory-must-know_3e71be57.jpg',
+            alt: 'Kinetic theory exercise asking for RMS speed, maximum height and atmospheric escape',
+            altZh: '考查均方根速率、最高高度及大氣逃逸的分子運動論題目截圖',
+            caption: 'Must-know heat / kinetic theory question',
+            captionZh: '必考熱學／分子運動論題目',
+            badge: 'MUST-KNOW · 必考'
+          }
+        },
+        {
+          en: 'The three words must not be mixed up: mean speed is the arithmetic average of c; mean square speed is the arithmetic average of c²; root-mean-square speed is the square root of the mean square. In kinetic theory, c_rms is used because average translational kinetic energy is proportional to the mean of c².',
+          zh: '三個概念不可混淆：mean speed 是 c 的算術平均；mean square speed 是 c² 的算術平均；root-mean-square speed 則是 mean square 的平方根。分子運動論使用 c_rms，是因為平均平動動能與 c² 的平均值成正比。',
+          latex: '\overline c=\frac{1}{N}\sum c_i,\qquad \overline{c^2}=\frac{1}{N}\sum c_i^2,\qquad c_{\mathrm{rms}}=\sqrt{\overline{c^2}}'
+        },
+        {
+          en: 'How to find c_rms: if molar mass and absolute temperature are given, use c_rms = √(3RT/M). Convert g mol⁻¹ to kg mol⁻¹ first. If one-molecule mass is given, use c_rms = √(3k_BT/m). If pressure and density are given, use c_rms = √(3p/ρ). The positive root is chosen because speed is non-negative.',
+          zh: '如何求 c_rms：若給摩爾質量及絕對溫度，用 c_rms = √(3RT/M)，先把 g mol⁻¹ 換成 kg mol⁻¹。若給單分子質量，用 c_rms = √(3k_BT/m)。若給壓強及密度，用 c_rms = √(3p/ρ)。因速率不可為負，所以取正根。',
+          latex: 'c_{\mathrm{rms}}=\sqrt{\frac{3RT}{M}}=\sqrt{\frac{3k_BT}{m}}=\sqrt{\frac{3p}{\rho}}'
+        },
+        {
+          en: 'The key conversion is Ē_k = ½m c_rms² = 3RT/(2N_A) = 3k_BT/2. Do not write 3nRT/2 as the energy of one molecule: it is the total random translational kinetic energy of n moles, while the per-molecule mean is obtained by dividing by N.',
+          zh: '最重要的轉換是 Ē_k = ½m c_rms² = 3RT/(2N_A) = 3k_BT/2。不可把 3nRT/2 寫成一個分子的能量：它是 n mol 氣體的平動總動能；每個分子的平均值要再除以 N。',
+          latex: '\overline E_k=\frac12m c_{\mathrm{rms}}^2=\frac{3RT}{2N_A}=\frac32k_BT,\qquad K_{\mathrm{total}}=N\overline E_k=\frac32nRT'
+        }
+      ]
+    },
+    {
       id: 'gases-quantities-units', title: '1. Choose the right quantity and SI units', titleZh: '1. 分清物理量及 SI 單位',
       blocks: [
         { en: 'A gas sample is described macroscopically by pressure p, volume V, temperature T and amount n. Kinetic theory describes its molecules using the count N, one-molecule mass m and random speeds. Read the symbol definition rather than relying on a letter: M_total means sample mass in kg, while M_molar means mass per mole in kg mol⁻¹. [1] [2]', zh: '氣體樣本的宏觀描述包括壓強 p、體積 V、溫度 T 及物質的量 n。分子運動論則用分子數 N、單分子質量 m 及隨機速率描述分子。不可只看字母，必須看定義：M_total 是整個樣本的質量，單位 kg；M_molar 是每摩爾質量，單位 kg mol⁻¹。[1] [2]' },

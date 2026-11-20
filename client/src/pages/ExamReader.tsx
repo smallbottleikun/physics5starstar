@@ -57,6 +57,13 @@ function MarkingPoints({ points }: { points: MarkingPoint[] }) {
   })}</ul></div>;
 }
 
+const QUESTION_VISUALS: Record<string, { src: string; alt: string; caption: string }> = {
+  "2526-3": { src: "/manus-storage/inclined-plane-q3_9e6f74dc.png", alt: "Inclined-plane question diagram", caption: "Question diagram / 題目圖：斜面受力題" },
+  "2526-5": { src: "/manus-storage/centre-of-gravity-q5_0f226c1a.png", alt: "Centre-of-gravity experiment question", caption: "Question diagram / 題目圖：重心實驗作圖題" },
+  "2526-8": { src: "/manus-storage/lens-q8_eaeda845.png", alt: "Concave-lens ray diagram question", caption: "Question diagram / 題目圖：透鏡光線圖" },
+  "2526-10": { src: "/manus-storage/diffraction-grating-q10_13989d6b.png", alt: "Diffraction-grating screen pattern question", caption: "Question diagram / 題目圖：光柵圖樣作圖題" },
+};
+
 function DetailedMarkingPartCard({ part }: { part: DetailedMarkingPart }) {
   return <article className="reader-sq-part reader-detailed-part">
     <div className="reader-part-heading"><span className="reader-sq-part-label">{part.label}</span><span className="reader-part-mark">{part.marks} marks</span></div>
@@ -72,9 +79,11 @@ function DetailedMarkingPartCard({ part }: { part: DetailedMarkingPart }) {
 
 function DetailedMarkingContent({ guide }: { guide: DetailedMarkingGuide }) {
   const parts = getMarkingParts(guide);
+  const visual = QUESTION_VISUALS[`${guide.yearId}-${guide.question}`];
   return <div className="reader-detailed-marking">
     {guide.status !== "complete" && guide.statusReason && <div className="reader-marking-warning"><strong>Marking scheme note · 官方答案備註</strong><p>{guide.statusReason}</p></div>}
     <div className="reader-source-note">{guide.status === "complete" ? "已逐項對照官方答案 PDF 的 marking scheme" : "以下為按題卷重建的參考得分點；官方 marking scheme 缺頁，未核定部分已明確標示"}</div>
+    {visual && <figure className="reader-answer-visual"><img src={visual.src} alt={visual.alt} loading="lazy" /><figcaption>{visual.caption}<span>Use the diagram to check the required construction or force direction. · 用圖核對作圖步驟或力的方向。</span></figcaption></figure>}
     {parts.map((part, index) => <DetailedMarkingPartCard part={part} key={`${part.label}-${index}`} />)}
   </div>;
 }

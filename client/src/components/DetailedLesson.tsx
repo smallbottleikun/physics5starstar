@@ -7,6 +7,11 @@ export function LessonSections({ lesson, showZh }: { lesson: LessonBundle; showZ
     {lesson.sections.map((section, i) => <details key={section.id} id={`lesson-${section.id}`} className="lesson-fold lesson-anchor" open={i === 0}>
       <summary><span><span className="lesson-section-index">{String(i + 1).padStart(2, '0')}</span>{section.title}{showZh && <span className="block lesson-zh ml-9">{section.titleZh}</span>}</span></summary>
       <div className="lesson-fold-body space-y-5">{section.blocks.map((block, j) => <div key={j}>
+        {block.image && <figure className="lesson-image-card">
+          {block.image.badge && <span className="lesson-image-badge">{block.image.badge}</span>}
+          <img src={block.image.src} alt={showZh ? `${block.image.alt}；${block.image.altZh}` : block.image.alt} loading="lazy" />
+          <figcaption><strong>{block.image.caption}</strong>{showZh && <span className="lesson-zh block">{block.image.captionZh}</span>}</figcaption>
+        </figure>}
         <p className="lesson-en">{block.en}</p>{showZh && <p className="lesson-zh">{block.zh}</p>}
         {block.latex && <MathFormula latex={block.latex} />}
       </div>)}</div>
